@@ -13,6 +13,21 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Add your docs here.
  */
 public class Limelight extends Subsystem {
+  /**
+   * Various Target heights to pass to the limelight methods
+   * 
+   * The limelight can't tell them apart, so you need to tell it which kind of
+   * target should be near the center of it's vision
+   */
+  public static enum Target {
+    RocketCargo(0), RocketPanel(0), CargoShipCargo(0), CargoShipPanel(0), HumanPlayerStation(0);
+    public final double height;
+    
+    private Target(double height) {
+      this.height = height;
+    }
+  }
+  
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   
@@ -49,9 +64,16 @@ public class Limelight extends Subsystem {
   /**
    * Gets an approxomate distance to the target, from the front of the robot
    * 
-   * @return The distance in inches.\
+   * @param target
+   *                 the target type to track
+   * @return The distance in inches.
    */
-  public double getTargetDistance() {
+  public double getTargetDistance(Target target) {
+    /*
+     * Target distance calculation is dependant on whether the robot has a cargo,
+     * hatch panel or neither, as well as whether we are trying to score on the
+     * cargo ship, or the rocket.
+     */
     return 0;
   }
   
