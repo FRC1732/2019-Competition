@@ -32,6 +32,8 @@ Subsystems interface with either hardware, either through the wpilib library, or
 
 Subsystems may also just read from sensors. In these cases, the subsystem is just converting the signals read in from sensors into a more useful format (e.g. encoder ticks to inches).
 
+Some subsystems have a defualt command, a command to run when no other command requires them
+
 ### Commands
 
 Commands read data from subsystems, and use logic and math to decide on a target state for the subsystem. 
