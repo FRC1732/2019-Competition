@@ -17,7 +17,8 @@ public class CargoIntake extends Subsystem {
   // here. Call these from Commands.
   
   /**
-   * Sets whether the intake should be actively intaking cargo
+   * Sets whether the intake should be actively intaking cargo, unless the robot
+   * already has a hatch panel
    * 
    * @param intaking
    *                   when true, enable the intake

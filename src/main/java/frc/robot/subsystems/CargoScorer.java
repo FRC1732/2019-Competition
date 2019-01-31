@@ -26,6 +26,15 @@ public class CargoScorer extends Subsystem {
     
   }
   
+  /**
+   * Check if the robot has a cargo
+   * 
+   * @return whether the robot has a cargo
+   */
+  public boolean hasCargo() {
+    return false;
+  }
+  
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.

@@ -18,13 +18,22 @@ public class HatchClaw extends Subsystem {
   
   /**
    * Sets the claw to grabbing or released, when grabbing is true, the claw is
-   * closed arround the panel
+   * closed arround the panel, unless the robot already has a cargo
    * 
    * @param grabbing
    *                   whether the claw should be grabbing the panel
    */
   public void setEngaged(boolean grabbing) {
     
+  }
+  
+  /**
+   * Check if the robot has a hatch panel
+   * 
+   * @return whether the robot has a hatch panel
+   */
+  public boolean hasHatchPanel() {
+    return false;
   }
   
   @Override
