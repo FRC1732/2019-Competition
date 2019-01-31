@@ -1,10 +1,13 @@
-package frc.robot;
+package frc.robot.util;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-public class Util {
+/**
+ * A class to configure Motor controllers with a defualt configuration
+ */
+public class MotorUtil {
   /**
    * Creates a TalonSRX object with the specified parameters, along with other
    * default settings
