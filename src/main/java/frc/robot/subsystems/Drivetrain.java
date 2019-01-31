@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.commands.DriveWithJoysticks;
 
 /**
  * Add your docs here.
@@ -51,6 +52,10 @@ public class Drivetrain extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    
+    // whenever the robot has no other command to control the drivetrain, the
+    // DriveWithJoysticks command runs.
+    setDefaultCommand(new DriveWithJoysticks());
   }
   
   /**
