@@ -8,10 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.CargoIntake;
 import frc.robot.subsystems.CargoScorer;
 import frc.robot.subsystems.Drivetrain;
@@ -37,7 +34,7 @@ public class Robot extends TimedRobot {
   public static Limelight limelight = new Limelight();
   public static NavX navX = new NavX();
   public static Sensors sensors = new Sensors();
-  public static OI m_oi;
+  public static OI oi;
   
   /**
    * This function is run when the robot is first started up and should be used
@@ -45,7 +42,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_oi = new OI();
+    oi = new OI();
   }
   
   /**
