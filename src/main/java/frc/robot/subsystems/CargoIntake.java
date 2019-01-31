@@ -22,7 +22,7 @@ public class CargoIntake extends Subsystem {
    * @param intaking
    *                   when true, enable the intake
    */
-  public void setIntaking(boolean intaking) {
+  public void setEngaged(boolean intaking) {
     
   }
   

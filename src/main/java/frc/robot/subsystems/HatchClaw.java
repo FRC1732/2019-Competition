@@ -23,7 +23,7 @@ public class HatchClaw extends Subsystem {
    * @param grabbing
    *                   whether the claw should be grabbing the panel
    */
-  public void set(boolean grabbing) {
+  public void setEngaged(boolean grabbing) {
     
   }
   

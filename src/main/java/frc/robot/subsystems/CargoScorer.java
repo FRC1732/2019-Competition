@@ -22,7 +22,7 @@ public class CargoScorer extends Subsystem {
    * @param scoring
    *                  when true, outtake the cargo
    */
-  public void setScoring(boolean scoring) {
+  public void setEngaged(boolean scoring) {
     
   }
   

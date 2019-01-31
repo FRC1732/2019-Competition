@@ -11,16 +11,16 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
- * Command to score a hatch panel when lined up at a hatch
+ * A command to score Cargo when aligned at a port for cargo
  */
-public class ScoreHatch extends Command {
+public class PlaceCargo extends Command {
   /**
-   * Command to score a hatch panel when lined up at a hatch
+   * A command to score Cargo when aligned at a port for cargo
    */
-  public ScoreHatch() {
+  public PlaceCargo() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.hatchClaw);
+    requires(Robot.cargoScorer);
   }
   
   // Called just before this Command runs the first time
