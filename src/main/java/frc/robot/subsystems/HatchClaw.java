@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Add your docs here.
+ * 
+ * One solenoid to grab, One solenoid to move the panels in/out
  */
 public class HatchClaw extends Subsystem {
   // Put methods for controlling this subsystem

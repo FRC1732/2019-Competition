@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Add your docs here.
+ * 
+ * NavX gyro
  */
 public class NavX extends Subsystem {
   // Put methods for controlling this subsystem

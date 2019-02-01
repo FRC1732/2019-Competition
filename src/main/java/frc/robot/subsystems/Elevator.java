@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Add your docs here.
+ * 
+ * One motor, with encoder
  */
 public class Elevator extends Subsystem {
   // Put methods for controlling this subsystem

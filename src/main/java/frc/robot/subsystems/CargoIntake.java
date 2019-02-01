@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Add your docs here.
+ * 
+ * One motor, one solenoid to move the entire assembly
  */
 public class CargoIntake extends Subsystem {
   // Put methods for controlling this subsystem
