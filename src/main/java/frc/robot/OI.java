@@ -18,7 +18,7 @@ public class OI {
    * 
    * @return the position, in the range of [-1, 1]
    */
-  public static double getLeftJoystick() {
+  public double getLeftJoystick() {
     return 0;
   }
   
@@ -27,7 +27,7 @@ public class OI {
    * 
    * @return the position, in the range of [-1, 1]
    */
-  public static double getRightJoystick() {
+  public double getRightJoystick() {
     return 0;
   }
   
