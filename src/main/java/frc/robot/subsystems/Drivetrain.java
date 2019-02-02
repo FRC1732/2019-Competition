@@ -25,9 +25,9 @@ public class Drivetrain extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   
-  private TalonSRX leftMaster = MotorUtil.createTalon(RobotMap.DRIVETRAIN_LEFTMASTER_ID, false);
-  private VictorSPX left1 = MotorUtil.createVictor(RobotMap.DRIVETRAIN_LEFT1_ID, false);
-  private VictorSPX left2 = MotorUtil.createVictor(RobotMap.DRIVETRAIN_LEFT2_ID, false);
+  private TalonSRX leftMaster = MotorUtil.createTalon(RobotMap.DRIVETRAIN_LEFTMASTER_ID, true);
+  private VictorSPX left1 = MotorUtil.createVictor(RobotMap.DRIVETRAIN_LEFT1_ID, true);
+  private VictorSPX left2 = MotorUtil.createVictor(RobotMap.DRIVETRAIN_LEFT2_ID, true);
   
   private TalonSRX rightMaster = MotorUtil.createTalon(RobotMap.DRIVETRAIN_RIGHTMASTER_ID, false);
   private VictorSPX right1 = MotorUtil.createVictor(RobotMap.DRIVETRAIN_RIGHT1_ID, false);
