@@ -7,11 +7,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+  private Joystick left = new Joystick(0);
+  private Joystick right = new Joystick(0);
+  private Joystick operator1 = new Joystick(0);
+  private Joystick operator2 = new Joystick(0);
   
   /**
    * Gets the left joystick's position, as a percent of fully pushed
@@ -19,7 +25,7 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getLeftJoystick() {
-    return 0;
+    return left.getY();
   }
   
   /**
@@ -28,7 +34,7 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getRightJoystick() {
-    return 0;
+    return right.getY();
   }
   
   // Buttons and their associated commands
