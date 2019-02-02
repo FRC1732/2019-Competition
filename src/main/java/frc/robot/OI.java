@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.IntakeCargo;
 import frc.robot.commands.PlaceCargo;
-import frc.robot.commands.PlaceHatch;
-import frc.robot.commands.SetElevator;
-import frc.robot.subsystems.Elevator;
-import frc.robot.util.Console;
+import frc.robot.commands.input.CheckCargoOverride;
+import frc.robot.commands.input.CheckClimbOverride;
+import frc.robot.commands.input.CheckRocketOverride;
+import frc.robot.subsystems.CargoScorer;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -47,28 +47,33 @@ public class OI {
   // Auto Routines
   private JoystickButton intakeCargo = new JoystickButton(left, RobotMap.OI_INTAKE_ID);
   private JoystickButton outtakeCargo = new JoystickButton(right, RobotMap.OI_OUTTAKE_ID);
-  private JoystickButton cargoRocketLevel1 = new JoystickButton(left, RobotMap.OI_ROCKET_LEVEL_1_ID);
-  private JoystickButton cargoRocketLevel2 = new JoystickButton(left, RobotMap.OI_ROCKET_LEVEL_2_ID);
-  private JoystickButton cargoRocketLevel3 = new JoystickButton(left, RobotMap.OI_ROCKET_LEVEL_3_ID);
-  private JoystickButton cargoShip = new JoystickButton(left, RobotMap.OI_CARGO_SHIP_ID);
-  private JoystickButton climb = new JoystickButton(left, RobotMap.OI_CLIMB_ID);
+  public JoystickButton cargoRocketLevel1 = new JoystickButton(left, RobotMap.OI_ROCKET_LEVEL_1_ID);
+  public JoystickButton cargoRocketLevel2 = new JoystickButton(left, RobotMap.OI_ROCKET_LEVEL_2_ID);
+  public JoystickButton cargoRocketLevel3 = new JoystickButton(left, RobotMap.OI_ROCKET_LEVEL_3_ID);
+  public JoystickButton cargoShip = new JoystickButton(left, RobotMap.OI_CARGO_SHIP_ID);
+  public JoystickButton climb = new JoystickButton(left, RobotMap.OI_CLIMB_ID);
 
+  // Manual Routines
   private JoystickButton rocketOverride = new JoystickButton(left, RobotMap.OI_ROCKET_OVERRIDE_ID);
   private JoystickButton cargoOverride = new JoystickButton(left, RobotMap.OI_CARGO_SHIP_OVERRIDE_ID);
   private JoystickButton climbOverride = new JoystickButton(left, RobotMap.OI_CLIMB_OVERRIDE_ID);
 
-
-  /** Three Variables: Cargo vs. Hatch ( bool ), 
-   *  elevatorPosition (for rest of the buttons),
-   *  Methods: intake, outtake: called to check the above variables, then start the appropriate method
-   *  i.e: IF CARGO --> start a 'place cargo in ship command'  */
-
-
   // Buttons and their associated commands
   public OI() {
     intakeCargo.whenPressed(new IntakeCargo());
-    // scoreCargo.whenPressed(new PlaceCargo());
-    // elevator.whenPressed(new SetElevator(Elevator.Position.BaseHeight));
-    // placeHatch.whenPressed(new PlaceHatch());
+    outtakeCargo.whenPressed(new OuttakeCargo()); // placeholder, need a command
+
+    // The OI assigns these buttons by default.
+    cargoRocketLevel1.whenPressed(new AutoRocketLevel1()); // placeholder, need a command
+    cargoRocketLevel2.whenPressed(new AutoRocketLevel2());
+    cargoRocketLevel3.whenPressed(new AutoRocketLevel3());
+
+    cargoShip.whenPressed(new AutoCargo()); // placeholder, need a command
+    climb.whenPressed(new AutoClimb());
+
+    // The rocket, cargoship, and climb buttons are overridden by these commands. When the switch is turned off, the commands revert to the above.
+    rocketOverride.whenPressed(new CheckRocketOverride());
+    cargoOverride.whenPressed(new CheckCargoOverride());
+    climbOverride.whenPressed(new CheckClimbOverride());
   }
 }
