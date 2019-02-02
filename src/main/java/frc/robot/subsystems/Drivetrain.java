@@ -11,10 +11,15 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.util.MotorUtil;
+import frc.robot.util.SimpleSendable;
 
 /**
  * Add your docs here.
@@ -38,6 +43,9 @@ public class Drivetrain extends Subsystem {
     left2.follow(leftMaster);
     right1.follow(rightMaster);
     right2.follow(rightMaster);
+    
+    SmartDashboard.putData("Left Encoder", new SimpleSendable(this::leftSendable));
+    SmartDashboard.putData("Right Encoder", new SimpleSendable(this::rightSendable));
   }
   
   /**
@@ -95,5 +103,21 @@ public class Drivetrain extends Subsystem {
    */
   public void zero() {
     
+  }
+  
+  private void leftSendable(SendableBuilder builder) {
+    builder.setSmartDashboardType("Encoder");
+    // builder.addDoubleProperty("Speed", this::getLeftRate, null);
+    // builder.addDoubleProperty("Distance", this::getLeftPos, null);
+    // builder.addDoubleProperty("Distance per Tick", this::getDistancePerPulse,
+    // null);
+  }
+  
+  private void rightSendable(SendableBuilder builder) {
+    builder.setSmartDashboardType("Encoder");
+    // builder.addDoubleProperty("Speed", this::getLeftRate, null);
+    // builder.addDoubleProperty("Distance", this::getLeftPos, null);
+    // builder.addDoubleProperty("Distance per Tick", this::getDistancePerPulse,
+    // null);
   }
 }
