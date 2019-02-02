@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Add your docs here.
+ * 
+ * possible ultrasonic distance sensor
  */
 public class Sensors extends Subsystem {
   // Put methods for controlling this subsystem

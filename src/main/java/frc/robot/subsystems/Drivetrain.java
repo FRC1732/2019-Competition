@@ -18,6 +18,8 @@ import frc.robot.util.MotorUtil;
 
 /**
  * Add your docs here.
+ * 
+ * 3 motors per side, standard encoders
  */
 public class Drivetrain extends Subsystem {
   // Put methods for controlling this subsystem

@@ -24,6 +24,8 @@ public class RobotMap {
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
   
+  // names of constants should be subsystem_specificPart
+  
   public static final int DRIVETRAIN_LEFTMASTER_ID = 11;
   public static final int DRIVETRAIN_LEFT1_ID = 12;
   public static final int DRIVETRAIN_LEFT2_ID = 13;
