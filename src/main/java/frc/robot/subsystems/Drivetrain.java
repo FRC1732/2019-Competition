@@ -60,7 +60,7 @@ public class Drivetrain extends Subsystem {
    * @return
    */
   public double getLeftPos() {
-    return 0;
+    return leftMaster.getSelectedSensorPosition(0);
   }
   
   /**
@@ -69,7 +69,7 @@ public class Drivetrain extends Subsystem {
    * @return
    */
   public double getRightPos() {
-    return 0;
+    return rightMaster.getSelectedSensorPosition(0);
   }
   
   @Override
@@ -94,6 +94,7 @@ public class Drivetrain extends Subsystem {
    * Resets all sensors
    */
   public void zero() {
-    
+    leftMaster.setSelectedSensorPosition(0);
+    rightMaster.setSelectedSensorPosition(0);
   }
 }
