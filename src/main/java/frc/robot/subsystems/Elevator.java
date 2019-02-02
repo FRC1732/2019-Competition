@@ -22,7 +22,7 @@ public class Elevator extends Subsystem {
    */
   public static enum Position {
     BaseHeight(0), CargoShipCargo(0), CargoShipHatch(0), RocketLevel1Cargo(1), RocketLevel1Hatch(1), RocketLevel2Cargo(
-        1), RocketLevel2Hatch(1), RocketLevel3Cargo(1), RocketLevel3Hatch(1);
+        1), RocketLevel2Hatch(1), RocketLevel3Cargo(1), RocketLevel3Hatch(1), HumanPlayerStation(0);
     public final int position;
     
     private Position(int position) {
