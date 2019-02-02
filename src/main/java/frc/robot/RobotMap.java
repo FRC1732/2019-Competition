@@ -33,4 +33,8 @@ public class RobotMap {
   public static final int DRIVETRAIN_RIGHT1_ID = 33;
   public static final int DRIVETRAIN_RIGHT2_ID = 34;
   
+  public static final int OI_LEFT_ID = 1;
+  public static final int OI_RIGHT_ID = 2;
+  public static final int OI_OPERATOR_1_ID = 0;
+  public static final int OI_OPERATOR_2_ID = 3;
 }
