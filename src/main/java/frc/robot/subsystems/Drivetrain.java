@@ -38,6 +38,8 @@ public class Drivetrain extends Subsystem {
   private VictorSPX right1 = MotorUtil.createVictor(RobotMap.DRIVETRAIN_RIGHT1_ID, false);
   private VictorSPX right2 = MotorUtil.createVictor(RobotMap.DRIVETRAIN_RIGHT2_ID, false);
   
+  private static final double INCHES_PER_TICK = 1;
+  
   public Drivetrain() {
     left1.follow(leftMaster);
     left2.follow(leftMaster);
@@ -68,7 +70,7 @@ public class Drivetrain extends Subsystem {
    * @return
    */
   public double getLeftPos() {
-    return leftMaster.getSelectedSensorPosition(0);
+    return leftMaster.getSelectedSensorPosition(0) * INCHES_PER_TICK;
   }
   
   /**
@@ -77,7 +79,25 @@ public class Drivetrain extends Subsystem {
    * @return
    */
   public double getRightPos() {
-    return rightMaster.getSelectedSensorPosition(0);
+    return rightMaster.getSelectedSensorPosition(0) * INCHES_PER_TICK;
+  }
+  
+  /**
+   * Gets the total rotation of the left side of the drivetrain
+   * 
+   * @return
+   */
+  public double getLeftRate() {
+    return leftMaster.getSelectedSensorVelocity(0);
+  }
+  
+  /**
+   * Gets the total rotation of the right side of the drivetrain
+   * 
+   * @return
+   */
+  public double getRightRate() {
+    return rightMaster.getSelectedSensorVelocity(0);
   }
   
   @Override
@@ -108,17 +128,19 @@ public class Drivetrain extends Subsystem {
   
   private void leftSendable(SendableBuilder builder) {
     builder.setSmartDashboardType("Encoder");
-    // builder.addDoubleProperty("Speed", this::getLeftRate, null);
-    // builder.addDoubleProperty("Distance", this::getLeftPos, null);
-    // builder.addDoubleProperty("Distance per Tick", this::getDistancePerPulse,
-    // null);
+    builder.addDoubleProperty("Speed", this::getLeftRate, null);
+    builder.addDoubleProperty("Distance", this::getLeftPos, null);
+    builder.addDoubleProperty("Distance per Tick", this::getDistancePerPulse, null);
   }
   
   private void rightSendable(SendableBuilder builder) {
     builder.setSmartDashboardType("Encoder");
-    // builder.addDoubleProperty("Speed", this::getLeftRate, null);
-    // builder.addDoubleProperty("Distance", this::getLeftPos, null);
-    // builder.addDoubleProperty("Distance per Tick", this::getDistancePerPulse,
-    // null);
+    builder.addDoubleProperty("Speed", this::getLeftRate, null);
+    builder.addDoubleProperty("Distance", this::getLeftPos, null);
+    builder.addDoubleProperty("Distance per Tick", this::getDistancePerPulse, null);
+  }
+  
+  private double getDistancePerPulse() {
+    return INCHES_PER_TICK;
   }
 }
