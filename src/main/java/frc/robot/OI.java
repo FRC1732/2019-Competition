@@ -25,7 +25,7 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getLeftJoystick() {
-    return left.getY();
+    return -left.getY();
   }
   
   /**
@@ -34,7 +34,7 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getRightJoystick() {
-    return right.getY();
+    return -right.getY();
   }
   
   // Buttons and their associated commands
