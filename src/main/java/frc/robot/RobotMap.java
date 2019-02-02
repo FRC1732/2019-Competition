@@ -37,4 +37,18 @@ public class RobotMap {
   public static final int OI_RIGHT_ID = 2;
   public static final int OI_OPERATOR_1_ID = 0;
   public static final int OI_OPERATOR_2_ID = 3;
+
+  public static final int OI_INTAKE_ID = 0;
+  public static final int OI_OUTTAKE_ID = 0;
+
+  public static final int OI_CARGO_SHIP_ID = 0;
+  public static final int OI_CARGO_SHIP_OVERRIDE_ID = 0;
+
+  public static final int OI_ROCKET_LEVEL_1_ID = 0;
+  public static final int OI_ROCKET_LEVEL_2_ID = 0;
+  public static final int OI_ROCKET_LEVEL_3_ID = 0;
+  public static final int OI_ROCKET_OVERRIDE_ID = 0;
+
+  public static final int OI_CLIMB_ID = 0;
+  public static final int OI_CLIMB_OVERRIDE_ID = 0;
 }
