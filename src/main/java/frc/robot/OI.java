@@ -14,10 +14,10 @@ import edu.wpi.first.wpilibj.Joystick;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  private Joystick left = new Joystick(0);
-  private Joystick right = new Joystick(0);
-  private Joystick operator1 = new Joystick(0);
-  private Joystick operator2 = new Joystick(0);
+  private Joystick left = new Joystick(RobotMap.OI_LEFT_ID);
+  private Joystick right = new Joystick(RobotMap.OI_RIGHT_ID);
+  private Joystick operator1 = new Joystick(RobotMap.OI_OPERATOR_1_ID);
+  private Joystick operator2 = new Joystick(RobotMap.OI_OPERATOR_2_ID);
   
   /**
    * Gets the left joystick's position, as a percent of fully pushed
