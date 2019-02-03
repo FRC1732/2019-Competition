@@ -10,11 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.IntakeCargo;
-import frc.robot.commands.PlaceCargo;
-import frc.robot.commands.input.CheckCargoOverride;
-import frc.robot.commands.input.CheckClimbOverride;
-import frc.robot.commands.input.CheckRocketOverride;
-import frc.robot.subsystems.CargoScorer;
+import frc.robot.commands.input.CargoOverrideOff;
+import frc.robot.commands.input.CargoOverrideOn;
+import frc.robot.commands.input.ClimbOverrideOff;
+import frc.robot.commands.input.ClimbOverrideOn;
+import frc.robot.commands.input.RocketOverrideOff;
+import frc.robot.commands.input.RocketOverrideOn;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -44,7 +45,7 @@ public class OI {
     return -right.getY();
   }
 
-  // Auto Routines
+  // Auto Routines - need to review button mappings since there are two different intake commands - hatch, cargo.
   private JoystickButton intakeCargo = new JoystickButton(left, RobotMap.OI_INTAKE_ID);
   private JoystickButton outtakeCargo = new JoystickButton(right, RobotMap.OI_OUTTAKE_ID);
   public JoystickButton cargoRocketLevel1 = new JoystickButton(left, RobotMap.OI_ROCKET_LEVEL_1_ID);
@@ -72,8 +73,13 @@ public class OI {
     climb.whenPressed(new AutoClimb());
 
     // The rocket, cargoship, and climb buttons are overridden by these commands. When the switch is turned off, the commands revert to the above.
-    rocketOverride.whenPressed(new CheckRocketOverride());
-    cargoOverride.whenPressed(new CheckCargoOverride());
-    climbOverride.whenPressed(new CheckClimbOverride());
+    rocketOverride.whenPressed(new RocketOverrideOn());
+    rocketOverride.whenReleased(new RocketOverrideOff());
+
+    cargoOverride.whenPressed(new CargoOverrideOn());
+    cargoOverride.whenReleased(new CargoOverrideOff());
+
+    climbOverride.whenPressed(new ClimbOverrideOn());
+    climbOverride.whenReleased(new ClimbOverrideOff());
   }
 }
