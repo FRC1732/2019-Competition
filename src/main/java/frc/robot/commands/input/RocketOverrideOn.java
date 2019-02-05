@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 import frc.robot.commands.SetElevator;
 import frc.robot.subsystems.Elevator;
+import frc.robot.util.Console;
 
 /**
  * Add your docs here.
@@ -28,9 +29,8 @@ public class RocketOverrideOn extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.oi.cargoRocketLevel1.whenPressed(new SetElevator(Elevator.Position.RocketLevel1Cargo));
-    Robot.oi.cargoRocketLevel2.whenPressed(new SetElevator(Elevator.Position.RocketLevel2Cargo));
-    Robot.oi.cargoRocketLevel3.whenPressed(new SetElevator(Elevator.Position.RocketLevel3Cargo));
+    Console.warn("Overriding auto rocket routines.");
+    Robot.oi.bindCargoRocket(true);
   }
 
 }

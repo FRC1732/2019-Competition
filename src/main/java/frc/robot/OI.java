@@ -10,12 +10,14 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.IntakeCargo;
+import frc.robot.commands.SetElevator;
 import frc.robot.commands.input.CargoOverrideOff;
 import frc.robot.commands.input.CargoOverrideOn;
 import frc.robot.commands.input.ClimbOverrideOff;
 import frc.robot.commands.input.ClimbOverrideOn;
 import frc.robot.commands.input.RocketOverrideOff;
 import frc.robot.commands.input.RocketOverrideOn;
+import frc.robot.subsystems.Elevator;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -64,14 +66,6 @@ public class OI {
     intakeCargo.whenPressed(new IntakeCargo());
     outtakeCargo.whenPressed(new OuttakeCargo()); // placeholder, need a command
 
-    // The OI assigns these buttons by default.
-    cargoRocketLevel1.whenPressed(new AutoRocketLevel1()); // placeholder, need a command
-    cargoRocketLevel2.whenPressed(new AutoRocketLevel2());
-    cargoRocketLevel3.whenPressed(new AutoRocketLevel3());
-
-    cargoShip.whenPressed(new AutoCargo()); // placeholder, need a command
-    climb.whenPressed(new AutoClimb());
-
     // The rocket, cargoship, and climb buttons are overridden by these commands. When the switch is turned off, the commands revert to the above.
     rocketOverride.whenPressed(new RocketOverrideOn());
     rocketOverride.whenReleased(new RocketOverrideOff());
@@ -81,5 +75,36 @@ public class OI {
 
     climbOverride.whenPressed(new ClimbOverrideOn());
     climbOverride.whenReleased(new ClimbOverrideOff());
+  }
+
+  public void bindCargoShip(boolean isCargoShipManual) {
+    if (isCargoShipManual == true) {
+      cargoShip.whenPressed(new SetElevator(Elevator.Position.CargoShipCargo));
+    }
+    else {
+      cargoShip.whenPressed(new StoreCargoParam()); // placeholder, need a command
+    }
+  }
+
+  public void bindCargoRocket(boolean isRocketCargoManual) {
+    if (isRocketCargoManual == true) {
+      cargoRocketLevel1.whenPressed(new SetElevator(Elevator.Position.RocketLevel1Cargo));
+      cargoRocketLevel2.whenPressed(new SetElevator(Elevator.Position.RocketLevel2Cargo));
+      cargoRocketLevel3.whenPressed(new SetElevator(Elevator.Position.RocketLevel3Cargo));
+    }
+    else {
+      cargoRocketLevel1.whenPressed(new AutoRocketLevel1()); // placeholder, need a command
+      cargoRocketLevel2.whenPressed(new AutoRocketLevel2());
+      cargoRocketLevel3.whenPressed(new AutoRocketLevel3());
+    }
+  }
+
+  public void bindClimb(boolean isClimbManual) {
+    if (isClimbManual == true) {
+      climb.whenPressed(new ManualClimb()); // placeholder command
+    }
+    else {
+      climb.whenPressed(new AutoClimb());
+    }
   }
 }

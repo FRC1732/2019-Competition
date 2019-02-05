@@ -9,6 +9,7 @@ package frc.robot.commands.input;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
+import frc.robot.util.Console;
 
 /**
  * Add your docs here.
@@ -26,9 +27,8 @@ public class RocketOverrideOff extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.oi.cargoRocketLevel1.whenPressed(new AutoRocketLevel1()); // placeholder commands
-    Robot.oi.cargoRocketLevel2.whenPressed(new AutoRocketLevel2());
-    Robot.oi.cargoRocketLevel3.whenPressed(new AutoRocketLevel3());
+    Console.warn("Returning to auto rocket routines.");
+    Robot.oi.bindCargoRocket(false);
   }
 
 }

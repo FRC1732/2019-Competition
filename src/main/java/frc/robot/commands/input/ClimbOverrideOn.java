@@ -9,6 +9,7 @@ package frc.robot.commands.input;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
+import frc.robot.util.Console;
 
 /**
  * Add your docs here.
@@ -26,7 +27,8 @@ public class ClimbOverrideOn extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.oi.climb.whenPressed(new ManualClimb()); // placeholder command
+    Console.warn("Overriding auto climb routines.");
+    Robot.oi.bindClimb(true);
   }
 
 }
