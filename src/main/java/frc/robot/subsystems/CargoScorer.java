@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Add your docs here.
+ * 
+ * One motor, Current to check for ball?
  */
 public class CargoScorer extends Subsystem {
   // Put methods for controlling this subsystem
