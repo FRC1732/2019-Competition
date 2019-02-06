@@ -37,4 +37,7 @@ public class RobotMap {
   public static final int OI_RIGHT_ID = 2;
   public static final int OI_OPERATOR_1_ID = 0;
   public static final int OI_OPERATOR_2_ID = 3;
+
+  public static final int CARGO_INTAKE_MOTOR_ID = 0;
+  public static final int CARGO_INTAKE_SOLENOID_ID = 0;
 }

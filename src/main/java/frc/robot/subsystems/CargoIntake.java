@@ -7,7 +7,13 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
+import frc.robot.util.MotorUtil;
 
 /**
  * Add your docs here.
@@ -17,6 +23,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class CargoIntake extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  private TalonSRX cargoIntakeMotor = MotorUtil.createTalon(RobotMap.CARGO_INTAKE_MOTOR_ID, true);
+  private Solenoid cargoIntakeSolenoid = new Solenoid(RobotMap.CARGO_INTAKE_SOLENOID_ID);
   
   /**
    * Sets whether the intake should be actively intaking cargo, unless the robot
@@ -26,7 +34,13 @@ public class CargoIntake extends Subsystem {
    *                   when true, enable the intake
    */
   public void setEngaged(boolean intaking) {
-    
+    if (intaking) {
+      cargoIntakeMotor.set(ControlMode.PercentOutput, 1);
+      cargoIntakeSolenoid.set(true);
+    } else {
+      cargoIntakeMotor.set(ControlMode.PercentOutput, 0);
+      cargoIntakeSolenoid.set(false);
+    }
   }
   
   @Override
@@ -39,7 +53,8 @@ public class CargoIntake extends Subsystem {
    * Resets this subsystem to a known state
    */
   public void stop() {
-    
+    cargoIntakeMotor.set(ControlMode.PercentOutput, 0);
+    cargoIntakeSolenoid.set(false);
   }
   
   /**
