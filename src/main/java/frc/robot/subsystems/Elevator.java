@@ -7,7 +7,13 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
+import frc.robot.util.MotorUtil;
 
 /**
  * Add your docs here.
@@ -20,9 +26,16 @@ public class Elevator extends Subsystem {
   /**
    * Defines a set of constants for the height of the elevator
    */
+  private TalonSRX elevatorMaster = MotorUtil.createTalon(RobotMap.ELEVATOR_ELEVATORMASTER_ID, true);
+  private VictorSPX elevator = MotorUtil.createVictor(RobotMap.ELEVATOR_ELEVATOR_ID, true);
+
+  public Elevator() {
+    elevator.follow(elevatorMaster);
+  }
+ 
   public static enum Position {
     BaseHeight(0), CargoShipCargo(0), CargoShipHatch(0), RocketLevel1Cargo(1), RocketLevel1Hatch(1), RocketLevel2Cargo(
-        1), RocketLevel2Hatch(1), RocketLevel3Cargo(1), RocketLevel3Hatch(1), HumanPlayerStation(0);
+        2), RocketLevel2Hatch(2), RocketLevel3Cargo(3), RocketLevel3Hatch(3), HumanPlayerStation(0);
     public final int position;
     
     private Position(int position) {
@@ -50,7 +63,8 @@ public class Elevator extends Subsystem {
    *              the position to move the elevator to
    */
   public void setHeight(int pos) {
-    
+    elevatorMaster.set(ControlMode.Position, pos);
+    elevator.set(ControlMode.Position, pos);
   }
   
   @Override
@@ -63,7 +77,8 @@ public class Elevator extends Subsystem {
    * Resets this subsystem to a known state
    */
   public void stop() {
-    
+    elevatorMaster.set(ControlMode.Position, 0);
+    elevator.set(ControlMode.Position, 0);
   }
   
   /**
