@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.util.Console;
 import frc.robot.util.MotorUtil;
 
 /**
@@ -31,9 +32,9 @@ public class Elevator extends Subsystem {
     elevator.config_kP(0, 0);
     elevator.config_kI(0, 0);
     elevator.config_kD(0, 0);
-    elevator.config_kF(0, 0);    
+    elevator.config_kF(0, 0);
   }
- 
+  
   public static enum Position {
     BaseHeight(0), CargoShipCargo(0), CargoShipHatch(0), RocketLevel1Cargo(1), RocketLevel1Hatch(1), RocketLevel2Cargo(
         2), RocketLevel2Hatch(2), RocketLevel3Cargo(3), RocketLevel3Hatch(3), HumanPlayerStation(0);
@@ -68,6 +69,11 @@ public class Elevator extends Subsystem {
   }
   
   @Override
+  public void periodic() {
+     Console.debug("Elevator position:"+elevator.getSelectedSensorPosition(0));
+  }
+  
+  @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
@@ -77,7 +83,7 @@ public class Elevator extends Subsystem {
    * Resets this subsystem to a known state
    */
   public void stop() {
-    elevator.set(ControlMode.PercentOutput,0);
+    elevator.set(ControlMode.PercentOutput, 0);
   }
   
   /**
