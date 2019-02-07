@@ -40,4 +40,6 @@ public class RobotMap {
 
   public static final int CARGO_INTAKE_MOTOR_ID = 0;
   public static final int CARGO_INTAKE_SOLENOID_ID = 0;
+
+  public static final int ELEVATOR_ELEVATOR_ID = 0;
 }
