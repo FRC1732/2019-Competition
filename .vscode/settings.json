@@ -1,15 +1,17 @@
 {
   "java.configuration.updateBuildConfiguration": "automatic",
   "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
-    "**/.DS_Store": true,
-    "**/.wpilib": true,
-    "bin/": true,
     ".classpath": true,
-    ".project": true
+    ".project": true,
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.svn": true,
+    "**/.wpilib": true,
+    "**/CVS": true,
+    "bin/": true,
+    "eclipse-formatter.xml": true,
+    "gradle*": true
   },
   "wpilib.online": true,
   "java.format.settings.url": "eclipse-formatter.xml"
