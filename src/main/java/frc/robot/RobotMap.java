@@ -42,4 +42,7 @@ public class RobotMap {
   public static final int CARGO_INTAKE_SOLENOID_ID = 0;
 
   public static final int ELEVATOR_ELEVATOR_ID = 0;
+
+  public static final int SCORER_MOTOR_LEFT = 17; //30
+  public static final int SCORER_MOTOR_RIGHT = 30; //17
 }
