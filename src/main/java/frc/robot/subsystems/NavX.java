@@ -8,6 +8,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.util.SimpleSendable;
 
 /**
  * Add your docs here.
@@ -17,6 +20,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class NavX extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  
+  public NavX() {
+    SmartDashboard.putData("NavX", new SimpleSendable(this::sendGyro));
+  }
   
   @Override
   public void initDefaultCommand() {
@@ -54,5 +61,10 @@ public class NavX extends Subsystem {
    */
   public void zero() {
     
+  }
+  
+  private void sendGyro(SendableBuilder builder) {
+    builder.setSmartDashboardType("Gyro");
+    builder.addDoubleProperty("Value", this::getHeading, null);
   }
 }
