@@ -21,6 +21,7 @@ import frc.robot.commands.SetElevator;
 import frc.robot.commands.TurnToTarget;
 import frc.robot.commands.input.PlaceRocketCargo;
 import frc.robot.commands.input.PlaceShipCargo;
+import frc.robot.commands.input.StartClimb;
 import frc.robot.commands.input.overrides.CargoOverrideOff;
 import frc.robot.commands.input.overrides.CargoOverrideOn;
 import frc.robot.commands.input.overrides.ClimbOverrideOff;
@@ -66,7 +67,7 @@ public class OI {
   private JoystickButton cargoRocketLevel2 = new JoystickButton(left, RobotMap.OI_ROCKET_LEVEL_2_ID);
   private JoystickButton cargoRocketLevel3 = new JoystickButton(left, RobotMap.OI_ROCKET_LEVEL_3_ID);
   private JoystickButton cargoShip = new JoystickButton(left, RobotMap.OI_CARGO_SHIP_ID);
-  // public JoystickButton climb = new JoystickButton(left, RobotMap.OI_CLIMB_ID);
+  private JoystickButton climb = new JoystickButton(left, RobotMap.OI_CLIMB_ID);
 
   private JoystickButton rocketOverride = new JoystickButton(left, RobotMap.OI_ROCKET_OVERRIDE_ID);
   private JoystickButton cargoOverride = new JoystickButton(left, RobotMap.OI_CARGO_SHIP_OVERRIDE_ID);
@@ -110,22 +111,24 @@ public class OI {
     intakeIn.whenActive(new IntakeCargo()); // temporary command - change this later.
     intakeOut.whenActive(new PlaceCargo());
 
+    climb.whenPressed(new StartClimb());
+
     visionAlignment.whenActive(new TurnToTarget()); // temporary command - probably need to change?
   }
 
-  public void setRocketManual (boolean manual) {
+  public void setRocketManual(boolean manual) {
     rocketManual = manual;
   }
 
-  public void setShipManual (boolean manual) {
+  public void setShipManual(boolean manual) {
     shipManual = manual;
   }
 
-  public void setClimbManual (boolean manual) {
+  public void setClimbManual(boolean manual) {
     climbManual = manual;
   }
 
-  public void placeRocketCargo (Elevator.Position pos) {
+  public void placeRocketCargo(Elevator.Position pos) {
     if (rocketManual) {
       new SetElevator(pos).start();
     }
@@ -134,12 +137,21 @@ public class OI {
     }
   }
 
-  public void placeShipCargo () {
+  public void placeShipCargo() {
     if (shipManual) {
       new SetElevator(Elevator.Position.CargoShipCargo).start();
     }
     else {
       new ScoreCargo(Elevator.Position.CargoShipCargo).start();
+    }
+  }
+
+  public void climb() {
+    if (climbManual) {
+      // do either nothing or have some commands that prep something to make climbing easier
+    }
+    else {
+      new AutoClimb(); // placeholder
     }
   }
 
