@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.input;
+package frc.robot.commands.input.overrides;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
@@ -28,7 +28,7 @@ public class CargoOverrideOff extends InstantCommand {
   @Override
   protected void initialize() {
     Console.warn("Returning to auto cargo routines.");
-    Robot.oi.bindCargoShip(false);
+    Robot.oi.setShipManual(false);
   }
 
 }

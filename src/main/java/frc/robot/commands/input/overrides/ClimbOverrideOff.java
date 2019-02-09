@@ -5,22 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.input;
+package frc.robot.commands.input.overrides;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
-import frc.robot.commands.SetElevator;
-import frc.robot.subsystems.Elevator;
 import frc.robot.util.Console;
 
 /**
  * Add your docs here.
  */
-public class RocketOverrideOn extends InstantCommand {
+public class ClimbOverrideOff extends InstantCommand {
   /**
    * Add your docs here.
    */
-  public RocketOverrideOn() {
+  public ClimbOverrideOff() {
     super();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -29,8 +27,8 @@ public class RocketOverrideOn extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Console.warn("Overriding auto rocket routines.");
-    Robot.oi.bindCargoRocket(true);
+    Console.warn("Returning to auto climb routines");
+    Robot.oi.setClimbManual(false);
   }
 
 }

@@ -9,17 +9,15 @@ package frc.robot.commands.input;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
-import frc.robot.subsystems.Elevator;
-import frc.robot.util.Console;
 
 /**
  * Add your docs here.
  */
-public class CargoOverrideOn extends InstantCommand {
+public class PlaceShipCargo extends InstantCommand {
   /**
    * Add your docs here.
    */
-  public CargoOverrideOn() {
+  public PlaceShipCargo() {
     super();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -28,8 +26,7 @@ public class CargoOverrideOn extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Console.warn("Overriding auto cargo routines.");
-    Robot.oi.bindCargoShip(true);
+    Robot.oi.placeShipCargo();
   }
 
 }

@@ -9,26 +9,29 @@ package frc.robot.commands.input;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
-import frc.robot.util.Console;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Elevator.Position;
 
 /**
  * Add your docs here.
  */
-public class RocketOverrideOff extends InstantCommand {
+public class PlaceRocketCargo extends InstantCommand {
   /**
    * Add your docs here.
    */
-  public RocketOverrideOff() {
+  private Elevator.Position position = Position.BaseHeight;
+
+  public PlaceRocketCargo(Elevator.Position pos) {
     super();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    position = pos;
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Console.warn("Returning to auto rocket routines.");
-    Robot.oi.bindCargoRocket(false);
+    Robot.oi.placeRocketCargo(position);
   }
 
 }
