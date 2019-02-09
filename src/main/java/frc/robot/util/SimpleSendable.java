@@ -13,22 +13,40 @@ import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
- * Add your docs here.
+ * A class for creating arbitrary sendables with just an initSendable method
  */
 public class SimpleSendable implements Sendable {
     private String name = null;
     private String subsystem = null;
     private Consumer<SendableBuilder> init;
     
+    /**
+     * Creates a sendable with just an initSendable a method
+     * 
+     * @param init
+     */
     public SimpleSendable(Consumer<SendableBuilder> init) {
         this.init = init;
     }
     
+    /**
+     * Creates a named sendable
+     * 
+     * @param name
+     * @param init
+     */
     public SimpleSendable(String name, Consumer<SendableBuilder> init) {
         this.init = init;
         this.name = name;
     }
     
+    /**
+     * Creates a named sendable associated with a subsystem
+     * 
+     * @param name
+     * @param subsystem
+     * @param init
+     */
     public SimpleSendable(String name, String subsystem, Consumer<SendableBuilder> init) {
         this.init = init;
         this.name = name;
