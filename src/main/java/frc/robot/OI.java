@@ -18,6 +18,7 @@ public class OI {
   private Joystick right = new Joystick(RobotMap.OI_RIGHT_ID);
   private Joystick operator1 = new Joystick(RobotMap.OI_OPERATOR_1_ID);
   private Joystick operator2 = new Joystick(RobotMap.OI_OPERATOR_2_ID);
+
   
   /**
    * Gets the left joystick's position, as a percent of fully pushed
@@ -39,6 +40,7 @@ public class OI {
   
   // Buttons and their associated commands
   public OI() {
+    
     
   }
 }
