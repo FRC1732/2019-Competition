@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.AutoClimb;
 import frc.robot.commands.ExtendPanel;
 import frc.robot.commands.GrabPanel;
 import frc.robot.commands.IntakeCargo;
