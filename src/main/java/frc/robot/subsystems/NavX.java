@@ -11,6 +11,9 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.util.SimpleSendable;
 
 /**
  * Add your docs here.
@@ -23,6 +26,11 @@ public class NavX extends Subsystem {
 
   AHRS navx = new AHRS(SPI.Port.kMXP);
 
+  
+  public NavX() {
+    SmartDashboard.putData("NavX", new SimpleSendable(this::sendGyro));
+  }
+  
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
@@ -59,5 +67,10 @@ public class NavX extends Subsystem {
    */
   public void zero() {
     navx.zeroYaw();
+  }
+  
+  private void sendGyro(SendableBuilder builder) {
+    builder.setSmartDashboardType("Gyro");
+    builder.addDoubleProperty("Value", this::getHeading, null);
   }
 }

@@ -8,32 +8,39 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
-import frc.robot.subsystems.Elevator.Position;
 
-/**
- * A command to set the elevator position
- */
-public class SetElevator extends InstantCommand {
-  private Position pos;
-  
-  /**
-   * A command to set the elevator position
-   *
-   * @param pos
-   *              The position to set
-   */
-  public SetElevator(Position pos) {
-    this.pos = pos;
+public class RetractPanel extends Command {
+  public RetractPanel() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.elevator);
+    requires(Robot.hatchClaw);
   }
-  
+
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.elevator.setHeight(pos);
+  }
+
+  // Called repeatedly when this Command is scheduled to run
+  @Override
+  protected void execute() {
+  }
+
+  // Make this return true when this Command no longer needs to run execute()
+  @Override
+  protected boolean isFinished() {
+    return false;
+  }
+
+  // Called once after isFinished returns true
+  @Override
+  protected void end() {
+  }
+
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
+  @Override
+  protected void interrupted() {
   }
 }

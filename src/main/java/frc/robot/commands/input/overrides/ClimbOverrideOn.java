@@ -5,35 +5,30 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.input.overrides;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
-import frc.robot.subsystems.Elevator.Position;
+import frc.robot.util.Console;
 
 /**
- * A command to set the elevator position
+ * Add your docs here.
  */
-public class SetElevator extends InstantCommand {
-  private Position pos;
-  
+public class ClimbOverrideOn extends InstantCommand {
   /**
-   * A command to set the elevator position
-   *
-   * @param pos
-   *              The position to set
+   * Add your docs here.
    */
-  public SetElevator(Position pos) {
-    this.pos = pos;
+  public ClimbOverrideOn() {
+    super();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.elevator);
   }
-  
-  // Called just before this Command runs the first time
+
+  // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.elevator.setHeight(pos);
+    Console.warn("Overriding auto climb routines.");
+    Robot.oi.setClimbManual(true);
   }
+
 }
