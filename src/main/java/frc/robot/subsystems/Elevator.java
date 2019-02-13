@@ -36,6 +36,9 @@ public class Elevator extends Subsystem {
     elevator.config_kD(0, 0);
     elevator.config_kF(0, 0);
     //Correct the LimitSwitchSource.FeedbackConnector when you know better
+    //Remember to declare sensor type and sensor phase
+    //config soft limit, config soft limit override on the actual limit
+    //config current limit
     elevator.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
     elevator.configClearPositionOnLimitF(true, 0);
   }
