@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -33,6 +35,9 @@ public class Elevator extends Subsystem {
     elevator.config_kI(0, 0);
     elevator.config_kD(0, 0);
     elevator.config_kF(0, 0);
+    //Correct the LimitSwitchSource.FeedbackConnector when you know better
+    elevator.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+    elevator.configClearPositionOnLimitF(true, 0);
   }
   
   public static enum Position {
@@ -64,7 +69,7 @@ public class Elevator extends Subsystem {
    * @param pos
    *              the position to move the elevator to
    */
-  public void setHeight(int pos) {
+  private void setHeight(int pos) {
     elevator.set(ControlMode.Position, pos);
   }
   
