@@ -72,9 +72,4 @@ public class NavX extends Subsystem {
     builder.setSmartDashboardType("Gyro");
     builder.addDoubleProperty("Value", this::getHeading, null);
   }
-  
-  private void sendGyro(SendableBuilder builder) {
-    builder.setSmartDashboardType("Gyro");
-    builder.addDoubleProperty("Value", this::getHeading, null);
-  }
 }
