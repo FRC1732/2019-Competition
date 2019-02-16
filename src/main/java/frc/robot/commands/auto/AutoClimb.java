@@ -5,24 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-/**
- * A command to read input from sensors to move the drivetrain forward to the
- * target
- */
-public class DriveForward extends Command {
-  /**
-   * A command to read input from sensors to move the drivetrain forward to the
-   * target
-   */
-  public DriveForward() {
+public class AutoClimb extends Command {
+  public AutoClimb() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.drivetrain);
+    requires(Robot.climber);
   }
   
   // Called just before this Command runs the first time
