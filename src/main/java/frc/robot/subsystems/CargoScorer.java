@@ -7,7 +7,12 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
+import frc.robot.util.MotorUtil;
 
 /**
  * Add your docs here.
@@ -15,17 +20,25 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * One motor, Current to check for ball?
  */
 public class CargoScorer extends Subsystem {
+  private final TalonSRX left = MotorUtil.createTalon(RobotMap.SCORER_MOTOR_LEFT, true);
+  private final TalonSRX right = MotorUtil.createTalon(RobotMap.SCORER_MOTOR_RIGHT, false);
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   
-  /**
-   * Sets the Scorer to outtake the cargo
-   * 
-   * @param scoring
-   *                  when true, outtake the cargo
-   */
-  public void setEngaged(boolean scoring) {
-    
+  public void rollIn() {
+    left.set(ControlMode.PercentOutput, 1);
+    right.set(ControlMode.PercentOutput, 1);
+
+  }
+  public void rollOut() {
+    left.set(ControlMode.PercentOutput, -1);
+    right.set(ControlMode.PercentOutput, -1);
+
+
+  }
+  public void stop() {
+    left.set(ControlMode.PercentOutput, 0);
+    right.set(ControlMode.PercentOutput, 0);
   }
   
   /**
@@ -42,14 +55,7 @@ public class CargoScorer extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
-  
-  /**
-   * Resets this subsystem to a known state
-   */
-  public void stop() {
-    
-  }
-  
+
   /**
    * Resets all sensors
    */
