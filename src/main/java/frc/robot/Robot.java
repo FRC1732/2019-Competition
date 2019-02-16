@@ -14,6 +14,7 @@ import frc.robot.subsystems.CargoScorer;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Elevator.Position;
 import frc.robot.subsystems.HatchClaw;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.NavX;
