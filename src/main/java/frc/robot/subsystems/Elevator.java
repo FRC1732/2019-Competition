@@ -75,10 +75,12 @@ public class Elevator extends Subsystem {
   private void setHeight(int pos) {
     elevator.set(ControlMode.Position, pos);
   }
-  
+  private int getHeight() {
+    return elevator.getSelectedSensorPosition(0);
+  }
   @Override
   public void periodic() {
-     Console.debug("Elevator position:"+elevator.getSelectedSensorPosition(0));
+     
   }
   
   @Override
