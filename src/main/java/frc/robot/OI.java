@@ -9,17 +9,16 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.AutoClimb;
+import frc.robot.commands.CollectHatchPanel;
 import frc.robot.commands.ExtendPanel;
-import frc.robot.commands.GrabPanel;
 import frc.robot.commands.IntakeCargo;
-import frc.robot.commands.OuttakeCargo;
 import frc.robot.commands.PlaceCargo;
 import frc.robot.commands.PlaceHatch;
 import frc.robot.commands.RetractPanel;
-import frc.robot.commands.ScoreCargo;
 import frc.robot.commands.SetElevator;
-import frc.robot.commands.TurnToTarget;
+import frc.robot.commands.auto.AutoClimb;
+import frc.robot.commands.auto.ScoreCargo;
+import frc.robot.commands.auto.TurnToTarget;
 import frc.robot.commands.input.PlaceRocketCargo;
 import frc.robot.commands.input.PlaceShipCargo;
 import frc.robot.commands.input.StartClimb;
@@ -104,11 +103,11 @@ public class OI {
     
     panelExtend.whenPressed(new ExtendPanel());
     panelRetract.whenPressed(new RetractPanel());
-    panelGrab.whenPressed(new GrabPanel());
+    panelGrab.whenPressed(new CollectHatchPanel());
     panelRelease.whenPressed(new PlaceHatch());
     
     intakeExtendIn.whenActive(new IntakeCargo());
-    intakeExtendOut.whenActive(new OuttakeCargo());
+    intakeExtendOut.whenActive(new PlaceCargo());
     intakeIn.whenActive(new IntakeCargo()); // temporary command - change this later.
     intakeOut.whenActive(new PlaceCargo());
     
