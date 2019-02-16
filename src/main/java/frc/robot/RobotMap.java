@@ -68,4 +68,7 @@ public class RobotMap {
   
   public static final int SCORER_MOTOR_LEFT = 17; // 30
   public static final int SCORER_MOTOR_RIGHT = 30; // 17
+
+  public static final int HATCH_CLAW_GRABBER = 1;
+  public static final int HATCH_CLAW_MOVER = 0;
 }
