@@ -8,10 +8,13 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.util.Console;
 import frc.robot.util.MotorUtil;
 
 /**
@@ -31,9 +34,15 @@ public class Elevator extends Subsystem {
     elevator.config_kP(0, 0);
     elevator.config_kI(0, 0);
     elevator.config_kD(0, 0);
-    elevator.config_kF(0, 0);    
+    elevator.config_kF(0, 0);
+    //Correct the LimitSwitchSource.FeedbackConnector when you know better
+    //Remember to declare sensor type and sensor phase
+    //config soft limit, config soft limit override on the actual limit
+    //config current limit
+    elevator.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+    elevator.configClearPositionOnLimitF(true, 0);
   }
- 
+  
   public static enum Position {
     BaseHeight(0), CargoShipCargo(0), CargoShipHatch(0), RocketLevel1Cargo(1), RocketLevel1Hatch(1), RocketLevel2Cargo(
         2), RocketLevel2Hatch(2), RocketLevel3Cargo(3), RocketLevel3Hatch(3), HumanPlayerStation(0);
@@ -63,8 +72,15 @@ public class Elevator extends Subsystem {
    * @param pos
    *              the position to move the elevator to
    */
-  public void setHeight(int pos) {
+  private void setHeight(int pos) {
     elevator.set(ControlMode.Position, pos);
+  }
+  private int getHeight() {
+    return elevator.getSelectedSensorPosition(0);
+  }
+  @Override
+  public void periodic() {
+     
   }
   
   @Override
@@ -77,7 +93,7 @@ public class Elevator extends Subsystem {
    * Resets this subsystem to a known state
    */
   public void stop() {
-    elevator.set(ControlMode.PercentOutput,0);
+    elevator.set(ControlMode.PercentOutput, 0);
   }
   
   /**
