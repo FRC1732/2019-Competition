@@ -23,13 +23,8 @@ import frc.robot.util.SimpleSendable;
 public class NavX extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-
-  AHRS navx = new AHRS(SPI.Port.kMXP);
-
   
-  public NavX() {
-    SmartDashboard.putData("NavX", new SimpleSendable(this::sendGyro));
-  }
+  AHRS navx = new AHRS(SPI.Port.kMXP);
   
   public NavX() {
     SmartDashboard.putData("NavX", new SimpleSendable(this::sendGyro));
