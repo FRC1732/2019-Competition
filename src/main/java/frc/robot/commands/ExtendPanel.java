@@ -12,7 +12,7 @@ import frc.robot.Robot;
 
 public class ExtendPanel extends Command {
   public ExtendPanel() {
-    // Use requires() here to declare subsystem dependencies
+// Use requires() here to declare subsystem dependencies~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // eg. requires(chassis);
     requires(Robot.hatchClaw);
   }
