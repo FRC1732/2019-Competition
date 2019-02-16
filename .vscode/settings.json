@@ -14,5 +14,6 @@
     "**/.factorypath": true
   },
   "wpilib.online": true,
-  "java.format.settings.url": "eclipse-formatter.xml"
+  "java.format.settings.url": "eclipse-formatter.xml",
+  "wpilib.autoSaveOnDeploy": true
 }
