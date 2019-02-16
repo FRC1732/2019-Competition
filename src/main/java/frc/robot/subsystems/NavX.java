@@ -31,6 +31,10 @@ public class NavX extends Subsystem {
     SmartDashboard.putData("NavX", new SimpleSendable(this::sendGyro));
   }
   
+  public NavX() {
+    SmartDashboard.putData("NavX", new SimpleSendable(this::sendGyro));
+  }
+  
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
@@ -67,6 +71,11 @@ public class NavX extends Subsystem {
    */
   public void zero() {
     navx.zeroYaw();
+  }
+  
+  private void sendGyro(SendableBuilder builder) {
+    builder.setSmartDashboardType("Gyro");
+    builder.addDoubleProperty("Value", this::getHeading, null);
   }
   
   private void sendGyro(SendableBuilder builder) {

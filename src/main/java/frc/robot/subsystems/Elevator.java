@@ -13,9 +13,11 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
-import frc.robot.util.Console;
 import frc.robot.util.MotorUtil;
+import frc.robot.util.SimpleSendable;
 
 /**
  * Add your docs here.
@@ -35,12 +37,14 @@ public class Elevator extends Subsystem {
     elevator.config_kI(0, 0);
     elevator.config_kD(0, 0);
     elevator.config_kF(0, 0);
-    //Correct the LimitSwitchSource.FeedbackConnector when you know better
-    //Remember to declare sensor type and sensor phase
-    //config soft limit, config soft limit override on the actual limit
-    //config current limit
+    // Correct the LimitSwitchSource.FeedbackConnector when you know better
+    // Remember to declare sensor type and sensor phase
+    // config soft limit, config soft limit override on the actual limit
+    // config current limit
     elevator.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
     elevator.configClearPositionOnLimitF(true, 0);
+    
+    SmartDashboard.putData("Elevator", new SimpleSendable(this::sendHeight));
   }
   
   public static enum Position {
@@ -75,12 +79,14 @@ public class Elevator extends Subsystem {
   private void setHeight(int pos) {
     elevator.set(ControlMode.Position, pos);
   }
+  
   private int getHeight() {
     return elevator.getSelectedSensorPosition(0);
   }
+  
   @Override
   public void periodic() {
-     
+    
   }
   
   @Override
@@ -101,5 +107,10 @@ public class Elevator extends Subsystem {
    */
   public void zero() {
     
+  }
+  
+  private void sendHeight(SendableBuilder builder) {
+    builder.setSmartDashboardType("Elevator");
+    builder.addDoubleProperty("Height", this::getHeight, null);
   }
 }
