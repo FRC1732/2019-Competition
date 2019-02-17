@@ -23,7 +23,7 @@ public class Console {
         }
     }
     
-    private static Level currentLevel = Level.None;
+    private static Level currentLevel = Level.Graph;
     
     /**
      * Sets the current output level - should only be done in Robot.java
@@ -98,7 +98,7 @@ public class Console {
             System.out.print(objects[0]);
             for (int i = 1; i < objects.length; i++) {
                 System.out.print(", ");
-                System.out.print(objects[1]);
+                System.out.print(objects[i]);
             }
             System.out.println();
         }

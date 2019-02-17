@@ -7,13 +7,14 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
  * A command to score Cargo when aligned at a port for cargo
  */
-public class PlaceCargo extends InstantCommand {
+public class PlaceCargo extends Command {
+  
   /**
    * A command to intake a Cargo. Stops when a cargo has been collected
    */
@@ -26,7 +27,21 @@ public class PlaceCargo extends InstantCommand {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.cargoIntake.setEngaged(false);
+    Robot.cargoScorer.rollOut();
   }
   
+  @Override
+  protected boolean isFinished() {
+    return false;
+  }
+  
+  @Override
+  protected void end() {
+    Robot.cargoScorer.stop();
+  }
+  
+  @Override
+  protected void interrupted() {
+    Robot.cargoScorer.stop();
+  }
 }

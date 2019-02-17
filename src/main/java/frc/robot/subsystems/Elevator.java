@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -16,6 +18,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.util.Console;
 import frc.robot.util.MotorUtil;
 import frc.robot.util.SimpleSendable;
 
@@ -37,6 +40,11 @@ public class Elevator extends Subsystem {
     elevator.config_kI(0, 0);
     elevator.config_kD(0, 0);
     elevator.config_kF(0, 0);
+    elevator.configMotionCruiseVelocity(0);
+    elevator.configMotionAcceleration(0);
+    elevator.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+    elevator.config_IntegralZone(0, 1000);
+    // elevator.
     // Correct the LimitSwitchSource.FeedbackConnector when you know better
     // Remember to declare sensor type and sensor phase
     // config soft limit, config soft limit override on the actual limit
@@ -48,7 +56,7 @@ public class Elevator extends Subsystem {
   }
   
   public static enum Position {
-    BaseHeight(0), CargoShipCargo(0), CargoShipHatch(0), RocketLevel1Cargo(1), RocketLevel1Hatch(1), RocketLevel2Cargo(
+    BaseHeight(0), CargoShipCargo(1), CargoShipHatch(1), RocketLevel1Cargo(1), RocketLevel1Hatch(1), RocketLevel2Cargo(
         2), RocketLevel2Hatch(2), RocketLevel3Cargo(3), RocketLevel3Hatch(3), HumanPlayerStation(0);
     public final int position;
     
@@ -69,6 +77,8 @@ public class Elevator extends Subsystem {
     setHeight(pos.position);
   }
   
+  private int position = Position.BaseHeight.position;
+  
   /**
    * Sets the position of the elevator, using raw encoder ticks for the positions.
    * Commands should use {@code setHeight(Position)} except for debugging
@@ -77,16 +87,35 @@ public class Elevator extends Subsystem {
    *              the position to move the elevator to
    */
   private void setHeight(int pos) {
-    elevator.set(ControlMode.Position, pos);
+    position = pos;
   }
   
   private int getHeight() {
     return elevator.getSelectedSensorPosition(0);
   }
   
+  private double demand = 0;
+  
   @Override
   public void periodic() {
-    
+    if (position != Position.BaseHeight.position) {
+      elevator.set(ControlMode.PercentOutput, demand);
+      Console.graph(demand, elevator.getMotorOutputVoltage(), elevator.getOutputCurrent(),
+          elevator.getSelectedSensorPosition(0), elevator.getSelectedSensorVelocity(0), elevator.getTemperature());
+    } else if (position == 0) {
+      demand = 0;
+      elevator.set(ControlMode.PercentOutput, demand);
+    } else {
+      elevator.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, calcF());
+    }
+  }
+  
+  private double calcF() {
+    return 0;
+  }
+  
+  public void increment() {
+    demand += 0.01;
   }
   
   @Override
@@ -106,7 +135,7 @@ public class Elevator extends Subsystem {
    * Resets all sensors
    */
   public void zero() {
-    
+    elevator.setSelectedSensorPosition(0, 0, 0);
   }
   
   private void sendHeight(SendableBuilder builder) {

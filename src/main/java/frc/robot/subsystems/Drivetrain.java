@@ -133,8 +133,8 @@ public class Drivetrain extends Subsystem {
   
   private void rightSendable(SendableBuilder builder) {
     builder.setSmartDashboardType("Encoder");
-    builder.addDoubleProperty("Speed", this::getLeftRate, null);
-    builder.addDoubleProperty("Distance", this::getLeftPos, null);
+    builder.addDoubleProperty("Speed", this::getRightRate, null);
+    builder.addDoubleProperty("Distance", this::getRightPos, null);
     builder.addDoubleProperty("Distance per Tick", this::getDistancePerPulse, null);
   }
   

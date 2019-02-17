@@ -21,11 +21,10 @@ import frc.robot.util.Console;
 public class HatchClaw extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  private Solenoid grabber = new Solenoid(RobotMap.HATCH_CLAW_GRABBER);
-  private Solenoid mover = new Solenoid(RobotMap.HATCH_CLAW_MOVER);
+  private Solenoid grabber = new Solenoid(1, RobotMap.HATCH_CLAW_GRABBER);
+  private Solenoid mover = new Solenoid(1, RobotMap.HATCH_CLAW_MOVER);
   
   public HatchClaw() {
-    grabber.set(true);
   }
   
   /**
@@ -37,8 +36,9 @@ public class HatchClaw extends Subsystem {
    */
   
   public void setEngaged(boolean grabbing) {
-    if (Robot.cargoScorer.hasCargo()) {
-      grabber.set(!grabbing);
+    if (!Robot.cargoScorer.hasCargo()) {
+      grabber.set(grabbing);
+      Console.debug("Grabbing: " + grabbing);
     } else {
       Console.warn("Cannot grab: already has cargo");
     }
@@ -53,6 +53,7 @@ public class HatchClaw extends Subsystem {
    */
   public void setExtended(boolean extending) {
     mover.set(extending);
+    Console.debug("Extending: " + extending);
   }
   
   /**
@@ -74,8 +75,8 @@ public class HatchClaw extends Subsystem {
    * Resets this subsystem to a known state
    */
   public void stop() {
-    grabber.set(false);
-    mover.set(false);
+    // grabber.set(false);
+    // mover.set(false);
     
   }
   

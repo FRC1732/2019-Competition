@@ -24,7 +24,7 @@ public class CargoIntake extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private TalonSRX cargoIntakeMotor = MotorUtil.createTalon(RobotMap.CARGO_INTAKE_MOTOR_ID, true);
-  private Solenoid cargoIntakeSolenoid = new Solenoid(RobotMap.CARGO_INTAKE_SOLENOID_ID);
+  private Solenoid cargoIntakeSolenoid = null;// new Solenoid(1, RobotMap.CARGO_INTAKE_SOLENOID_ID);
   
   /**
    * Sets whether the intake should be actively intaking cargo, unless the robot
@@ -34,13 +34,13 @@ public class CargoIntake extends Subsystem {
    *                   when true, enable the intake
    */
   public void setEngaged(boolean intaking) {
-    if (intaking) {
-      cargoIntakeMotor.set(ControlMode.PercentOutput, 1);
-      cargoIntakeSolenoid.set(true);
-    } else {
-      cargoIntakeMotor.set(ControlMode.PercentOutput, 0);
-      cargoIntakeSolenoid.set(false);
-    }
+    // if (intaking) {
+    // cargoIntakeMotor.set(ControlMode.PercentOutput, 1);
+    // cargoIntakeSolenoid.set(true);
+    // } else {
+    // cargoIntakeMotor.set(ControlMode.PercentOutput, 0);
+    // cargoIntakeSolenoid.set(false);
+    // }
   }
   
   @Override
@@ -53,8 +53,8 @@ public class CargoIntake extends Subsystem {
    * Resets this subsystem to a known state
    */
   public void stop() {
-    cargoIntakeMotor.set(ControlMode.PercentOutput, 0);
-    cargoIntakeSolenoid.set(false);
+    // cargoIntakeMotor.set(ControlMode.PercentOutput, 0);
+    // cargoIntakeSolenoid.set(false);
   }
   
   /**

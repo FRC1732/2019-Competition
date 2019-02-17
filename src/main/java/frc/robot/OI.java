@@ -16,6 +16,7 @@ import frc.robot.commands.PlaceCargo;
 import frc.robot.commands.PlaceHatch;
 import frc.robot.commands.RetractPanel;
 import frc.robot.commands.SetElevator;
+import frc.robot.commands.TestElevator;
 import frc.robot.commands.auto.AutoClimb;
 import frc.robot.commands.auto.ScoreCargo;
 import frc.robot.commands.auto.TurnToTarget;
@@ -51,7 +52,7 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getLeftJoystick() {
-    return -left.getY();
+    return 0;//-left.getY();
   }
   
   /**
@@ -60,7 +61,7 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getRightJoystick() {
-    return -right.getY();
+    return 0;//-right.getY();
   }
   
   private JoystickButton cargoRocketLevel1 = new JoystickButton(operator1, RobotMap.OI_ROCKET_LEVEL_1_ID);
@@ -106,14 +107,16 @@ public class OI {
     panelGrab.whenPressed(new CollectHatchPanel());
     panelRelease.whenPressed(new PlaceHatch());
     
-    intakeExtendIn.whenActive(new IntakeCargo());
-    intakeExtendOut.whenActive(new PlaceCargo());
-    intakeIn.whenActive(new IntakeCargo()); // temporary command - change this later.
-    intakeOut.whenActive(new PlaceCargo());
+    intakeExtendIn.whileActive(new IntakeCargo());
+    intakeExtendOut.whileActive(new PlaceCargo());
+    intakeIn.whileActive(new IntakeCargo()); // temporary command - change this later.
+    intakeOut.whileActive(new PlaceCargo());
     
     climb.whenPressed(new StartClimb());
     
-    visionAlignment.whenActive(new TurnToTarget()); // temporary command - probably need to change?
+    visionAlignment.whileActive(new TurnToTarget());
+
+    new JoystickButton(operator1, 1).whileActive(new TestElevator(new JoystickButton(operator1, 2)));
   }
   
   public void setRocketManual(boolean manual) {

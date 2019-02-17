@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -20,22 +21,22 @@ import frc.robot.util.MotorUtil;
  * One motor, Current to check for ball?
  */
 public class CargoScorer extends Subsystem {
-  private final TalonSRX left = MotorUtil.createTalon(RobotMap.SCORER_MOTOR_LEFT, true);
-  private final TalonSRX right = MotorUtil.createTalon(RobotMap.SCORER_MOTOR_RIGHT, false);
+  private final VictorSPX left = MotorUtil.createVictor(RobotMap.SCORER_MOTOR_LEFT, false);
+  private final VictorSPX right = MotorUtil.createVictor(RobotMap.SCORER_MOTOR_RIGHT, true);
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   
   public void rollIn() {
     left.set(ControlMode.PercentOutput, 1);
     right.set(ControlMode.PercentOutput, 1);
-
   }
+  
   public void rollOut() {
     left.set(ControlMode.PercentOutput, -1);
     right.set(ControlMode.PercentOutput, -1);
-
-
+    
   }
+  
   public void stop() {
     left.set(ControlMode.PercentOutput, 0);
     right.set(ControlMode.PercentOutput, 0);
@@ -55,7 +56,7 @@ public class CargoScorer extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
-
+  
   /**
    * Resets all sensors
    */
