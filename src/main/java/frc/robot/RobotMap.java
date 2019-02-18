@@ -61,12 +61,12 @@ public class RobotMap {
   public static final int OI_INTAKE_HOLDER_IN_ID = 4;
   public static final int OI_INTAKE_HOLDER_OUT_ID = 5;
   
-  public static final int CARGO_INTAKE_MOTOR_ID = 0;
-  public static final int CARGO_INTAKE_SOLENOID_ID = 0;
+  public static final int CARGO_INTAKE_MOTOR_ID = 16;
+  public static final int CARGO_INTAKE_SOLENOID_ID = 2;
   
-  public static final int ELEVATOR_ELEVATOR_ID = 0;
+  public static final int ELEVATOR_ELEVATOR_ID = 29;
   
-  public static final int SCORER_MOTOR_LEFT = 17; // 30
+  public static final int SCORER_MOTOR_LEFT = 28; // 30
   public static final int SCORER_MOTOR_RIGHT = 30; // 17
 
   public static final int HATCH_CLAW_GRABBER = 0;
