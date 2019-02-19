@@ -44,6 +44,9 @@ public class Drivetrain extends Subsystem {
     right1.follow(rightMaster);
     right2.follow(rightMaster);
     
+    leftMaster.configNeutralDeadband(.1);
+    rightMaster.configNeutralDeadband(.1);
+    
     SmartDashboard.putData("Left Encoder", new SimpleSendable(this::leftSendable));
     SmartDashboard.putData("Right Encoder", new SimpleSendable(this::rightSendable));
   }

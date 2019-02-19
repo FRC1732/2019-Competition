@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.CollectHatchPanel;
 import frc.robot.commands.ExtendPanel;
 import frc.robot.commands.IntakeCargo;
@@ -16,7 +17,6 @@ import frc.robot.commands.PlaceCargo;
 import frc.robot.commands.PlaceHatch;
 import frc.robot.commands.RetractPanel;
 import frc.robot.commands.SetElevator;
-import frc.robot.commands.TestElevator;
 import frc.robot.commands.auto.AutoClimb;
 import frc.robot.commands.auto.ScoreCargo;
 import frc.robot.commands.auto.TurnToTarget;
@@ -30,6 +30,7 @@ import frc.robot.commands.input.overrides.ClimbOverrideOn;
 import frc.robot.commands.input.overrides.RocketOverrideOff;
 import frc.robot.commands.input.overrides.RocketOverrideOn;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Elevator.Position;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -52,7 +53,7 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getLeftJoystick() {
-    return 0;//-left.getY();
+    return -left.getY();
   }
   
   /**
@@ -61,7 +62,7 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getRightJoystick() {
-    return 0;//-right.getY();
+    return -right.getY();
   }
   
   private JoystickButton cargoRocketLevel1 = new JoystickButton(operator1, RobotMap.OI_ROCKET_LEVEL_1_ID);
@@ -115,8 +116,22 @@ public class OI {
     climb.whenPressed(new StartClimb());
     
     visionAlignment.whileActive(new TurnToTarget());
-
-    new JoystickButton(operator1, 1).whileActive(new TestElevator(new JoystickButton(operator1, 2)));
+    
+    new JoystickButton(operator1, 1).whileActive(new SetElevator(Position.BaseHeight));
+    new JoystickButton(operator1, 2).whileActive(new SetElevator(Position.CargoShipCargo));
+    new JoystickButton(operator1, 3).whileActive(new SetElevator(Position.CargoShipHatch));
+    new JoystickButton(operator2, 11).whileActive(new InstantCommand() {
+      @Override
+      protected void initialize() {
+        Robot.elevator.increment();
+      }
+    });
+    new JoystickButton(operator2, 12).whileActive(new InstantCommand() {
+      @Override
+      protected void initialize() {
+        Robot.elevator.decrement();
+      }
+    });
   }
   
   public void setRocketManual(boolean manual) {

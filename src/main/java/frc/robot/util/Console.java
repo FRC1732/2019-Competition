@@ -97,7 +97,7 @@ public class Console {
         if (Level.Graph.level == currentLevel.level) {
             System.out.print(objects[0]);
             for (int i = 1; i < objects.length; i++) {
-                System.out.print(", ");
+                System.out.print("\t");
                 System.out.print(objects[i]);
             }
             System.out.println();

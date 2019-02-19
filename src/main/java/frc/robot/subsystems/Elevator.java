@@ -35,29 +35,40 @@ public class Elevator extends Subsystem {
    */
   private TalonSRX elevator = MotorUtil.createTalon(RobotMap.ELEVATOR_ELEVATOR_ID, true);
   
+  private static final double kMaxSensorVelocity = 588;// fastest we feel measured
+  private static final double kF = ((0.319648093841642) * 1023) / kMaxSensorVelocity - 0.07;// .28% of max (1023),
+                                                                                            // when speed is maxed
+  private static final double kCruiseVelocity = 1900;
+  private static final double kAcceleration = kCruiseVelocity * 2;// acceleate to full speed in one seconds
+  private static final double kP = 0.48;
+  private static final double kI = 0;
+  private static final double kD = 0;
+  
   public Elevator() {
-    elevator.config_kP(0, 0);
-    elevator.config_kI(0, 0);
-    elevator.config_kD(0, 0);
-    elevator.config_kF(0, 0);
-    elevator.configMotionCruiseVelocity(0);
-    elevator.configMotionAcceleration(0);
+    elevator.config_kP(0, kP);
+    elevator.config_kI(0, kI);
+    elevator.config_kD(0, kD);
+    elevator.config_kF(0, kF);
+    elevator.configMotionCruiseVelocity((int) kCruiseVelocity);
+    elevator.configMotionAcceleration((int) kAcceleration);
     elevator.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-    elevator.config_IntegralZone(0, 1000);
+    // elevator.config_IntegralZone(0, 1000);
     // elevator.
     // Correct the LimitSwitchSource.FeedbackConnector when you know better
     // Remember to declare sensor type and sensor phase
     // config soft limit, config soft limit override on the actual limit
     // config current limit
     elevator.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
-    elevator.configClearPositionOnLimitF(true, 0);
+    elevator.configClearPositionOnLimitR(true, 0);
     
     SmartDashboard.putData("Elevator", new SimpleSendable(this::sendHeight));
   }
   
+  // 19800 is max encoder reading
   public static enum Position {
-    BaseHeight(0), CargoShipCargo(1), CargoShipHatch(1), RocketLevel1Cargo(1), RocketLevel1Hatch(1), RocketLevel2Cargo(
-        2), RocketLevel2Hatch(2), RocketLevel3Cargo(3), RocketLevel3Hatch(3), HumanPlayerStation(0);
+    BaseHeight(0), CargoShipCargo(13600), CargoShipHatch(22000), RocketLevel1Cargo(1), RocketLevel1Hatch(
+        1), RocketLevel2Cargo(
+            2), RocketLevel2Hatch(2), RocketLevel3Cargo(3), RocketLevel3Hatch(3), HumanPlayerStation(0);
     public final int position;
     
     private Position(int position) {
@@ -90,32 +101,41 @@ public class Elevator extends Subsystem {
     position = pos;
   }
   
+  public void increment() {
+    position += 100;
+  }
+  
+  public void decrement() {
+    position -= 100;
+  }
+  
   private int getHeight() {
     return elevator.getSelectedSensorPosition(0);
   }
   
-  private double demand = 0;
-  
   @Override
   public void periodic() {
-    if (position != Position.BaseHeight.position) {
-      elevator.set(ControlMode.PercentOutput, demand);
-      Console.graph(demand, elevator.getMotorOutputVoltage(), elevator.getOutputCurrent(),
-          elevator.getSelectedSensorPosition(0), elevator.getSelectedSensorVelocity(0), elevator.getTemperature());
-    } else if (position == 0) {
-      demand = 0;
-      elevator.set(ControlMode.PercentOutput, demand);
+    // if (position != Position.BaseHeight.position) {
+    // elevator.set(ControlMode.PercentOutput, demand);
+    // } else if (position == 0) {
+    // demand = 0;
+    // elevator.set(ControlMode.PercentOutput, demand);
+    // }
+    if (elevator.getSelectedSensorPosition(0) < 150 && position < 150) {
+      elevator.set(ControlMode.PercentOutput, 0);
     } else {
       elevator.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, calcF());
     }
+    // Console.graph(position, elevator.getMotorOutputPercent(),
+    // elevator.getMotorOutputVoltage(),
+    // elevator.getOutputCurrent(), elevator.getSelectedSensorPosition(0),
+    // elevator.getSelectedSensorVelocity(0),
+    // elevator.getTemperature());
+    
   }
   
   private double calcF() {
-    return 0;
-  }
-  
-  public void increment() {
-    demand += 0.01;
+    return 0.07;
   }
   
   @Override
@@ -135,7 +155,7 @@ public class Elevator extends Subsystem {
    * Resets all sensors
    */
   public void zero() {
-    elevator.setSelectedSensorPosition(0, 0, 0);
+    // elevator.setSelectedSensorPosition(0, 0, 0);
   }
   
   private void sendHeight(SendableBuilder builder) {
