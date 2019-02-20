@@ -38,7 +38,7 @@ public class Elevator extends Subsystem {
   private static final double kMaxSensorVelocity = 588;// fastest we feel measured
   private static final double kF = ((0.319648093841642) * 1023) / kMaxSensorVelocity - 0.07;// .28% of max (1023),
                                                                                             // when speed is maxed
-  private static final double kCruiseVelocity = 1900;
+  private static final double kCruiseVelocity = 1000;
   private static final double kAcceleration = kCruiseVelocity * 2;// acceleate to full speed in one seconds
   private static final double kP = 0.48;
   private static final double kI = 0;
@@ -149,6 +149,7 @@ public class Elevator extends Subsystem {
    */
   public void stop() {
     elevator.set(ControlMode.PercentOutput, 0);
+    position = elevator.getSelectedSensorPosition(0);
   }
   
   /**
