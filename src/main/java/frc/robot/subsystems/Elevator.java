@@ -16,10 +16,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.util.Console;
 import frc.robot.util.MotorUtil;
-import frc.robot.util.SimpleSendable;
 
 /**
  * Add your docs here.
@@ -89,6 +88,7 @@ public class Elevator extends Subsystem {
    */
   private void setHeight(int pos) {
     position = pos;
+    Console.debug("set elevator height to: "+position);
   }
   
   private int getHeight() {
@@ -101,6 +101,7 @@ public class Elevator extends Subsystem {
     } else {
       position = 19800;
     }
+    Console.debug("set elevator height to: "+position);
   }
   
   public void decrement() {
@@ -109,6 +110,7 @@ public class Elevator extends Subsystem {
     } else {
       position = 0;
     }
+    Console.debug("set elevator height to: "+position);
   }
   
   @Override
