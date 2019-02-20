@@ -53,7 +53,7 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getLeftJoystick() {
-    return -left.getY();
+    return -Math.signum(left.getY()) * left.getY() * left.getY();
   }
   
   /**
@@ -62,7 +62,7 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getRightJoystick() {
-    return -right.getY();
+    return -Math.signum(right.getY()) * right.getY() * right.getY();
   }
   
   private JoystickButton cargoRocketLevel1 = new JoystickButton(operator1, RobotMap.OI_ROCKET_LEVEL_1_ID);
