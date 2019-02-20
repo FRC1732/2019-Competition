@@ -27,7 +27,7 @@ public class IntakeCargo extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    // Robot.cargoIntake.setEngaged(true);
+    Robot.cargoIntake.setEngaged(true);
     Robot.cargoScorer.rollIn();
   }
   
@@ -38,7 +38,7 @@ public class IntakeCargo extends Command {
   
   @Override
   protected void interrupted() {
-    // Robot.cargoIntake.setEngaged(true);
+    Robot.cargoIntake.setEngaged(false);
     Robot.cargoScorer.stop();
     Console.debug("Ending intake");
   }
