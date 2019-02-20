@@ -7,7 +7,13 @@
 
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.util.SimpleSendable;
 
 /**
  * Add your docs here.
@@ -17,6 +23,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class NavX extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  
+  AHRS navx = new AHRS(SPI.Port.kMXP);
+  
+  public NavX() {
+    SmartDashboard.putData("NavX", new SimpleSendable(this::sendGyro));
+  }
   
   @Override
   public void initDefaultCommand() {
@@ -30,7 +42,7 @@ public class NavX extends Subsystem {
    * @return The robot's heading
    */
   public double getHeading() {
-    return 0;
+    return navx.getYaw();
   }
   
   /**
@@ -39,7 +51,7 @@ public class NavX extends Subsystem {
    * @return The robot's heading, in radians
    */
   public double getHeadingRad() {
-    return Math.toRadians(0);
+    return Math.toRadians(navx.getYaw());
   }
   
   /**
@@ -53,6 +65,11 @@ public class NavX extends Subsystem {
    * Resets all sensors to a known state
    */
   public void zero() {
-    
+    navx.zeroYaw();
+  }
+  
+  private void sendGyro(SendableBuilder builder) {
+    builder.setSmartDashboardType("Gyro");
+    builder.addDoubleProperty("Value", this::getHeading, null);
   }
 }

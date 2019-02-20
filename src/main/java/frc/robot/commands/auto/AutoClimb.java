@@ -5,22 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-/**
- * A command to turn the robot towards the nearest vision target
- */
-public class TurnToTarget extends Command {
-  /**
-   * A command to turn the robot towards the nearest vision target
-   */
-  public TurnToTarget() {
+public class AutoClimb extends Command {
+  public AutoClimb() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.drivetrain);
+    requires(Robot.climber);
   }
   
   // Called just before this Command runs the first time

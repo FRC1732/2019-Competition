@@ -15,9 +15,11 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
-import frc.robot.util.Console;
 import frc.robot.util.MotorUtil;
+import frc.robot.util.SimpleSendable;
 
 /**
  * Add your docs here.
@@ -136,5 +138,10 @@ public class Elevator extends Subsystem {
    */
   public void zero() {
     
+  }
+  
+  private void sendHeight(SendableBuilder builder) {
+    builder.setSmartDashboardType("Elevator");
+    builder.addDoubleProperty("Height", this::getHeight, null);
   }
 }

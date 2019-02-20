@@ -5,28 +5,33 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.input;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Elevator.Position;
 
 /**
- * A command to intake a Cargo. Stops when a cargo has been collected
+ * Add your docs here.
  */
-public class IntakeCargo extends InstantCommand {
+public class PlaceRocketCargo extends InstantCommand {
   /**
-   * A command to intake a Cargo. Stops when a cargo has been collected
+   * Add your docs here.
    */
-  public IntakeCargo() {
+  private Elevator.Position position = Position.BaseHeight;
+
+  public PlaceRocketCargo(Elevator.Position pos) {
+    super();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.cargoIntake);
+    position = pos;
   }
-  
-  // Called just before this Command runs the first time
+
+  // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.cargoIntake.setEngaged(true);
+    Robot.oi.placeRocketCargo(position);
   }
-  
+
 }
