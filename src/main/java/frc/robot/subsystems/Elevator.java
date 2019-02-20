@@ -35,18 +35,20 @@ public class Elevator extends Subsystem {
   private static final double kP = 0.48;
   private static final double kI = 0;
   private static final double kD = 0;
-  private static final double kF = ((0.319648093841642) * 1023) / 588 - 0.07;
-  private static final double MotionCruiseVelocity = 1000;
-  private static final double MotionAcceleration = MotionCruiseVelocity * 2;
-  private static final double MinimumOutput = .07;
+  private static final double minimumOutput = .07;
+  private static final double speed = 588;
+  private static final double percent = 0.319648093841642;
+  private static final double kF = (percent * 1023) / speed - minimumOutput;
+  private static final double motionCruiseVelocity = 1000;
+  private static final double motionAcceleration = motionCruiseVelocity * 2;
   
   public Elevator() {
     elevator.config_kP(0, kP);
     elevator.config_kI(0, kI);
     elevator.config_kD(0, kD);
     elevator.config_kF(0, kF);
-    elevator.configMotionCruiseVelocity((int) MotionCruiseVelocity);
-    elevator.configMotionAcceleration((int) MotionAcceleration);
+    elevator.configMotionCruiseVelocity((int) motionCruiseVelocity);
+    elevator.configMotionAcceleration((int) motionAcceleration);
     // config current limit
     elevator.configForwardSoftLimitEnable(true);
     elevator.configForwardSoftLimitThreshold(19800);
@@ -118,7 +120,7 @@ public class Elevator extends Subsystem {
     if (elevator.getSelectedSensorPosition(0) < 150 && position < 150) {
       elevator.set(ControlMode.PercentOutput, 0);
     } else {
-      elevator.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, MinimumOutput);
+      elevator.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, minimumOutput);
     }
   }
   
