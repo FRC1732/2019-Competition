@@ -35,14 +35,13 @@ public class Elevator extends Subsystem {
    */
   private TalonSRX elevator = MotorUtil.createTalon(RobotMap.ELEVATOR_ELEVATOR_ID, true);
   
-  private static final double kMaxSensorVelocity = 588;// fastest we feel measured
-  private static final double kF = ((0.319648093841642) * 1023) / kMaxSensorVelocity - 0.07;// .28% of max (1023),
-                                                                                            // when speed is maxed
-  private static final double kCruiseVelocity = 1000;
-  private static final double kAcceleration = kCruiseVelocity * 2;// acceleate to full speed in one seconds
+  private static final double kF = 0.00531805;
+  private static final double kMinOutput = 0.15;
+  private static final double kCruiseVelocity = 700;
+  private static final double kAcceleration = kCruiseVelocity / 1;// acceleate to full speed in one seconds
   private static final double kP = 0.48;
   private static final double kI = 0;
-  private static final double kD = 0;
+  private static final double kD = -4.80;
   
   public Elevator() {
     elevator.config_kP(0, kP);
@@ -60,15 +59,17 @@ public class Elevator extends Subsystem {
     // config current limit
     elevator.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
     elevator.configClearPositionOnLimitR(true, 0);
+    elevator.configForwardSoftLimitEnable(true);
+    elevator.configForwardSoftLimitThreshold(19300);
     
     SmartDashboard.putData("Elevator", new SimpleSendable(this::sendHeight));
   }
   
   // 19800 is max encoder reading
   public static enum Position {
-    BaseHeight(0), CargoShipCargo(13600), CargoShipHatch(22000), RocketLevel1Cargo(1), RocketLevel1Hatch(
-        1), RocketLevel2Cargo(
-            2), RocketLevel2Hatch(2), RocketLevel3Cargo(3), RocketLevel3Hatch(3), HumanPlayerStation(0);
+      BaseHeight(0), CargoShipCargo(13600), CargoShipHatch(22000), RocketLevel1Cargo(0), RocketLevel1Hatch(0),
+      RocketLevel2Cargo(0), RocketLevel2Hatch(10000), RocketLevel3Cargo(3), RocketLevel3Hatch(19200),
+      HumanPlayerStation(0);
     public final int position;
     
     private Position(int position) {
@@ -84,21 +85,23 @@ public class Elevator extends Subsystem {
    *              the position to move the elevator to
    */
   public void setHeight(Position pos) {
-    // passes the constant int for the height requested
-    setHeight(pos.position);
+    position = pos.position;
   }
   
   private int position = Position.BaseHeight.position;
+  private boolean debugging = false;
   
-  /**
-   * Sets the position of the elevator, using raw encoder ticks for the positions.
-   * Commands should use {@code setHeight(Position)} except for debugging
-   * 
-   * @param pos
-   *              the position to move the elevator to
-   */
-  private void setHeight(int pos) {
-    position = pos;
+  public void setDebugging(boolean debugging) {
+    this.debugging = debugging;
+    System.out.printf("Min: %10.8f, kF: %10.8f\n", minOutput, totConv / numConv);
+    demand = 0;
+    minOutput = 0;
+    totConv = 0;
+    numConv = 0;
+  }
+  
+  public boolean doneDebugging() {
+    return elevator.getSelectedSensorPosition(0) > 1000;
   }
   
   public void increment() {
@@ -113,29 +116,50 @@ public class Elevator extends Subsystem {
     return elevator.getSelectedSensorPosition(0);
   }
   
+  private double demand = 0;
+  private double minOutput = 0;
+  private double totConv = 0;
+  private double numConv = 0;
+  
   @Override
   public void periodic() {
-    // if (position != Position.BaseHeight.position) {
-    // elevator.set(ControlMode.PercentOutput, demand);
-    // } else if (position == 0) {
-    // demand = 0;
-    // elevator.set(ControlMode.PercentOutput, demand);
-    // }
-    if (elevator.getSelectedSensorPosition(0) < 150 && position < 150) {
-      elevator.set(ControlMode.PercentOutput, 0);
+    if (debugging) {
+      if (elevator.getSelectedSensorPosition(0) <= 0) {
+        demand += 0.01;
+      } else if (minOutput == 0) {
+        minOutput = demand;
+      } else if (elevator.getSelectedSensorPosition(0) <= 1000) {
+        demand = 0.8;
+        numConv++;
+        totConv += (elevator.getMotorOutputPercent() - minOutput) / elevator.getSelectedSensorVelocity(0);
+      } else {
+        demand = 0;
+      }
+      elevator.set(ControlMode.PercentOutput, demand);
+      Console.graph(position, elevator.getMotorOutputPercent(), elevator.getMotorOutputVoltage(),
+          elevator.getOutputCurrent(), elevator.getSelectedSensorPosition(0), elevator.getSelectedSensorVelocity(0),
+          elevator.getTemperature());
     } else {
-      elevator.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, calcF());
+      // Actual Normal Code
+      if (elevator.getSelectedSensorPosition(0) == 0 && position == 0) {
+        elevator.set(ControlMode.PercentOutput, 0);
+      } else if (position == 0) {
+        elevator.set(ControlMode.PercentOutput, -kMinOutput);
+      } else {
+        elevator.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, calcF());
+      }
     }
-    // Console.graph(position, elevator.getMotorOutputPercent(),
-    // elevator.getMotorOutputVoltage(),
-    // elevator.getOutputCurrent(), elevator.getSelectedSensorPosition(0),
-    // elevator.getSelectedSensorVelocity(0),
-    // elevator.getTemperature());
-    
   }
   
   private double calcF() {
-    return 0.07;
+    if (elevator.getSelectedSensorPosition(0) - position > 1000) {
+      // return kMinOutput / 2;
+    }
+    // temporary increase to make the elevator work
+    if (elevator.getSelectedSensorPosition(0) < 200) {
+      return kMinOutput + 0.1;
+    }
+    return kMinOutput;
   }
   
   @Override

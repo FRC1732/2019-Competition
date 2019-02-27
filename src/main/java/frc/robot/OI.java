@@ -117,9 +117,9 @@ public class OI {
     
     visionAlignment.whileActive(new TurnToTarget());
     
-    new JoystickButton(operator1, 1).whileActive(new SetElevator(Position.BaseHeight));
-    new JoystickButton(operator1, 2).whileActive(new SetElevator(Position.CargoShipCargo));
-    new JoystickButton(operator1, 3).whileActive(new SetElevator(Position.CargoShipHatch));
+    new JoystickButton(operator1, 1).whileActive(new SetElevator(Position.RocketLevel1Hatch));
+    new JoystickButton(operator1, 2).whileActive(new SetElevator(Position.RocketLevel2Hatch));
+    new JoystickButton(operator1, 3).whileActive(new SetElevator(Position.RocketLevel3Hatch));
     new JoystickButton(operator2, 11).whileActive(new InstantCommand() {
       @Override
       protected void initialize() {

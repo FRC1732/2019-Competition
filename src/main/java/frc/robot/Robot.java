@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.commands.TestElevator;
 import frc.robot.subsystems.CargoIntake;
 import frc.robot.subsystems.CargoScorer;
 import frc.robot.subsystems.Climber;
@@ -91,6 +92,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     clear();
     // Start autonomous commands
+    new TestElevator().start();
   }
   
   /**

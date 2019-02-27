@@ -56,8 +56,8 @@ public class RobotMap {
   
   // Joystick 2 Buttons
   public static final int OI_VISION_ALIGNMENT_ID = 1;
-  public static final int OI_PANEL_GRAB_ID = 2;
-  public static final int OI_PANEL_RELEASE_ID = 3;
+  public static final int OI_PANEL_GRAB_ID = 3;
+  public static final int OI_PANEL_RELEASE_ID = 2;
   public static final int OI_INTAKE_HOLDER_IN_ID = 8;
   public static final int OI_INTAKE_HOLDER_OUT_ID = 5;
   
