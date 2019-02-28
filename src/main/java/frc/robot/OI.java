@@ -52,7 +52,7 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getLeftJoystick() {
-    return -left.getY();
+    return -1 * left.getY() * left.getY() * Math.signum(left.getY());
   }
   
   /**
@@ -61,18 +61,18 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getRightJoystick() {
-    return -right.getY();
+    return -1 * right.getY() * right.getY() * Math.signum(right.getY());
   }
 
-  private JoystickButton cargoRocketLevel1 = new JoystickButton(left, RobotMap.OI_ROCKET_LEVEL_1_ID);
-  private JoystickButton cargoRocketLevel2 = new JoystickButton(left, RobotMap.OI_ROCKET_LEVEL_2_ID);
-  private JoystickButton cargoRocketLevel3 = new JoystickButton(left, RobotMap.OI_ROCKET_LEVEL_3_ID);
-  private JoystickButton cargoShip = new JoystickButton(left, RobotMap.OI_CARGO_SHIP_ID);
-  private JoystickButton climb = new JoystickButton(left, RobotMap.OI_CLIMB_ID);
+  private JoystickButton cargoRocketLevel1 = new JoystickButton(operator1, RobotMap.OI_ROCKET_LEVEL_1_ID);
+  private JoystickButton cargoRocketLevel2 = new JoystickButton(operator1, RobotMap.OI_ROCKET_LEVEL_2_ID);
+  private JoystickButton cargoRocketLevel3 = new JoystickButton(operator1, RobotMap.OI_ROCKET_LEVEL_3_ID);
+  private JoystickButton cargoShip = new JoystickButton(operator1, RobotMap.OI_CARGO_SHIP_ID);
+  private JoystickButton climb = new JoystickButton(operator1, RobotMap.OI_CLIMB_ID);
 
-  private JoystickButton rocketOverride = new JoystickButton(left, RobotMap.OI_ROCKET_OVERRIDE_ID);
-  private JoystickButton cargoOverride = new JoystickButton(left, RobotMap.OI_CARGO_SHIP_OVERRIDE_ID);
-  private JoystickButton climbOverride = new JoystickButton(left, RobotMap.OI_CLIMB_OVERRIDE_ID);
+  private JoystickButton rocketOverride = new JoystickButton(operator1, RobotMap.OI_ROCKET_OVERRIDE_ID);
+  private JoystickButton cargoOverride = new JoystickButton(operator1, RobotMap.OI_CARGO_SHIP_OVERRIDE_ID);
+  private JoystickButton climbOverride = new JoystickButton(operator1, RobotMap.OI_CLIMB_OVERRIDE_ID);
 
   // Left Joystick
   private JoystickButton intakeExtendIn = new JoystickButton(left, RobotMap.OI_INTAKE_EXTEND_HOLDER_IN_ID);
@@ -117,13 +117,13 @@ public class OI {
     visionAlignment.whenActive(new TurnToTarget()); // temporary command - probably need to change?
   }
 
-  public void setRocketManual(boolean manual) {
-    rocketManual = manual;
-  }
+  // public void setRocketManual(boolean manual) {
+  //   rocketManual = manual;
+  // }
 
-  public void setShipManual(boolean manual) {
-    shipManual = manual;
-  }
+  // public void setShipManual(boolean manual) {
+  //   shipManual = manual;
+  // }
 
   public void setClimbManual(boolean manual) {
     climbManual = manual;
