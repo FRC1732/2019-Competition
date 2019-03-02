@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.util.Console;
@@ -22,12 +23,14 @@ public class IntakeCargo extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.cargoIntake);
+    requires(Robot.cargoScorer);
   }
   
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     Robot.cargoIntake.setEngaged(true);
+    Robot.cargoIntake.setExtended(true);
     Robot.cargoScorer.rollIn();
   }
   
@@ -38,8 +41,11 @@ public class IntakeCargo extends Command {
   
   @Override
   protected void interrupted() {
-    Robot.cargoIntake.setEngaged(false);
-    Robot.cargoScorer.stop();
+    Robot.cargoIntake.setExtended(false);
+    new Notifier(() -> {
+      Robot.cargoIntake.stopIntake();
+      Robot.cargoScorer.stop();
+    }).startSingle(0.5);
     Console.debug("Ending intake");
   }
   

@@ -20,18 +20,17 @@ public class PlaceRocketCargo extends InstantCommand {
    * Add your docs here.
    */
   private Elevator.Position position = Position.BaseHeight;
-
+  
   public PlaceRocketCargo(Elevator.Position pos) {
     super();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     position = pos;
   }
-
+  
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.oi.placeRocketCargo(position);
   }
-
+  
 }

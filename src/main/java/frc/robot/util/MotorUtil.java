@@ -22,6 +22,10 @@ public class MotorUtil {
     TalonSRX motor = new TalonSRX(id);
     motor.setInverted(reversed);
     motor.setNeutralMode(NeutralMode.Brake);
+    
+    motor.configContinuousCurrentLimit(20, 0);
+    motor.configPeakCurrentLimit(25, 0);
+    motor.configPeakCurrentDuration(10, 0);
     return motor;
   }
   

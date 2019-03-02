@@ -31,17 +31,23 @@ public class CargoIntake extends Subsystem {
    * Sets whether the intake should be actively intaking cargo, unless the robot
    * already has a hatch panel
    * 
-   * @param intaking
-   *                   when true, enable the intake
+   * @param direction
+   *                    when true, draw balls in
    */
-  public void setEngaged(boolean intaking) {
-    if (intaking) {
+  public void setEngaged(boolean direction) {
+    if (direction) {
       cargoIntakeMotor.set(ControlMode.PercentOutput, 0.5);
-      cargoIntakeSolenoid.set(true);
     } else {
-      cargoIntakeMotor.set(ControlMode.PercentOutput, 0);
-      cargoIntakeSolenoid.set(false);
+      cargoIntakeMotor.set(ControlMode.PercentOutput, -0.5);
     }
+  }
+  
+  public void stopIntake() {
+    cargoIntakeMotor.set(ControlMode.PercentOutput, 0);
+  }
+  
+  public void setExtended(boolean extended) {
+    cargoIntakeSolenoid.set(extended);
   }
   
   @Override

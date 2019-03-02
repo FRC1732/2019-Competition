@@ -7,20 +7,40 @@
 
 package frc.robot.commands.auto;
 
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class AutoClimb extends Command {
-  public AutoClimb() {
+public class GrabPanel extends Command {
+  private Notifier extend = new Notifier(() -> {
+    Robot.hatchClaw.setExtended(true);
+    done = true;
+  });
+  private Notifier grab = new Notifier(() -> {
+    Robot.hatchClaw.setEngaged(true);
+  });
+  private Notifier retract = new Notifier(() -> {
+    Robot.hatchClaw.setExtended(false);
+    done = true;
+  });
+  
+  private boolean done = false;
+  
+  public GrabPanel() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.climber);
+    requires(Robot.hatchClaw);
+    setInterruptible(false);
   }
   
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.climber.raiseJacks();
+    Robot.hatchClaw.setEngaged(true);
+    // extend.startSingle(0.1);
+    // grab.startSingle(0.2);
+    retract.startSingle(0.1);
+    done = false;
   }
   
   // Called repeatedly when this Command is scheduled to run
@@ -31,7 +51,7 @@ public class AutoClimb extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return done;
   }
   
   // Called once after isFinished returns true

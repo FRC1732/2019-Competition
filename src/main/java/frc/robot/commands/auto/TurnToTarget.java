@@ -11,12 +11,14 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.subsystems.Limelight;
 
 /**
  * A command to turn the robot towards the nearest vision target
  */
 public class TurnToTarget extends Command {
   private PIDController anglePID;
+  private PIDController forwardPID;
   
   /**
    * A command to turn the robot towards the nearest vision target
@@ -29,6 +31,11 @@ public class TurnToTarget extends Command {
     anglePID.setOutputRange(-1, 1);
     anglePID.setSetpoint(0);
     SmartDashboard.putData("VisionTurning", anglePID);
+    forwardPID = new PIDController(0.02, 0.0, 0.0, Robot.limelight.getDistancePidSource(Limelight.Target.AnyOther),
+        this::output);
+    forwardPID.setOutputRange(-1, 1);
+    forwardPID.setSetpoint(20);
+    SmartDashboard.putData("VisionForward", forwardPID);
   }
   
   private void output(double d) {
@@ -46,7 +53,7 @@ public class TurnToTarget extends Command {
   protected void execute() {
     double speed = (Robot.oi.getLeftJoystick() + Robot.oi.getRightJoystick()) * 0.5;
     double turn = anglePID.get();
-    System.out.printf("%1.3f /\\, > %1.3f\n", speed, turn);
+    // System.out.printf("%1.3f /\\, > %1.3f\n", speed, turn);
     Robot.drivetrain.set(speed - turn, speed + turn);
   }
   

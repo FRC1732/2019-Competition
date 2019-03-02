@@ -17,19 +17,11 @@ import frc.robot.commands.PlaceCargo;
 import frc.robot.commands.PlaceHatch;
 import frc.robot.commands.RetractPanel;
 import frc.robot.commands.SetElevator;
+import frc.robot.commands.SpitCargo;
 import frc.robot.commands.auto.AutoClimb;
-import frc.robot.commands.auto.ScoreCargo;
+import frc.robot.commands.auto.GrabPanel;
+import frc.robot.commands.auto.ScorePanel;
 import frc.robot.commands.auto.TurnToTarget;
-import frc.robot.commands.input.PlaceRocketCargo;
-import frc.robot.commands.input.PlaceShipCargo;
-import frc.robot.commands.input.StartClimb;
-import frc.robot.commands.input.overrides.CargoOverrideOff;
-import frc.robot.commands.input.overrides.CargoOverrideOn;
-import frc.robot.commands.input.overrides.ClimbOverrideOff;
-import frc.robot.commands.input.overrides.ClimbOverrideOn;
-import frc.robot.commands.input.overrides.RocketOverrideOff;
-import frc.robot.commands.input.overrides.RocketOverrideOn;
-import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Elevator.Position;
 
 /**
@@ -90,18 +82,21 @@ public class OI {
   
   // Buttons and their associated commands
   public OI() {
-    cargoRocketLevel1.whenPressed(new PlaceRocketCargo(Elevator.Position.RocketLevel1Cargo));
-    cargoRocketLevel2.whenPressed(new PlaceRocketCargo(Elevator.Position.RocketLevel2Cargo));
-    cargoRocketLevel3.whenPressed(new PlaceRocketCargo(Elevator.Position.RocketLevel3Cargo));
-    rocketOverride.whenPressed(new RocketOverrideOn());
-    rocketOverride.whenReleased(new RocketOverrideOff());
+    // cargoRocketLevel1.whenPressed(new
+    // PlaceRocketCargo(Elevator.Position.RocketLevel1Cargo));
+    // cargoRocketLevel2.whenPressed(new
+    // PlaceRocketCargo(Elevator.Position.RocketLevel2Cargo));
+    // cargoRocketLevel3.whenPressed(new
+    // PlaceRocketCargo(Elevator.Position.RocketLevel3Cargo));
+    // rocketOverride.whenPressed(new RocketOverrideOn());
+    // rocketOverride.whenReleased(new RocketOverrideOff());
     
-    cargoShip.whenPressed(new PlaceShipCargo());
-    cargoOverride.whenPressed(new CargoOverrideOn());
-    cargoOverride.whenReleased(new CargoOverrideOff());
+    // cargoShip.whenPressed(new PlaceShipCargo());
+    // cargoOverride.whenPressed(new CargoOverrideOn());
+    // cargoOverride.whenReleased(new CargoOverrideOff());
     
-    climbOverride.whenPressed(new ClimbOverrideOn());
-    climbOverride.whenReleased(new ClimbOverrideOff());
+    // climbOverride.whenPressed(new ClimbOverrideOn());
+    // climbOverride.whenReleased(new ClimbOverrideOff());
     
     panelExtend.whenPressed(new ExtendPanel());
     panelRetract.whenPressed(new RetractPanel());
@@ -110,16 +105,20 @@ public class OI {
     
     intakeExtendIn.whileActive(new IntakeCargo());
     intakeExtendOut.whileActive(new PlaceCargo());
-    intakeIn.whileActive(new IntakeCargo()); // temporary command - change this later.
-    intakeOut.whileActive(new PlaceCargo());
+    intakeIn.whileActive(new ScorePanel()); // temporary command - change this later.
+    intakeOut.whileActive(new GrabPanel());
     
-    climb.whenPressed(new StartClimb());
+    climb.whenPressed(new AutoClimb());
     
     visionAlignment.whileActive(new TurnToTarget());
+    
+    new JoystickButton(left, 5).whileActive(new SpitCargo());
     
     new JoystickButton(operator1, 1).whileActive(new SetElevator(Position.RocketLevel1Hatch));
     new JoystickButton(operator1, 2).whileActive(new SetElevator(Position.RocketLevel2Hatch));
     new JoystickButton(operator1, 3).whileActive(new SetElevator(Position.RocketLevel3Hatch));
+    new JoystickButton(operator1, 4).whileActive(new SetElevator(Position.RocketLevel1Cargo));
+    new JoystickButton(operator1, 5).whileActive(new SetElevator(Position.RocketLevel2Cargo));
     new JoystickButton(operator2, 11).whileActive(new InstantCommand() {
       @Override
       protected void initialize() {
@@ -135,74 +134,11 @@ public class OI {
   }
   
   public void setRocketManual(boolean manual) {
-    rocketManual = manual;
   }
   
   public void setShipManual(boolean manual) {
-    shipManual = manual;
   }
   
   public void setClimbManual(boolean manual) {
-    climbManual = manual;
   }
-  
-  public void placeRocketCargo(Elevator.Position pos) {
-    if (rocketManual) {
-      new SetElevator(pos).start();
-    } else {
-      new ScoreCargo(pos).start();
-    }
-  }
-  
-  public void placeShipCargo() {
-    if (shipManual) {
-      new SetElevator(Elevator.Position.CargoShipCargo).start();
-    } else {
-      new ScoreCargo(Elevator.Position.CargoShipCargo).start();
-    }
-  }
-  
-  public void climb() {
-    if (climbManual) {
-      // do either nothing or have some commands that prep something to make climbing
-      // easier
-    } else {
-      new AutoClimb(); // placeholder
-    }
-  }
-  
-  // public void bindCargoShip(boolean isCargoShipManual) {
-  // if (isCargoShipManual == true) {
-  // cargoShip.whenPressed(new SetElevator(Elevator.Position.CargoShipCargo));
-  // }
-  // else {
-  // cargoShip.whenPressed(new StoreCargoParam()); // placeholder, need a command
-  // }
-  // }
-  
-  // public void bindCargoRocket(boolean isRocketCargoManual) {
-  // if (isRocketCargoManual == true) {
-  // cargoRocketLevel1.whenPressed(new
-  // SetElevator(Elevator.Position.RocketLevel1Cargo));
-  // cargoRocketLevel2.whenPressed(new
-  // SetElevator(Elevator.Position.RocketLevel2Cargo));
-  // cargoRocketLevel3.whenPressed(new
-  // SetElevator(Elevator.Position.RocketLevel3Cargo));
-  // }
-  // else {
-  // cargoRocketLevel1.whenPressed(new AutoRocketLevel1()); // placeholder, need a
-  // command
-  // cargoRocketLevel2.whenPressed(new AutoRocketLevel2());
-  // cargoRocketLevel3.whenPressed(new AutoRocketLevel3());
-  // }
-  // }
-  
-  // public void bindClimb(boolean isClimbManual) {
-  // if (isClimbManual == true) {
-  // climb.whenPressed(new ManualClimb()); // placeholder command
-  // }
-  // else {
-  // climb.whenPressed(new AutoClimb());
-  // }
-  // }
 }

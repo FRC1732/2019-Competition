@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.input;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
@@ -13,20 +13,21 @@ import frc.robot.Robot;
 /**
  * Add your docs here.
  */
-public class StartClimb extends InstantCommand {
+public class RetractIntake extends InstantCommand {
   /**
    * Add your docs here.
    */
-  public StartClimb() {
+  public RetractIntake() {
     super();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.cargoIntake);
   }
-
+  
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.oi.climb();
+    Robot.cargoIntake.setExtended(false);
   }
-
+  
 }

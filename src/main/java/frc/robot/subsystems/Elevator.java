@@ -35,10 +35,10 @@ public class Elevator extends Subsystem {
    */
   private TalonSRX elevator = MotorUtil.createTalon(RobotMap.ELEVATOR_ELEVATOR_ID, true);
   
-  private static final double kF = 0.00531805;
-  private static final double kMinOutput = 0.15;
-  private static final double kCruiseVelocity = 700;
-  private static final double kAcceleration = kCruiseVelocity / 1;// acceleate to full speed in one seconds
+  private static final double kF = 0.03153099;
+  private static final double kMinOutput = 0.01;
+  private static final double kCruiseVelocity = 1900;
+  private static final double kAcceleration = kCruiseVelocity / 0.5;// acceleate to full speed in one seconds
   private static final double kP = 0.48;
   private static final double kI = 0;
   private static final double kD = -4.80;
@@ -50,7 +50,7 @@ public class Elevator extends Subsystem {
     elevator.config_kF(0, kF);
     elevator.configMotionCruiseVelocity((int) kCruiseVelocity);
     elevator.configMotionAcceleration((int) kAcceleration);
-    elevator.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+    elevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
     // elevator.config_IntegralZone(0, 1000);
     // elevator.
     // Correct the LimitSwitchSource.FeedbackConnector when you know better
@@ -62,13 +62,15 @@ public class Elevator extends Subsystem {
     elevator.configForwardSoftLimitEnable(true);
     elevator.configForwardSoftLimitThreshold(19300);
     
+    elevator.configClosedLoopPeakOutput(0, 0.9);
+    
     SmartDashboard.putData("Elevator", new SimpleSendable(this::sendHeight));
   }
   
   // 19800 is max encoder reading
   public static enum Position {
-      BaseHeight(0), CargoShipCargo(13600), CargoShipHatch(22000), RocketLevel1Cargo(0), RocketLevel1Hatch(0),
-      RocketLevel2Cargo(0), RocketLevel2Hatch(10000), RocketLevel3Cargo(3), RocketLevel3Hatch(19200),
+      BaseHeight(0), CargoShipCargo(13600), CargoShipHatch(22000), RocketLevel1Cargo(5700), RocketLevel1Hatch(0),
+      RocketLevel2Cargo(16100), RocketLevel2Hatch(10000), RocketLevel3Cargo(19100), RocketLevel3Hatch(19100),
       HumanPlayerStation(0);
     public final int position;
     
@@ -93,11 +95,13 @@ public class Elevator extends Subsystem {
   
   public void setDebugging(boolean debugging) {
     this.debugging = debugging;
-    System.out.printf("Min: %10.8f, kF: %10.8f\n", minOutput, totConv / numConv);
+    System.out.printf("Min: %10.8f, kF: %10.8f, Max: %10.8f\n", minOutput, totConv / numConv, maxSpeed);
     demand = 0;
     minOutput = 0;
     totConv = 0;
     numConv = 0;
+    maxSpeed = 0;
+    elevator.setSelectedSensorPosition(0, 0, 0);
   }
   
   public boolean doneDebugging() {
@@ -118,20 +122,24 @@ public class Elevator extends Subsystem {
   
   private double demand = 0;
   private double minOutput = 0;
+  private double maxSpeed = 0;
   private double totConv = 0;
   private double numConv = 0;
   
   @Override
   public void periodic() {
     if (debugging) {
-      if (elevator.getSelectedSensorPosition(0) <= 0) {
+      if (elevator.getSelectedSensorPosition(0) <= 1) {
         demand += 0.01;
       } else if (minOutput == 0) {
         minOutput = demand;
-      } else if (elevator.getSelectedSensorPosition(0) <= 1000) {
+      } else if (elevator.getSelectedSensorPosition(0) <= 5000) {
         demand = 0.8;
         numConv++;
         totConv += (elevator.getMotorOutputPercent() - minOutput) / elevator.getSelectedSensorVelocity(0);
+        if (maxSpeed < elevator.getSelectedSensorVelocity(0) && elevator.getMotorOutputPercent() <= 0.8) {
+          maxSpeed = elevator.getSelectedSensorVelocity(0);
+        }
       } else {
         demand = 0;
       }
@@ -141,10 +149,8 @@ public class Elevator extends Subsystem {
           elevator.getTemperature());
     } else {
       // Actual Normal Code
-      if (elevator.getSelectedSensorPosition(0) == 0 && position == 0) {
+      if (elevator.getSelectedSensorPosition(0) <= 2 && position == 0) {
         elevator.set(ControlMode.PercentOutput, 0);
-      } else if (position == 0) {
-        elevator.set(ControlMode.PercentOutput, -kMinOutput);
       } else {
         elevator.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, calcF());
       }

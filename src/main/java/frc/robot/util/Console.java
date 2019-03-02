@@ -15,7 +15,7 @@ public class Console {
      * A Level to log a message at
      */
     public static enum Level {
-        None(0), Warn(1), Info(2), Detail(3), Debug(4), Graph(-1);
+            None(0), Warn(1), Info(2), Detail(3), Debug(4), Graph(-1);
         public final int level;
         
         private Level(int num) {
@@ -23,7 +23,7 @@ public class Console {
         }
     }
     
-    private static Level currentLevel = Level.Graph;
+    private static Level currentLevel = Level.Debug;
     
     /**
      * Sets the current output level - should only be done in Robot.java

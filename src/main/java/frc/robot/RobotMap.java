@@ -45,7 +45,7 @@ public class RobotMap {
   public static final int OI_ROCKET_LEVEL_3_ID = 1;
   public static final int OI_ROCKET_OVERRIDE_ID = 1;
   
-  public static final int OI_CLIMB_ID = 1;
+  public static final int OI_CLIMB_ID = 8;
   public static final int OI_CLIMB_OVERRIDE_ID = 1;
   
   // Joystick 1 Buttons
@@ -58,7 +58,7 @@ public class RobotMap {
   public static final int OI_VISION_ALIGNMENT_ID = 1;
   public static final int OI_PANEL_GRAB_ID = 3;
   public static final int OI_PANEL_RELEASE_ID = 2;
-  public static final int OI_INTAKE_HOLDER_IN_ID = 8;
+  public static final int OI_INTAKE_HOLDER_IN_ID = 4;
   public static final int OI_INTAKE_HOLDER_OUT_ID = 5;
   
   public static final int CARGO_INTAKE_MOTOR_ID = 16;
@@ -71,4 +71,9 @@ public class RobotMap {
   
   public static final int HATCH_CLAW_GRABBER = 1;
   public static final int HATCH_CLAW_MOVER = 0;
+  
+  public static final int CLIMBER_FRONT_LEFT = 35;
+  public static final int CLIMBER_FRONT_RIGHT = 10;
+  public static final int CLIMBER_BACK = 15;
+  public static final int CLIMBER_DRIVER = 28;
 }

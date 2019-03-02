@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 /**
@@ -29,15 +30,19 @@ public class Limelight extends Subsystem implements Sendable {
    * 
    * The limelight can't tell them apart, so you need to tell it which kind of
    * target should be near the center of it's vision
+   *
    */
   public static enum Target {
-      RocketCargo(0), RocketPanel(0), CargoShipCargo(0), CargoShipPanel(0), HumanPlayerStation(0);
+      RocketCargo(0), AnyOther(28.0 + (5.0 / 16.0));
     public final double height;
     
     private Target(double height) {
       this.height = height;
     }
   }
+  
+  private static final double cameraHeight = 37.0 + (3.0 / 16.0);
+  private static final double angle = 1.9;
   
   private double horiz = 0;
   private NetworkTableEntry horizNet;
@@ -55,6 +60,8 @@ public class Limelight extends Subsystem implements Sendable {
     vertNet = table.getEntry("ty");
     numNet = table.getEntry("tv");
     pipeNet = table.getEntry("pipeline");
+    
+    SmartDashboard.putData("Limelight", this);
   }
   
   @Override
@@ -147,7 +154,7 @@ public class Limelight extends Subsystem implements Sendable {
   
   /**
    * Gets an approxomate distance to the target, from the front of the robot
-   * 
+   *
    * @param target
    *                 the target type to track
    * @return The distance in inches.
@@ -158,7 +165,26 @@ public class Limelight extends Subsystem implements Sendable {
      * hatch panel or neither, as well as whether we are trying to score on the
      * cargo ship, or the rocket.
      */
-    return 0;
+    return (target.height - cameraHeight) / Math.tan(Math.toRadians(vert + angle));
+  }
+  
+  public PIDSource getDistancePidSource(Target target) {
+    return new PIDSource() {
+      
+      @Override
+      public void setPIDSourceType(PIDSourceType pidSource) {
+      }
+      
+      @Override
+      public double pidGet() {
+        return Robot.limelight.getTargetDistance(target);
+      }
+      
+      @Override
+      public PIDSourceType getPIDSourceType() {
+        return PIDSourceType.kDisplacement;
+      }
+    };
   }
   
   /**
@@ -175,9 +201,14 @@ public class Limelight extends Subsystem implements Sendable {
     
   }
   
+  private double getRange() {
+    return getTargetDistance(Target.AnyOther);
+  }
+  
   @Override
   public void initSendable(SendableBuilder builder) {
     builder.setSmartDashboardType("Limelight");
     builder.addBooleanProperty("Has Target", this::hasTarget, null);
+    builder.addDoubleProperty("Range", this::getRange, null);
   }
 }

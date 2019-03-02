@@ -7,19 +7,23 @@
 
 package frc.robot.commands.auto;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.subsystems.Limelight;
 
 /**
  * A command to read input from sensors to move the drivetrain forward to the
  * target
  */
 public class DriveForward extends Command {
+  
   /**
    * A command to read input from sensors to move the drivetrain forward to the
    * target
    */
-  public DriveForward() {
+  public DriveForward(double distance) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.drivetrain);
