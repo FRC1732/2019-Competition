@@ -21,8 +21,8 @@ import frc.robot.util.Console;
 public class HatchClaw extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  private Solenoid grabber = new Solenoid(RobotMap.HATCH_CLAW_GRABBER);
-  private Solenoid mover = new Solenoid(RobotMap.HATCH_CLAW_MOVER);
+  private Solenoid grabber = new Solenoid(1, RobotMap.HATCH_CLAW_GRABBER);
+  private Solenoid mover = new Solenoid(1, RobotMap.HATCH_CLAW_MOVER);
   
   public HatchClaw() {
     grabber.set(true);
