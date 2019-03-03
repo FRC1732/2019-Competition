@@ -5,9 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.PlaceHatch;
+import frc.robot.commands.SetElevator;
 import frc.robot.subsystems.Elevator.Position;
 
 /**

@@ -5,28 +5,31 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.input.overrides;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
+import frc.robot.subsystems.Elevator;
+import frc.robot.util.Console;
 
 /**
- * A command to intake a Cargo. Stops when a cargo has been collected
+ * Add your docs here.
  */
-public class IntakeCargo extends InstantCommand {
+public class CargoOverrideOn extends InstantCommand {
   /**
-   * A command to intake a Cargo. Stops when a cargo has been collected
+   * Add your docs here.
    */
-  public IntakeCargo() {
+  public CargoOverrideOn() {
+    super();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.cargoIntake);
   }
-  
-  // Called just before this Command runs the first time
+
+  // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.cargoIntake.setEngaged(true);
+    Console.warn("Overriding auto cargo routines.");
+    Robot.oi.setShipManual(true);
   }
-  
+
 }
