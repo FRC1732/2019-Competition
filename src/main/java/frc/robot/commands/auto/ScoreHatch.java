@@ -5,21 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.PlaceHatch;
+import frc.robot.commands.SetElevator;
 import frc.robot.subsystems.Elevator.Position;
 
 /**
- * A command group to align and score a cargo
+ * A command group to score a hatch panel
  */
-public class ScoreCargo extends CommandGroup {
+public class ScoreHatch extends CommandGroup {
   /**
-   * A command group to align and score a cargo
+   * A command group to score a hatch panel
    * 
    * @param pos
-   *              the position to score the cargo
+   *              the Elevator position to score the hatch panel
    */
-  public ScoreCargo(Position pos) {
+  public ScoreHatch(Position pos) {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -39,6 +42,6 @@ public class ScoreCargo extends CommandGroup {
     addSequential(new TurnToTarget());
     addSequential(new DriveForward());
     addSequential(new SetElevator(pos));
-    addSequential(new PlaceCargo());
+    addSequential(new PlaceHatch());
   }
 }
