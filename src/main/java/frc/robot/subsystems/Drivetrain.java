@@ -12,9 +12,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.util.MotorUtil;
+import frc.robot.util.SimpleSendable;
 
 /**
  * Add your docs here.
@@ -33,11 +36,16 @@ public class Drivetrain extends Subsystem {
   private VictorSPX right1 = MotorUtil.createVictor(RobotMap.DRIVETRAIN_RIGHT1_ID, false);
   private VictorSPX right2 = MotorUtil.createVictor(RobotMap.DRIVETRAIN_RIGHT2_ID, false);
   
+  private static final double INCHES_PER_TICK = 1;
+  
   public Drivetrain() {
     left1.follow(leftMaster);
     left2.follow(leftMaster);
     right1.follow(rightMaster);
     right2.follow(rightMaster);
+    
+    SmartDashboard.putData("Left Encoder", new SimpleSendable(this::leftSendable));
+    SmartDashboard.putData("Right Encoder", new SimpleSendable(this::rightSendable));
   }
   
   /**
@@ -60,7 +68,7 @@ public class Drivetrain extends Subsystem {
    * @return
    */
   public double getLeftPos() {
-    return 0;
+    return leftMaster.getSelectedSensorPosition(0) * INCHES_PER_TICK;
   }
   
   /**
@@ -69,7 +77,25 @@ public class Drivetrain extends Subsystem {
    * @return
    */
   public double getRightPos() {
-    return 0;
+    return rightMaster.getSelectedSensorPosition(0) * INCHES_PER_TICK;
+  }
+  
+  /**
+   * Gets the total rotation of the left side of the drivetrain
+   * 
+   * @return
+   */
+  public double getLeftRate() {
+    return leftMaster.getSelectedSensorVelocity(0);
+  }
+  
+  /**
+   * Gets the total rotation of the right side of the drivetrain
+   * 
+   * @return
+   */
+  public double getRightRate() {
+    return rightMaster.getSelectedSensorVelocity(0);
   }
   
   @Override
@@ -94,6 +120,25 @@ public class Drivetrain extends Subsystem {
    * Resets all sensors
    */
   public void zero() {
-    
+    leftMaster.setSelectedSensorPosition(0);
+    rightMaster.setSelectedSensorPosition(0);
+  }
+  
+  private void leftSendable(SendableBuilder builder) {
+    builder.setSmartDashboardType("Encoder");
+    builder.addDoubleProperty("Speed", this::getLeftRate, null);
+    builder.addDoubleProperty("Distance", this::getLeftPos, null);
+    builder.addDoubleProperty("Distance per Tick", this::getDistancePerPulse, null);
+  }
+  
+  private void rightSendable(SendableBuilder builder) {
+    builder.setSmartDashboardType("Encoder");
+    builder.addDoubleProperty("Speed", this::getLeftRate, null);
+    builder.addDoubleProperty("Distance", this::getLeftPos, null);
+    builder.addDoubleProperty("Distance per Tick", this::getDistancePerPulse, null);
+  }
+  
+  private double getDistancePerPulse() {
+    return INCHES_PER_TICK;
   }
 }

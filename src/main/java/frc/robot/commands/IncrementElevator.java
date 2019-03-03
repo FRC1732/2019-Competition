@@ -11,22 +11,23 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
 /**
- * A command to intake a Cargo. Stops when a cargo has been collected
+ * Add your docs here.
  */
-public class IntakeCargo extends InstantCommand {
+public class IncrementElevator extends InstantCommand {
   /**
-   * A command to intake a Cargo. Stops when a cargo has been collected
+   * Add your docs here.
    */
-  public IntakeCargo() {
+  public IncrementElevator() {
+    super();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.cargoIntake);
+    requires(Robot.elevator);
   }
-  
-  // Called just before this Command runs the first time
+
+  // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.cargoIntake.setEngaged(true);
+    Robot.elevator.increment();
   }
-  
+
 }
