@@ -8,16 +8,17 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.util.Console;
 import frc.robot.util.MotorUtil;
-import frc.robot.util.SimpleSendable;
 
 /**
  * Add your docs here.
@@ -31,20 +32,29 @@ public class Elevator extends Subsystem {
    * Defines a set of constants for the height of the elevator
    */
   private TalonSRX elevator = MotorUtil.createTalon(RobotMap.ELEVATOR_ELEVATOR_ID, true);
+  private static final double kP = 0.48;
+  private static final double kI = 0;
+  private static final double kD = 0;
+  private static final double minimumOutput = .07;
+  private static final double speed = 588;
+  private static final double percent = 0.319648093841642;
+  private static final double kF = (percent * 1023) / speed - minimumOutput;
+  private static final double motionCruiseVelocity = 1000;
+  private static final double motionAcceleration = motionCruiseVelocity * 2;
   
   public Elevator() {
-    elevator.config_kP(0, 0);
-    elevator.config_kI(0, 0);
-    elevator.config_kD(0, 0);
-    elevator.config_kF(0, 0);
-    // Correct the LimitSwitchSource.FeedbackConnector when you know better
-    // Remember to declare sensor type and sensor phase
-    // config soft limit, config soft limit override on the actual limit
+    elevator.config_kP(0, kP);
+    elevator.config_kI(0, kI);
+    elevator.config_kD(0, kD);
+    elevator.config_kF(0, kF);
+    elevator.configMotionCruiseVelocity((int) motionCruiseVelocity);
+    elevator.configMotionAcceleration((int) motionAcceleration);
     // config current limit
-    elevator.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
-    elevator.configClearPositionOnLimitF(true, 0);
-    
-    SmartDashboard.putData("Elevator", new SimpleSendable(this::sendHeight));
+    elevator.configForwardSoftLimitEnable(true);
+    elevator.configForwardSoftLimitThreshold(19800);
+    elevator.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+    elevator.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+    elevator.configClearPositionOnLimitR(true, 0);
   }
   
   public static enum Position {
@@ -56,6 +66,8 @@ public class Elevator extends Subsystem {
       this.position = position;
     }
   }
+  
+  private int position = Position.BaseHeight.position;
   
   /**
    * Sets the position of the elevator, using constants declared in
@@ -77,16 +89,39 @@ public class Elevator extends Subsystem {
    *              the position to move the elevator to
    */
   private void setHeight(int pos) {
-    elevator.set(ControlMode.Position, pos);
+    position = pos;
+    Console.debug("set elevator height to: "+position);
   }
   
   private int getHeight() {
     return elevator.getSelectedSensorPosition(0);
   }
   
+  public void increment() {
+    if (position < 19800) {
+      position += 100;
+    } else {
+      position = 19800;
+    }
+    Console.debug("set elevator height to: "+position);
+  }
+  
+  public void decrement() {
+    if (position > 100) {
+      position -= 100;
+    } else {
+      position = 0;
+    }
+    Console.debug("set elevator height to: "+position);
+  }
+  
   @Override
   public void periodic() {
-    
+    if (elevator.getSelectedSensorPosition(0) < 150 && position < 150) {
+      elevator.set(ControlMode.PercentOutput, 0);
+    } else {
+      elevator.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, minimumOutput);
+    }
   }
   
   @Override
