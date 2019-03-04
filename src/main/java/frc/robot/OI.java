@@ -108,7 +108,7 @@ public class OI {
     intakeIn.whileActive(new ScorePanel()); // temporary command - change this later.
     intakeOut.whileActive(new GrabPanel());
     
-    climb.whenPressed(new AutoClimb());
+    climb1.whileActive(new AutoClimb());
     
     visionAlignment.whileActive(new TurnToTarget());
     
@@ -132,7 +132,12 @@ public class OI {
         Robot.elevator.decrement();
       }
     });
+    
   }
+  
+  public JoystickButton climb1 = new JoystickButton(operator2, 11);
+  public JoystickButton climb2 = new JoystickButton(operator2, 7);
+  public JoystickButton climb3 = new JoystickButton(operator2, 6);
   
   public void setRocketManual(boolean manual) {
   }
