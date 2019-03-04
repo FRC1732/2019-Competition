@@ -29,9 +29,9 @@ public class RobotMap {
   public static final int DRIVETRAIN_LEFTMASTER_ID = 32;
   public static final int DRIVETRAIN_LEFT1_ID = 33;
   public static final int DRIVETRAIN_LEFT2_ID = 34;
-  public static final int DRIVETRAIN_RIGHTMASTER_ID = 13;
+  public static final int DRIVETRAIN_RIGHTMASTER_ID = 11;
   public static final int DRIVETRAIN_RIGHT1_ID = 12;
-  public static final int DRIVETRAIN_RIGHT2_ID = 11;
+  public static final int DRIVETRAIN_RIGHT2_ID = 13;
   
   public static final int OI_LEFT_ID = 1;
   public static final int OI_RIGHT_ID = 2;
@@ -48,7 +48,7 @@ public class RobotMap {
 
   public static final int OI_CLIMB_ID = 1;
   public static final int OI_CLIMB_OVERRIDE_ID = 1;
-
+ 
   // Joystick 1 Buttons
   public static final int OI_INTAKE_EXTEND_HOLDER_IN_ID = 1;
   public static final int OI_PANEL_RETRACT_ID = 2;
@@ -61,9 +61,15 @@ public class RobotMap {
   public static final int OI_PANEL_RELEASE_ID = 3;
   public static final int OI_INTAKE_HOLDER_IN_ID = 4;
   public static final int OI_INTAKE_HOLDER_OUT_ID = 5;
+   
+  public static final int CARGO_INTAKE_MOTOR_ID = 6;
+  public static final int CARGO_INTAKE_SOLENOID_ID = 2;
   
-  public static final int CARGO_INTAKE_MOTOR_ID = 1;
-  public static final int CARGO_INTAKE_SOLENOID_ID = 1;
+  public static final int ELEVATOR_ELEVATOR_ID = 0;
   
-  public static final int ELEVATOR_ELEVATOR_ID = 1;
+  public static final int SCORER_MOTOR_LEFT = 17; // 30
+  public static final int SCORER_MOTOR_RIGHT = 30; // 17
+
+  public static final int HATCH_CLAW_GRABBER = 1;
+  public static final int HATCH_CLAW_MOVER = 0;
 }

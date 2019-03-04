@@ -7,7 +7,11 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.Robot;
+import frc.robot.RobotMap;
+import frc.robot.util.Console;
 
 /**
  * Add your docs here.
@@ -17,6 +21,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class HatchClaw extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  private Solenoid grabber = new Solenoid(1, RobotMap.HATCH_CLAW_GRABBER);
+  private Solenoid mover = new Solenoid(1, RobotMap.HATCH_CLAW_MOVER);
+  
+  public HatchClaw() {
+    grabber.set(true);
+  }
   
   /**
    * Sets the claw to grabbing or released, when grabbing is true, the claw is
@@ -25,8 +35,24 @@ public class HatchClaw extends Subsystem {
    * @param grabbing
    *                   whether the claw should be grabbing the panel
    */
+  
   public void setEngaged(boolean grabbing) {
-    
+    if (Robot.cargoScorer.hasCargo()) {
+      grabber.set(!grabbing);
+    } else {
+      Console.warn("Cannot grab: already has cargo");
+    }
+  }
+  
+  /**
+   * Sets the claw to extended or retracted, when extending is true, the claw is
+   * exted from the robot
+   * 
+   * @param extending
+   *                    whether the claw should be extended
+   */
+  public void setExtended(boolean extending) {
+    mover.set(extending);
   }
   
   /**
@@ -35,7 +61,7 @@ public class HatchClaw extends Subsystem {
    * @return whether the robot has a hatch panel
    */
   public boolean hasHatchPanel() {
-    return false;
+    return grabber.get();
   }
   
   @Override
@@ -48,6 +74,8 @@ public class HatchClaw extends Subsystem {
    * Resets this subsystem to a known state
    */
   public void stop() {
+    grabber.set(false);
+    mover.set(false);
     
   }
   
