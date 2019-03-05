@@ -53,17 +53,17 @@ public class RobotMap {
   public static final int OI_CLIMB3_ID = 6;
 
   // Joystick 1 Buttons
-  public static final int OI_INTAKE_EXTEND_HOLDER_IN_ID = 1;
-  public static final int OI_PANEL_RETRACT_ID = 2;
-  public static final int OI_PANEL_EXTEND_ID = 3;
-  public static final int OI_INTAKE_EXTEND_HOLDER_OUT_ID = 4;
+  public static final int OI_CLAW_IN_ID = 1;
+  public static final int OI_CLAW_OUT_ID = 2;
+  public static final int OI_CLAW_GRAB_ID = 2;
+  public static final int OI_CLAW_RELEASE_ID = 3;
   
   // Joystick 2 Buttons
   public static final int OI_VISION_ALIGNMENT_ID = 1;
-  public static final int OI_PANEL_GRAB_ID = 2;
-  public static final int OI_PANEL_RELEASE_ID = 3;
-  public static final int OI_INTAKE_HOLDER_IN_ID = 4;
-  public static final int OI_INTAKE_HOLDER_OUT_ID = 5;
+  public static final int OI_INTAKE_CARGO_ID = 4;
+  public static final int OI_PLACE_CARGO_ID = 5;
+  public static final int OI_GRAB_PANEL_ID = 1;
+  public static final int OI_PLACE_PANEL_ID = 1;
    
   public static final int CARGO_INTAKE_MOTOR_ID = 6;
   public static final int CARGO_INTAKE_SOLENOID_ID = 2;

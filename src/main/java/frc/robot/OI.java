@@ -63,16 +63,16 @@ public class OI {
   private JoystickButton climb2 = new JoystickButton(operator2, RobotMap.OI_CLIMB2_ID);
   private JoystickButton climb3 = new JoystickButton(operator2, RobotMap.OI_CLIMB3_ID);
   
-  private JoystickButton intakeExtendIn = new JoystickButton(left, RobotMap.OI_INTAKE_EXTEND_HOLDER_IN_ID);
-  private JoystickButton intakeExtendOut = new JoystickButton(left, RobotMap.OI_INTAKE_EXTEND_HOLDER_OUT_ID);
-  private JoystickButton panelRetract = new JoystickButton(left, RobotMap.OI_PANEL_RETRACT_ID);
-  private JoystickButton panelExtend = new JoystickButton(left, RobotMap.OI_PANEL_EXTEND_ID);
+  private JoystickButton clawIn = new JoystickButton(left, RobotMap.OI_CLAW_IN_ID);
+  private JoystickButton clawOut = new JoystickButton(left, RobotMap.OI_CLAW_OUT_ID);
+  private JoystickButton clawGrab = new JoystickButton(right, RobotMap.OI_CLAW_GRAB_ID);
+  private JoystickButton clawRelease = new JoystickButton(right, RobotMap.OI_CLAW_RELEASE_ID);
   
   private JoystickButton visionAlignment = new JoystickButton(right, RobotMap.OI_VISION_ALIGNMENT_ID);
-  private JoystickButton panelGrab = new JoystickButton(right, RobotMap.OI_PANEL_GRAB_ID);
-  private JoystickButton panelRelease = new JoystickButton(right, RobotMap.OI_PANEL_RELEASE_ID);
-  private JoystickButton intakeIn = new JoystickButton(right, RobotMap.OI_INTAKE_HOLDER_IN_ID);
-  private JoystickButton intakeOut = new JoystickButton(right, RobotMap.OI_INTAKE_HOLDER_OUT_ID);
+  private JoystickButton intakeCargo = new JoystickButton(right, RobotMap.OI_INTAKE_CARGO_ID);
+  private JoystickButton placeCargo = new JoystickButton(right, RobotMap.OI_PLACE_CARGO_ID);
+  private JoystickButton grabPanel = new JoystickButton(right, RobotMap.OI_GRAB_PANEL_ID);
+  private JoystickButton placePanel = new JoystickButton(right, RobotMap.OI_PLACE_PANEL_ID);
   
   // Buttons and their associated commands
   public OI() {
@@ -86,16 +86,17 @@ public class OI {
 
     cargoShip.whenPressed(new SetElevator(Elevator.Position.CargoShipCargo));
     cargoStation.whenPressed(new SetElevator(Elevator.Position.HumanPlayerStation));
-    
-    panelExtend.whenPressed(new ExtendPanel());
-    panelRetract.whenPressed(new RetractPanel());
-    panelGrab.whenPressed(new CollectHatchPanel());
-    panelRelease.whenPressed(new PlaceHatch());
-    
-    intakeExtendIn.whenActive(new IntakeCargo());
-    intakeExtendOut.whenActive(new PlaceCargo());
-    intakeIn.whenActive(new IntakeCargo());
-    intakeOut.whenActive(new PlaceCargo());
+
+    clawIn.whenPressed(new RetractPanel());
+    clawOut.whenPressed(new ExtendPanel());
+    clawGrab.whenPressed(new CollectHatchPanel());
+    clawRelease.whenPressed(new PlaceHatch());
+
+    grabPanel.whenPressed(new GrabPanel());
+    placePanel.whenPressed(new ScorePanel());
+
+    intakeCargo.whenActive(new IntakeCargo());
+    placeCargo.whenActive(new PlaceCargo());
     
     climb1.whenActive(new ClimbStage1());
     climb2.whenActive(new ClimbStage2());
