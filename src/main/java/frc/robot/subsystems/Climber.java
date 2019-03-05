@@ -58,7 +58,7 @@ public class Climber extends Subsystem {
   private final double TOP = 620 * 20;// 6; //LV 2 = 7 //LV 3 = 20
   private final double BOTTOM = 0;
   private final double ALLOWED_ERROR = 200;
-  private final double NOMINAL_CURRENT = 0;
+  private final double NOMINAL_CURRENT = 30;
   
   private double frontTarget = BOTTOM;
   private double backTarget = BOTTOM;
@@ -213,7 +213,7 @@ public class Climber extends Subsystem {
   
   private void drive(boolean back, boolean drivetrian) {
     if (back) {
-      drive = 0.1;
+      drive = 0.2;
     }
     if (drivetrian) {
       Robot.drivetrain.set(0.1, 0.1);
