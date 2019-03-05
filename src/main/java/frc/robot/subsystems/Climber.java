@@ -52,10 +52,13 @@ public class Climber extends Subsystem {
    * Various positions for the jacks
    * 
    * 1" ~= 620 ticks
+   * 
+   * Robot and Jacks on ground == 0
    */
-  private final double TOP = 620 * 12;// 6;
-  private final double BOTTOM = 0;
+  private final double TOP = 620 * 12;
+  private final double BOTTOM = -10;
   private final double ALLOWED_ERROR = 200;
+  private final double NOMINAL_CURRENT = 0;
   
   private double frontTarget = BOTTOM;
   private double backTarget = BOTTOM;
@@ -116,6 +119,24 @@ public class Climber extends Subsystem {
     }
   }
   
+  public void stage1() {
+    if (stage == 0) {
+      stage = 1;
+    }
+  }
+  
+  public void stage2() {
+    if (stage == 3) {
+      stage = 4;
+    }
+  }
+  
+  public void stage3() {
+    if (stage == 5) {
+      stage = 6;
+    }
+  }
+  
   @Override
   public void periodic() {
     updateTargets();
@@ -131,90 +152,125 @@ public class Climber extends Subsystem {
     switch (stage) {
     case 1:
       // drop and zero encoders
-      stage = 2;
+      drive(false, false);
+      if(lowerJacks()) {
+        stage = 2;
+      }
     case 2:
       // lift jacks
-      if (isErrorAllowed()) {
-        frontTarget += ALLOWED_ERROR;
-        backTarget += ALLOWED_ERROR;
-        if (frontTarget >= TOP && backTarget >= TOP) {
-          stage = 3;
-        }
+      drive(false, false);
+      if (moveTo(TOP, TOP)) {
+        stage = 3;
       }
       break;
     case 3:
       // push forward
-      // stage = 3;
-      if (Robot.oi.climb2.get()) {
-        stage = 4;
-        drive = 0;
-      } else {
-        drive = 0.1;
-      }
+      drive(true, false);
+      moveTo(TOP, TOP);
       break;
     case 4:
       // lower front
-      if (isErrorAllowed()) {
-        frontTarget -= ALLOWED_ERROR;
-        if (frontTarget <= BOTTOM && backTarget >= TOP) {
-          stage = 5;
-        }
+      drive(false, false);
+      if (moveTo(BOTTOM, TOP)) {
+        stage = 5;
       }
       break;
     case 5:
       // push forward
+      drive(true, true);
+      moveTo(BOTTOM, TOP);
       break;
     case 6:
       // lower back
-      if (isErrorAllowed()) {
-        backTarget--;
-        if (frontTarget <= BOTTOM && backTarget <= BOTTOM) {
-          stage = 0;
-        }
+      drive(false, false);
+      if (moveTo(BOTTOM, BOTTOM)) {
+        stage = 0;
       }
       break;
     }
   }
-
-  private void runTo(double front, double back) {
-    if(isErrorAllowed()) {
-      if(front > frontTarget) {
-        frontTarget+= ALLOWED_ERROR;
-      }else if(front < frontTarget) {
-        frontTarget-= ALLOWED_ERROR;
+  
+  private boolean moveTo(double front, double back) {
+    if (isErrorAllowed()) {
+      if (front > frontTarget) {
+        frontTarget += ALLOWED_ERROR;
+      } else if (front < frontTarget) {
+        frontTarget -= ALLOWED_ERROR;
       }
-      if(back > backTarget) {
-        frontTarget+= ALLOWED_ERROR;
-      }else if(back < frontTarget) {
-        frontTarget-= ALLOWED_ERROR;
+      if (back > backTarget) {
+        frontTarget += ALLOWED_ERROR;
+      } else if (back < frontTarget) {
+        frontTarget -= ALLOWED_ERROR;
+      }
+      return Math.abs(frontTarget - front) < ALLOWED_ERROR / 2 && Math.abs(backTarget - back) < ALLOWED_ERROR / 2;
+    } else {
+      return false;
+    }
+  }
+  
+  private void drive(boolean back, boolean drivetrian) {
+    if (back) {
+      drive = 0.1;
+    }
+    if (drivetrian) {
+      Robot.drivetrain.set(0.1, 0.1);
+    }
+  }
+  
+  private boolean lowerJacks() {
+    if (frontLeft.getControlMode() == ControlMode.PercentOutput) {
+      frontLeft.set(ControlMode.PercentOutput, .1);
+      if (frontLeft.getOutputCurrent() > NOMINAL_CURRENT) {
+        frontLeft.setSelectedSensorPosition(0, 0, 0);
+        frontLeft.set(ControlMode.Position, 0);
       }
     }
+    if (frontRight.getControlMode() == ControlMode.PercentOutput) {
+      frontRight.set(ControlMode.PercentOutput, .1);
+      if (frontRight.getOutputCurrent() > NOMINAL_CURRENT) {
+        frontRight.setSelectedSensorPosition(0, 0, 0);
+        frontRight.set(ControlMode.Position, 0);
+      }
+    }
+    if (back.getControlMode() == ControlMode.PercentOutput) {
+      back.set(ControlMode.PercentOutput, .1);
+      if (back.getOutputCurrent() > NOMINAL_CURRENT) {
+        back.setSelectedSensorPosition(0, 0, 0);
+        back.set(ControlMode.Position, 0);
+      }
+    }
+    return frontLeft.getControlMode() == ControlMode.Position && frontRight.getControlMode() == ControlMode.Position
+        && back.getControlMode() == ControlMode.Position;
+  }
+  
+  private void holdJacks() {
+    if (frontLeft.getSelectedSensorPosition(0) > 1000) {
+      frontLeft.set(ControlMode.PercentOutput, -.1);
+    } else {
+      frontLeft.set(ControlMode.PercentOutput, 0);
+    }
+    if (frontRight.getSelectedSensorPosition(0) > 1000) {
+      frontRight.set(ControlMode.PercentOutput, -.1);
+    } else {
+      frontRight.set(ControlMode.PercentOutput, 0);
+    }
+    if (back.getSelectedSensorPosition(0) > 1000) {
+      back.set(ControlMode.PercentOutput, -.1);
+    } else {
+      back.set(ControlMode.PercentOutput, 0);
+    }
+    driver.set(ControlMode.PercentOutput, 0.0);
   }
   
   /**
    * Sets the motors to their current target
    */
   private void setMotors() {
-    if (stage == 0) {
+    if (stage <= 1) {
       // frontLeft.set(ControlMode.PercentOutput, .1);
       // frontRight.set(ControlMode.PercentOutput, -.1);
       // back.set(ControlMode.PercentOutput, .1);
-      if (frontLeft.getSelectedSensorPosition(0) > 1000) {
-        frontLeft.set(ControlMode.PercentOutput, -.1);
-      } else {
-        frontLeft.set(ControlMode.PercentOutput, 0);
-      }
-      if (frontRight.getSelectedSensorPosition(0) > 1000) {
-        frontRight.set(ControlMode.PercentOutput, -.1);
-      } else {
-        frontRight.set(ControlMode.PercentOutput, 0);
-      }
-      if (back.getSelectedSensorPosition(0) > 1000) {
-        back.set(ControlMode.PercentOutput, -.1);
-      } else {
-        back.set(ControlMode.PercentOutput, 0);
-      }
-      driver.set(ControlMode.PercentOutput, 0.0);
+      holdJacks();
     } else {
       frontLeft.set(ControlMode.Position, frontTarget);
       frontRight.set(ControlMode.Position, frontTarget);
@@ -230,7 +286,7 @@ public class Climber extends Subsystem {
   }
   
   public void stop() {
-    stage = 6;
+    stage = 0;
   }
   
   public void zero() {
