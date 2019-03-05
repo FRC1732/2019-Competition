@@ -25,10 +25,6 @@ import frc.robot.subsystems.Elevator;
  */
 public class OI {
   // Variable Declarations
-  private boolean rocketManual = false;
-  private boolean shipManual = false;
-  private boolean climbManual = false;
-  
   private Joystick left = new Joystick(RobotMap.OI_LEFT_ID);
   private Joystick right = new Joystick(RobotMap.OI_RIGHT_ID);
   private Joystick operator1 = new Joystick(RobotMap.OI_OPERATOR_1_ID);
@@ -59,7 +55,6 @@ public class OI {
   private JoystickButton cargoRocketLevel1 = new JoystickButton(operator2, RobotMap.OI_ROCKET_LEVEL_1_ID);
   private JoystickButton cargoRocketLevel2 = new JoystickButton(operator2, RobotMap.OI_ROCKET_LEVEL_2_ID);
   private JoystickButton cargoRocketLevel3 = new JoystickButton(operator2, RobotMap.OI_ROCKET_LEVEL_3_ID);
-
 
   private JoystickButton cargoShip = new JoystickButton(operator2, RobotMap.OI_CARGO_SHIP_ID);
   private JoystickButton cargoStation = new JoystickButton(operator2, RobotMap.OI_CARGO_STATION_ID);
@@ -99,13 +94,13 @@ public class OI {
     
     intakeExtendIn.whenActive(new IntakeCargo());
     intakeExtendOut.whenActive(new PlaceCargo());
-    intakeIn.whenActive(new IntakeCargo()); // temporary command - change this later.
+    intakeIn.whenActive(new IntakeCargo());
     intakeOut.whenActive(new PlaceCargo());
     
-    climb1.whenPressed(new ClimbStage1());
-    climb2.whenPressed(new ClimbStage2());
-    climb3.whenPressed(new ClimbStage3());
+    climb1.whenActive(new ClimbStage1());
+    climb2.whenActive(new ClimbStage2());
+    climb3.whenActive(new ClimbStage3());
     
-    visionAlignment.whenActive(new TurnToTarget()); // temporary command - probably need to change?
+    visionAlignment.whenActive(new TurnToTarget());
   }
 }
