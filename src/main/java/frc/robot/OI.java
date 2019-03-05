@@ -18,7 +18,9 @@ import frc.robot.commands.PlaceHatch;
 import frc.robot.commands.RetractPanel;
 import frc.robot.commands.SetElevator;
 import frc.robot.commands.SpitCargo;
-import frc.robot.commands.auto.AutoClimb;
+import frc.robot.commands.auto.ClimbStage1;
+import frc.robot.commands.auto.ClimbStage2;
+import frc.robot.commands.auto.ClimbStage3;
 import frc.robot.commands.auto.GrabPanel;
 import frc.robot.commands.auto.ScorePanel;
 import frc.robot.commands.auto.TurnToTarget;
@@ -108,8 +110,6 @@ public class OI {
     intakeIn.whileActive(new ScorePanel()); // temporary command - change this later.
     intakeOut.whileActive(new GrabPanel());
     
-    climb1.whileActive(new AutoClimb());
-    
     visionAlignment.whileActive(new TurnToTarget());
     
     new JoystickButton(left, 5).whileActive(new SpitCargo());
@@ -132,7 +132,10 @@ public class OI {
         Robot.elevator.decrement();
       }
     });
-    
+    climb1.whileActive(new ClimbStage1());
+    climb1.whenInactive(new ClimbStage1(true));
+    climb2.whileActive(new ClimbStage2());
+    climb3.whileActive(new ClimbStage3());
   }
   
   public JoystickButton climb1 = new JoystickButton(operator2, 11);
