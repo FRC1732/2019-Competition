@@ -23,7 +23,7 @@ public class Console {
         }
     }
     
-    private static Level currentLevel = Level.Graph;
+    private static Level currentLevel = Level.Debug;
     
     /**
      * Sets the current output level - should only be done in Robot.java
