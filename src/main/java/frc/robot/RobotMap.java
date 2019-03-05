@@ -38,17 +38,20 @@ public class RobotMap {
   public static final int OI_OPERATOR_1_ID = 1;
   public static final int OI_OPERATOR_2_ID = 3;
 
-  public static final int OI_CARGO_SHIP_ID = 1;
-  public static final int OI_CARGO_SHIP_OVERRIDE_ID = 1;
+  public static final int OI_CARGO_SHIP_ID = 5;
+  public static final int OI_CARGO_STATION_ID = 1;
 
-  public static final int OI_ROCKET_LEVEL_1_ID = 1;
-  public static final int OI_ROCKET_LEVEL_2_ID = 1;
-  public static final int OI_ROCKET_LEVEL_3_ID = 1;
-  public static final int OI_ROCKET_OVERRIDE_ID = 1;
+  public static final int OI_ROCKET_PANEL_LEVEL_1_ID = 5;
+  public static final int OI_ROCKET_PANEL_LEVEL_2_ID = 4;
+  public static final int OI_ROCKET_PANEL_LEVEL_3_ID = 3;
+  public static final int OI_ROCKET_LEVEL_1_ID = 4;
+  public static final int OI_ROCKET_LEVEL_2_ID = 3;
+  public static final int OI_ROCKET_LEVEL_3_ID = 2;
 
-  public static final int OI_CLIMB_ID = 1;
-  public static final int OI_CLIMB_OVERRIDE_ID = 1;
- 
+  public static final int OI_CLIMB1_ID = 11;
+  public static final int OI_CLIMB2_ID = 7;
+  public static final int OI_CLIMB3_ID = 6;
+
   // Joystick 1 Buttons
   public static final int OI_INTAKE_EXTEND_HOLDER_IN_ID = 1;
   public static final int OI_PANEL_RETRACT_ID = 2;

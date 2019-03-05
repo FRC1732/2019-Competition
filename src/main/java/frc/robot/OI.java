@@ -67,11 +67,7 @@ public class OI {
   private JoystickButton cargoRocketLevel2 = new JoystickButton(operator1, RobotMap.OI_ROCKET_LEVEL_2_ID);
   private JoystickButton cargoRocketLevel3 = new JoystickButton(operator1, RobotMap.OI_ROCKET_LEVEL_3_ID);
   private JoystickButton cargoShip = new JoystickButton(operator1, RobotMap.OI_CARGO_SHIP_ID);
-  private JoystickButton climb = new JoystickButton(operator1, RobotMap.OI_CLIMB_ID);
-  
-  private JoystickButton rocketOverride = new JoystickButton(operator1, RobotMap.OI_ROCKET_OVERRIDE_ID);
-  private JoystickButton cargoOverride = new JoystickButton(operator1, RobotMap.OI_CARGO_SHIP_OVERRIDE_ID);
-  private JoystickButton climbOverride = new JoystickButton(operator1, RobotMap.OI_CLIMB_OVERRIDE_ID);
+  private JoystickButton climb = new JoystickButton(operator1, RobotMap.OI_CLIMB1_ID);
   
   // Left Joystick
   private JoystickButton intakeExtendIn = new JoystickButton(left, RobotMap.OI_INTAKE_EXTEND_HOLDER_IN_ID);
@@ -115,76 +111,4 @@ public class OI {
     
     visionAlignment.whenActive(new TurnToTarget()); // temporary command - probably need to change?
   }
-
-  // public void setRocketManual(boolean manual) {
-  //   rocketManual = manual;
-  // }
-
-  // public void setShipManual(boolean manual) {
-  //   shipManual = manual;
-  // }
-
-  public void setClimbManual(boolean manual) {
-    climbManual = manual;
-  }
-  
-  public void placeRocketCargo(Elevator.Position pos) {
-    if (rocketManual) {
-      new SetElevator(pos).start();
-    } else {
-      new ScoreCargo(pos).start();
-    }
-  }
-  
-  public void placeShipCargo() {
-    if (shipManual) {
-      new SetElevator(Elevator.Position.CargoShipCargo).start();
-    } else {
-      new ScoreCargo(Elevator.Position.CargoShipCargo).start();
-    }
-  }
-  
-  public void climb() {
-    if (climbManual) {
-      // do either nothing or have some commands that prep something to make climbing
-      // easier
-    } else {
-      new AutoClimb(); // placeholder
-    }
-  }
-  
-  // public void bindCargoShip(boolean isCargoShipManual) {
-  // if (isCargoShipManual == true) {
-  // cargoShip.whenPressed(new SetElevator(Elevator.Position.CargoShipCargo));
-  // }
-  // else {
-  // cargoShip.whenPressed(new StoreCargoParam()); // placeholder, need a command
-  // }
-  // }
-  
-  // public void bindCargoRocket(boolean isRocketCargoManual) {
-  // if (isRocketCargoManual == true) {
-  // cargoRocketLevel1.whenPressed(new
-  // SetElevator(Elevator.Position.RocketLevel1Cargo));
-  // cargoRocketLevel2.whenPressed(new
-  // SetElevator(Elevator.Position.RocketLevel2Cargo));
-  // cargoRocketLevel3.whenPressed(new
-  // SetElevator(Elevator.Position.RocketLevel3Cargo));
-  // }
-  // else {
-  // cargoRocketLevel1.whenPressed(new AutoRocketLevel1()); // placeholder, need a
-  // command
-  // cargoRocketLevel2.whenPressed(new AutoRocketLevel2());
-  // cargoRocketLevel3.whenPressed(new AutoRocketLevel3());
-  // }
-  // }
-  
-  // public void bindClimb(boolean isClimbManual) {
-  // if (isClimbManual == true) {
-  // climb.whenPressed(new ManualClimb()); // placeholder command
-  // }
-  // else {
-  // climb.whenPressed(new AutoClimb());
-  // }
-  // }
 }
