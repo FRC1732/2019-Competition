@@ -18,7 +18,9 @@ import frc.robot.commands.PlaceHatch;
 import frc.robot.commands.RetractPanel;
 import frc.robot.commands.SetElevator;
 import frc.robot.commands.SpitCargo;
-import frc.robot.commands.auto.AutoClimb;
+import frc.robot.commands.auto.ClimbStage1;
+import frc.robot.commands.auto.ClimbStage2;
+import frc.robot.commands.auto.ClimbStage3;
 import frc.robot.commands.auto.GrabPanel;
 import frc.robot.commands.auto.ScorePanel;
 import frc.robot.commands.auto.TurnToTarget;
@@ -108,31 +110,37 @@ public class OI {
     intakeIn.whileActive(new ScorePanel()); // temporary command - change this later.
     intakeOut.whileActive(new GrabPanel());
     
-    climb.whenPressed(new AutoClimb());
-    
     visionAlignment.whileActive(new TurnToTarget());
     
     new JoystickButton(left, 5).whileActive(new SpitCargo());
     
-    new JoystickButton(operator1, 1).whileActive(new SetElevator(Position.RocketLevel1Hatch));
-    new JoystickButton(operator1, 2).whileActive(new SetElevator(Position.RocketLevel2Hatch));
+    new JoystickButton(operator1, 5).whileActive(new SetElevator(Position.RocketLevel1Hatch));
+    new JoystickButton(operator1, 4).whileActive(new SetElevator(Position.RocketLevel2Hatch));
     new JoystickButton(operator1, 3).whileActive(new SetElevator(Position.RocketLevel3Hatch));
-    new JoystickButton(operator1, 4).whileActive(new SetElevator(Position.RocketLevel1Cargo));
-    new JoystickButton(operator1, 5).whileActive(new SetElevator(Position.RocketLevel2Cargo));
-    new JoystickButton(operator1, 6).whileActive(new SetElevator(Position.CargoShipCargo));
-    new JoystickButton(operator2, 11).whileActive(new InstantCommand() {
+    new JoystickButton(operator2, 4).whileActive(new SetElevator(Position.RocketLevel1Cargo));
+    new JoystickButton(operator2, 3).whileActive(new SetElevator(Position.RocketLevel2Cargo));
+    new JoystickButton(operator2, 2).whileActive(new SetElevator(Position.CargoShipCargo));
+    new JoystickButton(operator1, 6).whileActive(new InstantCommand() {
       @Override
       protected void initialize() {
         Robot.elevator.increment();
       }
     });
-    new JoystickButton(operator2, 12).whileActive(new InstantCommand() {
+    new JoystickButton(operator1, 7).whileActive(new InstantCommand() {
       @Override
       protected void initialize() {
         Robot.elevator.decrement();
       }
     });
+    climb1.whileActive(new ClimbStage1());
+    climb1.whenInactive(new ClimbStage1(true));
+    climb2.whileActive(new ClimbStage2());
+    climb3.whileActive(new ClimbStage3());
   }
+  
+  public JoystickButton climb1 = new JoystickButton(operator2, 11);
+  public JoystickButton climb2 = new JoystickButton(operator2, 7);
+  public JoystickButton climb3 = new JoystickButton(operator2, 6);
   
   public void setRocketManual(boolean manual) {
   }

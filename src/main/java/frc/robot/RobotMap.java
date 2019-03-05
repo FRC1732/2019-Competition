@@ -45,7 +45,7 @@ public class RobotMap {
   public static final int OI_ROCKET_LEVEL_3_ID = 1;
   public static final int OI_ROCKET_OVERRIDE_ID = 1;
   
-  public static final int OI_CLIMB_ID = 8;
+  public static final int OI_CLIMB_ID = 1;
   public static final int OI_CLIMB_OVERRIDE_ID = 1;
   
   // Joystick 1 Buttons
@@ -75,5 +75,5 @@ public class RobotMap {
   public static final int CLIMBER_FRONT_LEFT = 35;
   public static final int CLIMBER_FRONT_RIGHT = 10;
   public static final int CLIMBER_BACK = 15;
-  public static final int CLIMBER_DRIVER = 28;
+  public static final int CLIMBER_DRIVER = 17;
 }
