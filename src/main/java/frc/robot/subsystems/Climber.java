@@ -80,9 +80,9 @@ public class Climber extends Subsystem {
     frontRight.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
     frontRight.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
     
-    frontLeft.setSelectedSensorPosition(0, 0, 0);
-    frontRight.setSelectedSensorPosition(0, 0, 0);
-    back.setSelectedSensorPosition(0, 0, 0);
+    // frontLeft.setSelectedSensorPosition(0, 0, 0);
+    // frontRight.setSelectedSensorPosition(0, 0, 0);
+    // back.setSelectedSensorPosition(0, 0, 0);
     
     frontLeft.config_kP(0, kP);
     frontLeft.config_kI(0, kI);
