@@ -55,8 +55,8 @@ public class Climber extends Subsystem {
    * 
    * Robot and Jacks on ground == 0
    */
-  private final double TOP = 620 * 12;
-  private final double BOTTOM = -10;
+  private final double TOP = 620 * 20;// 6; //LV 2 = 7 //LV 3 = 20
+  private final double BOTTOM = 0;
   private final double ALLOWED_ERROR = 200;
   private final double NOMINAL_CURRENT = 0;
   
@@ -105,9 +105,9 @@ public class Climber extends Subsystem {
     frontRight.configClosedLoopPeakOutput(0, 0.6);
     back.configClosedLoopPeakOutput(0, 0.6);
     
-    frontLeft.setNeutralMode(NeutralMode.Coast);
-    frontRight.setNeutralMode(NeutralMode.Coast);
-    back.setNeutralMode(NeutralMode.Coast);
+    frontLeft.setNeutralMode(NeutralMode.Brake);
+    frontRight.setNeutralMode(NeutralMode.Brake);
+    back.setNeutralMode(NeutralMode.Brake);
   }
   
   /**
@@ -176,6 +176,9 @@ public class Climber extends Subsystem {
       }
       break;
     case 5:
+      if (Robot.oi.climb3.get()) {
+        stage = 6;
+      }
       // push forward
       drive(true, true);
       moveTo(BOTTOM, TOP);
