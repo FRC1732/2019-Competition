@@ -19,6 +19,8 @@ import frc.robot.commands.SetElevator;
 import frc.robot.commands.auto.ClimbStage1;
 import frc.robot.commands.auto.ClimbStage2;
 import frc.robot.commands.auto.ClimbStage3;
+import frc.robot.commands.auto.GrabPanel;
+import frc.robot.commands.auto.ScorePanel;
 import frc.robot.commands.auto.TurnToTarget;
 import frc.robot.subsystems.Elevator;
 
