@@ -27,6 +27,7 @@ import frc.robot.subsystems.Sensors;
  * project.
  */
 public class Robot extends TimedRobot {
+  public static Robot robot;
   public static CargoIntake cargoIntake = new CargoIntake();
   public static CargoScorer cargoScorer = new CargoScorer();
   public static Drivetrain drivetrain = new Drivetrain();
@@ -44,6 +45,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    robot = this;
     oi = new OI();
   }
   

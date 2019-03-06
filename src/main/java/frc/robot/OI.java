@@ -16,18 +16,10 @@ import frc.robot.commands.PlaceCargo;
 import frc.robot.commands.PlaceHatch;
 import frc.robot.commands.RetractPanel;
 import frc.robot.commands.SetElevator;
-import frc.robot.commands.auto.AutoClimb;
-import frc.robot.commands.auto.ScoreCargo;
+import frc.robot.commands.auto.ClimbStage1;
+import frc.robot.commands.auto.ClimbStage2;
+import frc.robot.commands.auto.ClimbStage3;
 import frc.robot.commands.auto.TurnToTarget;
-import frc.robot.commands.input.PlaceRocketCargo;
-import frc.robot.commands.input.PlaceShipCargo;
-import frc.robot.commands.input.StartClimb;
-import frc.robot.commands.input.overrides.CargoOverrideOff;
-import frc.robot.commands.input.overrides.CargoOverrideOn;
-import frc.robot.commands.input.overrides.ClimbOverrideOff;
-import frc.robot.commands.input.overrides.ClimbOverrideOn;
-import frc.robot.commands.input.overrides.RocketOverrideOff;
-import frc.robot.commands.input.overrides.RocketOverrideOn;
 import frc.robot.subsystems.Elevator;
 
 /**
@@ -36,10 +28,6 @@ import frc.robot.subsystems.Elevator;
  */
 public class OI {
   // Variable Declarations
-  private boolean rocketManual = false;
-  private boolean shipManual = false;
-  private boolean climbManual = false;
-  
   private Joystick left = new Joystick(RobotMap.OI_LEFT_ID);
   private Joystick right = new Joystick(RobotMap.OI_RIGHT_ID);
   private Joystick operator1 = new Joystick(RobotMap.OI_OPERATOR_1_ID);
@@ -51,7 +39,7 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getLeftJoystick() {
-    return -left.getY();
+    return -1 * left.getY() * left.getY() * Math.signum(left.getY());
   }
   
   /**
@@ -60,131 +48,63 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getRightJoystick() {
-    return -right.getY();
+    return -1 * right.getY() * right.getY() * Math.signum(right.getY());
   }
   
-  private JoystickButton cargoRocketLevel1 = new JoystickButton(operator1, RobotMap.OI_ROCKET_LEVEL_1_ID);
-  private JoystickButton cargoRocketLevel2 = new JoystickButton(operator1, RobotMap.OI_ROCKET_LEVEL_2_ID);
-  private JoystickButton cargoRocketLevel3 = new JoystickButton(operator1, RobotMap.OI_ROCKET_LEVEL_3_ID);
-  private JoystickButton cargoShip = new JoystickButton(operator1, RobotMap.OI_CARGO_SHIP_ID);
-  private JoystickButton climb = new JoystickButton(operator1, RobotMap.OI_CLIMB_ID);
+  private JoystickButton panelRocketLevel1 = new JoystickButton(operator1, RobotMap.OI_ROCKET_PANEL_LEVEL_1_ID);
+  private JoystickButton panelRocketLevel2 = new JoystickButton(operator1, RobotMap.OI_ROCKET_PANEL_LEVEL_2_ID);
+  private JoystickButton panelRocketLevel3 = new JoystickButton(operator1, RobotMap.OI_ROCKET_PANEL_LEVEL_3_ID);
+
+  private JoystickButton cargoRocketLevel1 = new JoystickButton(operator2, RobotMap.OI_ROCKET_LEVEL_1_ID);
+  private JoystickButton cargoRocketLevel2 = new JoystickButton(operator2, RobotMap.OI_ROCKET_LEVEL_2_ID);
+  private JoystickButton cargoRocketLevel3 = new JoystickButton(operator2, RobotMap.OI_ROCKET_LEVEL_3_ID);
+
+  private JoystickButton cargoShip = new JoystickButton(operator2, RobotMap.OI_CARGO_SHIP_ID);
+  private JoystickButton cargoStation = new JoystickButton(operator2, RobotMap.OI_CARGO_STATION_ID);
+
+  private JoystickButton climb1 = new JoystickButton(operator2, RobotMap.OI_CLIMB1_ID);
+  private JoystickButton climb2 = new JoystickButton(operator2, RobotMap.OI_CLIMB2_ID);
+  private JoystickButton climb3 = new JoystickButton(operator2, RobotMap.OI_CLIMB3_ID);
   
-  private JoystickButton rocketOverride = new JoystickButton(operator1, RobotMap.OI_ROCKET_OVERRIDE_ID);
-  private JoystickButton cargoOverride = new JoystickButton(operator1, RobotMap.OI_CARGO_SHIP_OVERRIDE_ID);
-  private JoystickButton climbOverride = new JoystickButton(operator1, RobotMap.OI_CLIMB_OVERRIDE_ID);
+  private JoystickButton clawIn = new JoystickButton(left, RobotMap.OI_CLAW_IN_ID);
+  private JoystickButton clawOut = new JoystickButton(left, RobotMap.OI_CLAW_OUT_ID);
+  private JoystickButton clawGrab = new JoystickButton(right, RobotMap.OI_CLAW_GRAB_ID);
+  private JoystickButton clawRelease = new JoystickButton(right, RobotMap.OI_CLAW_RELEASE_ID);
   
-  // Left Joystick
-  private JoystickButton intakeExtendIn = new JoystickButton(left, RobotMap.OI_INTAKE_EXTEND_HOLDER_IN_ID);
-  private JoystickButton intakeExtendOut = new JoystickButton(left, RobotMap.OI_INTAKE_EXTEND_HOLDER_OUT_ID);
-  private JoystickButton panelRetract = new JoystickButton(left, RobotMap.OI_PANEL_RETRACT_ID);
-  private JoystickButton panelExtend = new JoystickButton(left, RobotMap.OI_PANEL_EXTEND_ID);
-  
-  // Right Joystick
   private JoystickButton visionAlignment = new JoystickButton(right, RobotMap.OI_VISION_ALIGNMENT_ID);
-  private JoystickButton panelGrab = new JoystickButton(right, RobotMap.OI_PANEL_GRAB_ID);
-  private JoystickButton panelRelease = new JoystickButton(right, RobotMap.OI_PANEL_RELEASE_ID);
-  private JoystickButton intakeIn = new JoystickButton(right, RobotMap.OI_INTAKE_HOLDER_IN_ID);
-  private JoystickButton intakeOut = new JoystickButton(right, RobotMap.OI_INTAKE_HOLDER_OUT_ID);
+  private JoystickButton intakeCargo = new JoystickButton(right, RobotMap.OI_INTAKE_CARGO_ID);
+  private JoystickButton placeCargo = new JoystickButton(right, RobotMap.OI_PLACE_CARGO_ID);
+  private JoystickButton grabPanel = new JoystickButton(right, RobotMap.OI_GRAB_PANEL_ID);
+  private JoystickButton placePanel = new JoystickButton(right, RobotMap.OI_PLACE_PANEL_ID);
   
   // Buttons and their associated commands
   public OI() {
-    cargoRocketLevel1.whenPressed(new PlaceRocketCargo(Elevator.Position.RocketLevel1Cargo));
-    cargoRocketLevel2.whenPressed(new PlaceRocketCargo(Elevator.Position.RocketLevel2Cargo));
-    cargoRocketLevel3.whenPressed(new PlaceRocketCargo(Elevator.Position.RocketLevel3Cargo));
-    rocketOverride.whenPressed(new RocketOverrideOn());
-    rocketOverride.whenReleased(new RocketOverrideOff());
+    panelRocketLevel1.whenPressed(new SetElevator(Elevator.Position.RocketLevel1Hatch));
+    panelRocketLevel2.whenPressed(new SetElevator(Elevator.Position.RocketLevel2Hatch));
+    panelRocketLevel3.whenPressed(new SetElevator(Elevator.Position.RocketLevel3Hatch));
     
-    cargoShip.whenPressed(new PlaceShipCargo());
-    cargoOverride.whenPressed(new CargoOverrideOn());
-    cargoOverride.whenReleased(new CargoOverrideOff());
+    cargoRocketLevel1.whenPressed(new SetElevator(Elevator.Position.RocketLevel1Cargo));
+    cargoRocketLevel2.whenPressed(new SetElevator(Elevator.Position.RocketLevel2Cargo));
+    cargoRocketLevel3.whenPressed(new SetElevator(Elevator.Position.RocketLevel3Cargo));
+
+    cargoShip.whenPressed(new SetElevator(Elevator.Position.CargoShipCargo));
+    cargoStation.whenPressed(new SetElevator(Elevator.Position.HumanPlayerStation));
+
+    clawIn.whenPressed(new RetractPanel());
+    clawOut.whenPressed(new ExtendPanel());
+    clawGrab.whenPressed(new CollectHatchPanel());
+    clawRelease.whenPressed(new PlaceHatch());
+
+    grabPanel.whenPressed(new GrabPanel());
+    placePanel.whenPressed(new ScorePanel());
+
+    intakeCargo.whenActive(new IntakeCargo());
+    placeCargo.whenActive(new PlaceCargo());
     
-    climbOverride.whenPressed(new ClimbOverrideOn());
-    climbOverride.whenReleased(new ClimbOverrideOff());
+    climb1.whenActive(new ClimbStage1());
+    climb2.whenActive(new ClimbStage2());
+    climb3.whenActive(new ClimbStage3());
     
-    panelExtend.whenPressed(new ExtendPanel());
-    panelRetract.whenPressed(new RetractPanel());
-    panelGrab.whenPressed(new CollectHatchPanel());
-    panelRelease.whenPressed(new PlaceHatch());
-    
-    intakeExtendIn.whenActive(new IntakeCargo());
-    intakeExtendOut.whenActive(new PlaceCargo());
-    intakeIn.whenActive(new IntakeCargo()); // temporary command - change this later.
-    intakeOut.whenActive(new PlaceCargo());
-    
-    climb.whenPressed(new StartClimb());
-    
-    visionAlignment.whenActive(new TurnToTarget()); // temporary command - probably need to change?
+    visionAlignment.whenActive(new TurnToTarget());
   }
-  
-  public void setRocketManual(boolean manual) {
-    rocketManual = manual;
-  }
-  
-  public void setShipManual(boolean manual) {
-    shipManual = manual;
-  }
-  
-  public void setClimbManual(boolean manual) {
-    climbManual = manual;
-  }
-  
-  public void placeRocketCargo(Elevator.Position pos) {
-    if (rocketManual) {
-      new SetElevator(pos).start();
-    } else {
-      new ScoreCargo(pos).start();
-    }
-  }
-  
-  public void placeShipCargo() {
-    if (shipManual) {
-      new SetElevator(Elevator.Position.CargoShipCargo).start();
-    } else {
-      new ScoreCargo(Elevator.Position.CargoShipCargo).start();
-    }
-  }
-  
-  public void climb() {
-    if (climbManual) {
-      // do either nothing or have some commands that prep something to make climbing
-      // easier
-    } else {
-      new AutoClimb(); // placeholder
-    }
-  }
-  
-  // public void bindCargoShip(boolean isCargoShipManual) {
-  // if (isCargoShipManual == true) {
-  // cargoShip.whenPressed(new SetElevator(Elevator.Position.CargoShipCargo));
-  // }
-  // else {
-  // cargoShip.whenPressed(new StoreCargoParam()); // placeholder, need a command
-  // }
-  // }
-  
-  // public void bindCargoRocket(boolean isRocketCargoManual) {
-  // if (isRocketCargoManual == true) {
-  // cargoRocketLevel1.whenPressed(new
-  // SetElevator(Elevator.Position.RocketLevel1Cargo));
-  // cargoRocketLevel2.whenPressed(new
-  // SetElevator(Elevator.Position.RocketLevel2Cargo));
-  // cargoRocketLevel3.whenPressed(new
-  // SetElevator(Elevator.Position.RocketLevel3Cargo));
-  // }
-  // else {
-  // cargoRocketLevel1.whenPressed(new AutoRocketLevel1()); // placeholder, need a
-  // command
-  // cargoRocketLevel2.whenPressed(new AutoRocketLevel2());
-  // cargoRocketLevel3.whenPressed(new AutoRocketLevel3());
-  // }
-  // }
-  
-  // public void bindClimb(boolean isClimbManual) {
-  // if (isClimbManual == true) {
-  // climb.whenPressed(new ManualClimb()); // placeholder command
-  // }
-  // else {
-  // climb.whenPressed(new AutoClimb());
-  // }
-  // }
 }
