@@ -14,8 +14,10 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.util.Console;
 import frc.robot.util.MotorUtil;
@@ -25,7 +27,7 @@ import frc.robot.util.MotorUtil;
  * 
  * One motor, with encoder
  */
-public class Elevator extends Subsystem {
+public class Elevator extends Subsystem implements Sendable {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   /**
@@ -55,6 +57,8 @@ public class Elevator extends Subsystem {
     elevator.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
     elevator.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
     elevator.configClearPositionOnLimitR(true, 0);
+
+    SmartDashboard.putData("Elevator", this);
   }
   
   public static enum Position {
@@ -144,7 +148,7 @@ public class Elevator extends Subsystem {
     
   }
   
-  private void sendHeight(SendableBuilder builder) {
+  public void initSendable(SendableBuilder builder) {
     builder.setSmartDashboardType("Elevator");
     builder.addDoubleProperty("Height", this::getHeight, null);
   }
