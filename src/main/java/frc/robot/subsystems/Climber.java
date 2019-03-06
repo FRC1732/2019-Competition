@@ -71,6 +71,24 @@ public class Climber extends Subsystem {
     }
   }
   
+  public void stage1() {
+    if (stage == 0) {
+      stage = 1;
+    }
+  }
+  
+  public void stage2() {
+    if (stage == 0) {
+      stage = 1;
+    }
+  }
+  
+  public void stage3() {
+    if (stage == 0) {
+      stage = 1;
+    }
+  }
+  
   @Override
   public void periodic() {
     updateTargets();
@@ -131,7 +149,11 @@ public class Climber extends Subsystem {
   
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+  }
+
+  public void stop() {
+    stage = 0;
+  }
+  public void zero() {
   }
 }
