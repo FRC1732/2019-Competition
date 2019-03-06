@@ -7,46 +7,26 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
 /**
  * A command to score Cargo when aligned at a port for cargo
  */
-public class PlaceCargo extends Command {
+public class PlaceCargo extends InstantCommand {
   /**
-   * A command to score Cargo when aligned at a port for cargo
+   * A command to intake a Cargo. Stops when a cargo has been collected
    */
   public PlaceCargo() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.cargoScorer);
+    requires(Robot.cargoIntake);
   }
   
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.cargoIntake.setEngaged(false);
   }
   
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-  }
-  
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
-  
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-  }
-  
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
 }
