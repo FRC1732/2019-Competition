@@ -15,7 +15,9 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.util.Console;
@@ -39,12 +41,12 @@ import frc.robot.util.MotorUtil;
  * 
  * * Raise back jack until match end/ at top
  */
-public class Climber extends Subsystem {
+public class Climber extends Subsystem implements Sendable {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   
-  private TalonSRX frontLeft = MotorUtil.createTalon(RobotMap.CLIMBER_FRONT_LEFT, false);
-  private TalonSRX frontRight = MotorUtil.createTalon(RobotMap.CLIMBER_FRONT_RIGHT, true);
+  private TalonSRX frontLeft = MotorUtil.createTalon(RobotMap.CLIMBER_FRONT_LEFT, true);
+  private TalonSRX frontRight = MotorUtil.createTalon(RobotMap.CLIMBER_FRONT_RIGHT, false);
   private TalonSRX back = MotorUtil.createTalon(RobotMap.CLIMBER_BACK, false);
   private VictorSPX driver = MotorUtil.createVictor(RobotMap.CLIMBER_DRIVER, false);
   
@@ -73,7 +75,7 @@ public class Climber extends Subsystem {
    */
   private int stage = 0;
   
-  private double kP = 2.0;
+  private double kP = 1.4;
   private double kI = 0.0;
   private double kD = 0.0;
   
@@ -171,26 +173,31 @@ public class Climber extends Subsystem {
       if (moveTo(top, top)) {
         stage = 2;
       }
+      break;
     case 2:
       // push forward
       drive(true, false);
       moveTo(top, top);
+      break;
     case 3:
       // lower front
       drive(false, false);
       if (moveTo(bottom, top)) {
         stage = 4;
       }
+      break;
     case 4:
       // push forward
       drive(true, true);
       moveTo(bottom, top);
+      break;
     case 5:
       // lower back
       drive(false, false);
       if (moveTo(bottom, bottom)) {
         stage = 6;
       }
+      break;
     }
   }
   
@@ -213,7 +220,7 @@ public class Climber extends Subsystem {
   }
   
   private void drive(boolean back, boolean drivetrian) {
-    if (back) {
+    if (back || Robot.oi.manual.get()) {
       drive = 0.2;
     } else {
       drive = 0.0;
@@ -248,7 +255,7 @@ public class Climber extends Subsystem {
    * Sets the motors to their current target
    */
   private void setMotors() {
-    if (stage <= 1) {
+    if (stage <= 0) {
       holdJacks();
       frontTarget = 0;
       backTarget = 0;
@@ -275,5 +282,33 @@ public class Climber extends Subsystem {
   }
   
   public void zero() {
+  }
+  
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    builder.setSmartDashboardType("Climber");
+    builder.addDoubleProperty("stage", this::getStage, null);
+    builder.addDoubleProperty("frontTarget", this::getFrontTarget, null);
+    builder.addDoubleProperty("backTarget", this::getBackTarget, null);
+    builder.addDoubleProperty("drive", this::getDrive, null);
+    builder.addDoubleProperty("back", back::getSelectedSensorPosition, null);
+    builder.addDoubleProperty("frontLeft", frontLeft::getSelectedSensorPosition, null);
+    builder.addDoubleProperty("frontRight", frontRight::getSelectedSensorPosition, null);
+  }
+  
+  private double getStage() {
+    return stage;
+  }
+  
+  private double getFrontTarget() {
+    return frontTarget;
+  }
+  
+  private double getBackTarget() {
+    return backTarget;
+  }
+  
+  private double getDrive() {
+    return drive;
   }
 }

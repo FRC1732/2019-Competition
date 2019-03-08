@@ -32,8 +32,8 @@ public class OI {
   // Variable Declarations
   private Joystick left = new Joystick(RobotMap.OI_LEFT_ID);
   private Joystick right = new Joystick(RobotMap.OI_RIGHT_ID);
-  private Joystick operator1 = new Joystick(RobotMap.OI_OPERATOR_1_ID);
-  private Joystick operator2 = new Joystick(RobotMap.OI_OPERATOR_2_ID);
+  public Joystick operator1 = new Joystick(RobotMap.OI_OPERATOR_1_ID);
+  public Joystick operator2 = new Joystick(RobotMap.OI_OPERATOR_2_ID);
   
   /**
    * Gets the left joystick's position, as a percent of fully pushed
@@ -56,14 +56,14 @@ public class OI {
   private JoystickButton panelRocketLevel1 = new JoystickButton(operator1, RobotMap.OI_ROCKET_PANEL_LEVEL_1_ID);
   private JoystickButton panelRocketLevel2 = new JoystickButton(operator1, RobotMap.OI_ROCKET_PANEL_LEVEL_2_ID);
   private JoystickButton panelRocketLevel3 = new JoystickButton(operator1, RobotMap.OI_ROCKET_PANEL_LEVEL_3_ID);
-
+  
   private JoystickButton cargoRocketLevel1 = new JoystickButton(operator2, RobotMap.OI_ROCKET_LEVEL_1_ID);
   private JoystickButton cargoRocketLevel2 = new JoystickButton(operator2, RobotMap.OI_ROCKET_LEVEL_2_ID);
   private JoystickButton cargoRocketLevel3 = new JoystickButton(operator2, RobotMap.OI_ROCKET_LEVEL_3_ID);
-
+  
   private JoystickButton cargoShip = new JoystickButton(operator2, RobotMap.OI_CARGO_SHIP_ID);
   private JoystickButton cargoStation = new JoystickButton(operator2, RobotMap.OI_CARGO_STATION_ID);
-
+  
   private JoystickButton climb1 = new JoystickButton(operator2, RobotMap.OI_CLIMB1_ID);
   private JoystickButton climb2 = new JoystickButton(operator2, RobotMap.OI_CLIMB2_ID);
   private JoystickButton climb3 = new JoystickButton(operator2, RobotMap.OI_CLIMB3_ID);
@@ -79,6 +79,8 @@ public class OI {
   private JoystickButton grabPanel = new JoystickButton(right, RobotMap.OI_GRAB_PANEL_ID);
   private JoystickButton placePanel = new JoystickButton(right, RobotMap.OI_PLACE_PANEL_ID);
   
+  public JoystickButton manual = new JoystickButton(operator2, 9);
+  
   // Buttons and their associated commands
   public OI() {
     panelRocketLevel1.whenPressed(new SetElevator(Elevator.Position.RocketLevel1Hatch));
@@ -88,18 +90,18 @@ public class OI {
     cargoRocketLevel1.whenPressed(new SetElevator(Elevator.Position.RocketLevel1Cargo));
     cargoRocketLevel2.whenPressed(new SetElevator(Elevator.Position.RocketLevel2Cargo));
     cargoRocketLevel3.whenPressed(new SetElevator(Elevator.Position.RocketLevel3Cargo));
-
+    
     cargoShip.whenPressed(new SetElevator(Elevator.Position.CargoShipCargo));
     cargoStation.whenPressed(new SetElevator(Elevator.Position.HumanPlayerStation));
-
+    
     clawIn.whenPressed(new RetractPanel());
     clawOut.whenPressed(new ExtendPanel());
     clawGrab.whenPressed(new CollectHatchPanel());
     clawRelease.whenPressed(new PlaceHatch());
-
+    
     grabPanel.whenPressed(new GrabPanel());
     placePanel.whenPressed(new ScorePanel());
-
+    
     intakeCargo.whenActive(new IntakeCargo());
     placeCargo.whenActive(new PlaceCargo());
     

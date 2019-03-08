@@ -24,7 +24,7 @@ public class CargoIntake extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private TalonSRX cargoIntakeMotor = MotorUtil.createTalon(RobotMap.CARGO_INTAKE_MOTOR_ID, true);
-  private Solenoid cargoIntakeSolenoid = new Solenoid(RobotMap.CARGO_INTAKE_SOLENOID_ID);
+  private Solenoid cargoIntakeSolenoid = new Solenoid(1, RobotMap.CARGO_INTAKE_SOLENOID_ID);
   
   /**
    * Sets whether the intake should be actively intaking cargo, unless the robot
