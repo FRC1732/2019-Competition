@@ -61,11 +61,13 @@ public class Elevator extends Subsystem {
     elevator.configClearPositionOnLimitF(true, 0);
     elevator.configClearPositionOnLimitR(true, 0);
     
+    elevator.setSelectedSensorPosition(0, 0, 0);
+    
     SmartDashboard.putData("Elevator", new SimpleSendable(this::sendHeight));
   }
   
   public static enum Position {
-    BaseHeight(0), CargoShipCargo(13600), CargoShipHatch(22000), RocketLevel1Cargo(5700), RocketLevel1Hatch(
+    BaseHeight(0), CargoShipCargo(13400), CargoShipHatch(22000), RocketLevel1Cargo(5700), RocketLevel1Hatch(
         1), RocketLevel2Cargo(
             16100), RocketLevel2Hatch(10000), RocketLevel3Cargo(19100), RocketLevel3Hatch(19100), HumanPlayerStation(0);
     public final int position;
@@ -126,9 +128,9 @@ public class Elevator extends Subsystem {
   @Override
   public void periodic() {
     if (Robot.oi.operator2.getY() > 0.9) {
-      increment();
-    } else if (Robot.oi.operator2.getY() < -0.9) {
       decrement();
+    } else if (Robot.oi.operator2.getY() < -0.9) {
+      increment();
     }
     if (elevator.getSelectedSensorPosition(0) < 150 && position < 150) {
       elevator.set(ControlMode.PercentOutput, 0);

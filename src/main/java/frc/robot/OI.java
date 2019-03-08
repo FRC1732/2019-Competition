@@ -16,11 +16,13 @@ import frc.robot.commands.PlaceCargo;
 import frc.robot.commands.PlaceHatch;
 import frc.robot.commands.RetractPanel;
 import frc.robot.commands.SetElevator;
+import frc.robot.commands.SpitCargo;
 import frc.robot.commands.auto.ClimbStage1;
 import frc.robot.commands.auto.ClimbStage2;
 import frc.robot.commands.auto.ClimbStage3;
 import frc.robot.commands.auto.GrabPanel;
 import frc.robot.commands.auto.ScorePanel;
+import frc.robot.commands.auto.StickPanel;
 import frc.robot.commands.auto.TurnToTarget;
 import frc.robot.subsystems.Elevator;
 
@@ -74,10 +76,12 @@ public class OI {
   private JoystickButton clawRelease = new JoystickButton(right, RobotMap.OI_CLAW_RELEASE_ID);
   
   private JoystickButton visionAlignment = new JoystickButton(right, RobotMap.OI_VISION_ALIGNMENT_ID);
-  private JoystickButton intakeCargo = new JoystickButton(right, RobotMap.OI_INTAKE_CARGO_ID);
-  private JoystickButton placeCargo = new JoystickButton(right, RobotMap.OI_PLACE_CARGO_ID);
-  private JoystickButton grabPanel = new JoystickButton(right, RobotMap.OI_GRAB_PANEL_ID);
-  private JoystickButton placePanel = new JoystickButton(right, RobotMap.OI_PLACE_PANEL_ID);
+  private JoystickButton intakeCargo = new JoystickButton(left, RobotMap.OI_INTAKE_CARGO_ID);
+  private JoystickButton placeCargo = new JoystickButton(right, 2);
+  // private JoystickButton grabPanel = new JoystickButton(right,
+  // RobotMap.OI_GRAB_PANEL_ID);
+  // private JoystickButton placePanel = new JoystickButton(right,
+  // RobotMap.OI_PLACE_PANEL_ID);
   
   public JoystickButton manual = new JoystickButton(operator2, 9);
   
@@ -94,21 +98,22 @@ public class OI {
     cargoShip.whenPressed(new SetElevator(Elevator.Position.CargoShipCargo));
     cargoStation.whenPressed(new SetElevator(Elevator.Position.HumanPlayerStation));
     
-    clawIn.whenPressed(new RetractPanel());
-    clawOut.whenPressed(new ExtendPanel());
-    clawGrab.whenPressed(new CollectHatchPanel());
-    clawRelease.whenPressed(new PlaceHatch());
+    new JoystickButton(left, RobotMap.OI_CLAW_OUT_ID).whenPressed(new StickPanel());
+    new JoystickButton(left, RobotMap.OI_CLAW_IN_ID).whenPressed(new GrabPanel());
+    clawRelease.whenPressed(new ScorePanel());
     
-    grabPanel.whenPressed(new GrabPanel());
-    placePanel.whenPressed(new ScorePanel());
+    new JoystickButton(right, 4).whileActive(new SpitCargo());
     
-    intakeCargo.whenActive(new IntakeCargo());
-    placeCargo.whenActive(new PlaceCargo());
+    // grabPanel.whenPressed(new GrabPanel());
+    // placePanel.whenPressed(new ScorePanel());
+    
+    intakeCargo.whileActive(new IntakeCargo());
+    new JoystickButton(right, 2).whileActive(new PlaceCargo());
     
     climb1.whenActive(new ClimbStage1());
     climb2.whenActive(new ClimbStage2());
     climb3.whenActive(new ClimbStage3());
     
-    visionAlignment.whenActive(new TurnToTarget());
+    visionAlignment.whileActive(new TurnToTarget());
   }
 }

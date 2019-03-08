@@ -37,11 +37,11 @@ public class HatchClaw extends Subsystem {
    */
   
   public void setEngaged(boolean grabbing) {
-    if (Robot.cargoScorer.hasCargo()) {
-      grabber.set(!grabbing);
-    } else {
-      Console.warn("Cannot grab: already has cargo");
-    }
+    // if (Robot.cargoScorer.hasCargo()) {
+    grabber.set(!grabbing);
+    // } else {
+    // Console.warn("Cannot grab: already has cargo");
+    // }
   }
   
   /**
@@ -61,7 +61,7 @@ public class HatchClaw extends Subsystem {
    * @return whether the robot has a hatch panel
    */
   public boolean hasHatchPanel() {
-    return grabber.get();
+    return false;// grabber.get();
   }
   
   @Override

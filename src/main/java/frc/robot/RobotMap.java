@@ -36,7 +36,7 @@ public class RobotMap {
   // Start of OI Variables
   public static final int OI_LEFT_ID = 1;
   public static final int OI_RIGHT_ID = 2;
-  public static final int OI_OPERATOR_1_ID = 1;
+  public static final int OI_OPERATOR_1_ID = 0;
   public static final int OI_OPERATOR_2_ID = 3;
   
   // Operator 1 and 2
@@ -53,20 +53,20 @@ public class RobotMap {
   public static final int OI_CLIMB3_ID = 6;
   
   // Joystick 1 Buttons
-  public static final int OI_CLAW_IN_ID = 1;
+  public static final int OI_CLAW_IN_ID = 3;
   public static final int OI_CLAW_OUT_ID = 2;
   public static final int OI_CLAW_GRAB_ID = 2;
   public static final int OI_CLAW_RELEASE_ID = 3;
   
   // Joystick 2 Buttons
   public static final int OI_VISION_ALIGNMENT_ID = 1;
-  public static final int OI_INTAKE_CARGO_ID = 4;
-  public static final int OI_PLACE_CARGO_ID = 5;
+  public static final int OI_INTAKE_CARGO_ID = 1;
+  public static final int OI_PLACE_CARGO_ID = 2;
   public static final int OI_GRAB_PANEL_ID = 1;
   public static final int OI_PLACE_PANEL_ID = 1;
   // End of OI Variables
   
-  public static final int CARGO_INTAKE_MOTOR_ID = 6;
+  public static final int CARGO_INTAKE_MOTOR_ID = 16;
   public static final int CARGO_INTAKE_SOLENOID_ID = 2;
   
   public static final int ELEVATOR_ELEVATOR_ID = 29;
