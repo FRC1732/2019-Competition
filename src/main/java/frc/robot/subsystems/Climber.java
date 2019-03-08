@@ -45,8 +45,8 @@ public class Climber extends Subsystem implements Sendable {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   
-  private TalonSRX frontLeft = MotorUtil.createTalon(RobotMap.CLIMBER_FRONT_LEFT, true);
-  private TalonSRX frontRight = MotorUtil.createTalon(RobotMap.CLIMBER_FRONT_RIGHT, false);
+  private TalonSRX frontLeft = MotorUtil.createTalon(RobotMap.CLIMBER_FRONT_LEFT, false);
+  private TalonSRX frontRight = MotorUtil.createTalon(RobotMap.CLIMBER_FRONT_RIGHT, true);
   private TalonSRX back = MotorUtil.createTalon(RobotMap.CLIMBER_BACK, false);
   private VictorSPX driver = MotorUtil.createVictor(RobotMap.CLIMBER_DRIVER, false);
   
@@ -157,7 +157,6 @@ public class Climber extends Subsystem implements Sendable {
   @Override
   public void periodic() {
     updateTargets();
-    setMotors();
     Console.graph("Climber", frontLeft.getSelectedSensorPosition(0), frontRight.getSelectedSensorPosition(0),
         back.getSelectedSensorPosition(0));
   }
@@ -166,38 +165,65 @@ public class Climber extends Subsystem implements Sendable {
    * Checks the position of the motors, and sets a new target for them
    */
   private void updateTargets() {
-    switch (stage) {
-    case 1:
-      // lift jacks
-      drive(false, false);
-      if (moveTo(top, top)) {
-        stage = 2;
+    if (Robot.oi.manual.get()) {
+      if (isErrorAllowed()) {
+        if (Robot.oi.operator1.getY() < -0.9) {
+          frontTarget -= ALLOWED_ERROR;
+        } else if (Robot.oi.operator1.getY() > 0.9) {
+          frontTarget += ALLOWED_ERROR;
+        }
+        if (Robot.oi.operator1.getX() > 0.9) {
+          backTarget -= ALLOWED_ERROR;
+        } else if (Robot.oi.operator1.getX() < -0.9) {
+          backTarget += ALLOWED_ERROR;
+        }
       }
-      break;
-    case 2:
-      // push forward
-      drive(true, false);
-      moveTo(top, top);
-      break;
-    case 3:
-      // lower front
-      drive(false, false);
-      if (moveTo(bottom, top)) {
-        stage = 4;
+      if (Robot.oi.operator2.getX() > 0.9) {
+        drive = 0.2;
+      } else if (Robot.oi.operator2.getX() < -0.9) {
+        drive = -0.2;
+      } else {
+        drive = 0.0;
       }
-      break;
-    case 4:
-      // push forward
-      drive(true, true);
-      moveTo(bottom, top);
-      break;
-    case 5:
-      // lower back
-      drive(false, false);
-      if (moveTo(bottom, bottom)) {
-        stage = 6;
+      back.set(ControlMode.Position, backTarget);
+      frontLeft.set(ControlMode.Position, frontTarget);
+      frontRight.set(ControlMode.Position, frontTarget);
+      driver.set(ControlMode.PercentOutput, drive);
+    } else {
+      switch (stage) {
+      case 1:
+        // lift jacks
+        drive(false, false);
+        if (moveTo(top, top)) {
+          stage = 2;
+        }
+        break;
+      case 2:
+        // push forward
+        drive(true, false);
+        moveTo(top, top);
+        break;
+      case 3:
+        // lower front
+        drive(false, false);
+        if (moveTo(bottom, top)) {
+          stage = 4;
+        }
+        break;
+      case 4:
+        // push forward
+        drive(true, true);
+        moveTo(bottom, top);
+        break;
+      case 5:
+        // lower back
+        drive(false, false);
+        if (moveTo(bottom, bottom)) {
+          stage = 6;
+        }
+        break;
       }
-      break;
+      setMotors();
     }
   }
   
