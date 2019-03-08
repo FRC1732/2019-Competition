@@ -18,7 +18,7 @@ import frc.robot.subsystems.Limelight;
  */
 public class TurnToTarget extends Command {
   private PIDController anglePID;
-  private PIDController forwardPID;
+  // private PIDController forwardPID;
   
   /**
    * A command to turn the robot towards the nearest vision target
@@ -36,7 +36,7 @@ public class TurnToTarget extends Command {
     // this::output);
     // forwardPID.setOutputRange(-1, 1);
     // forwardPID.setSetpoint(20);
-    SmartDashboard.putData("VisionForward", forwardPID);
+    // SmartDashboard.putData("VisionForward", forwardPID);
   }
   
   private void output(double d) {
@@ -55,6 +55,7 @@ public class TurnToTarget extends Command {
     double speed = (Robot.oi.getLeftJoystick() + Robot.oi.getRightJoystick()) * 0.5;
     double turn = anglePID.get();
     // System.out.printf("%1.3f /\\, > %1.3f\n", speed, turn);
+    // System.out.println(Robot.limelight.getHorizontalAngle());
     Robot.drivetrain.set(speed - turn, speed + turn);
   }
   

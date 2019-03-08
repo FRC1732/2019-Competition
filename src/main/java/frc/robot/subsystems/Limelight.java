@@ -33,7 +33,7 @@ public class Limelight extends Subsystem implements Sendable {
    *
    */
   public static enum Target {
-      RocketCargo(0), AnyOther(28.0 + (5.0 / 16.0));
+    RocketCargo(0), AnyOther(28.0 + (5.0 / 16.0));
     public final double height;
     
     private Target(double height) {
@@ -72,9 +72,9 @@ public class Limelight extends Subsystem implements Sendable {
     if (pipeNet.getDouble(-1) != pipeline) {
       pipeNet.setDouble(pipeline);
     }
-    if (vert > 1) {
-      horiz = 0;
-    }
+    // if (vert > 1) {
+    // horiz = 0;
+    // }
   }
   
   // Put methods for controlling this subsystem

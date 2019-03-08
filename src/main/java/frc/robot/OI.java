@@ -102,6 +102,10 @@ public class OI {
     new JoystickButton(left, RobotMap.OI_CLAW_IN_ID).whenPressed(new GrabPanel());
     clawRelease.whenPressed(new ScorePanel());
     
+    new JoystickButton(left, 4).whenPressed(new CollectHatchPanel());
+    new JoystickButton(left, 5).whenPressed(new PlaceHatch());
+    new JoystickButton(right, 5).toggleWhenPressed(new ExtendPanel());
+    
     new JoystickButton(right, 4).whileActive(new SpitCargo());
     
     // grabPanel.whenPressed(new GrabPanel());
