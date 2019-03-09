@@ -63,7 +63,7 @@ public class Climber extends Subsystem implements Sendable {
   
   private double bottom = BOTTOM;
   private double top = LVL2;
-  private final double ALLOWED_ERROR = 200;
+  private final double ALLOWED_ERROR = 600;
   
   private double frontTarget = bottom;
   private double backTarget = bottom;
