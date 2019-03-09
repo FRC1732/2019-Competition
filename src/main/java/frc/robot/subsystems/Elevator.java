@@ -35,7 +35,7 @@ public class Elevator extends Subsystem {
    * Defines a set of constants for the height of the elevator
    */
   private TalonSRX elevator = MotorUtil.createTalon(RobotMap.ELEVATOR_ELEVATOR_ID, true);
-  private static final double kP = 3.0;
+  private static final double kP = 2.0;
   private static final double kI = 0;
   private static final double kD = 0;
   private static final double minimumOutput = .07;
