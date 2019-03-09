@@ -55,10 +55,6 @@ public class OI {
     return -1 * right.getY() * right.getY() * Math.signum(right.getY());
   }
   
-  private JoystickButton panelRocketLevel1 = new JoystickButton(operator1, RobotMap.OI_ROCKET_PANEL_LEVEL_1_ID);
-  private JoystickButton panelRocketLevel2 = new JoystickButton(operator1, RobotMap.OI_ROCKET_PANEL_LEVEL_2_ID);
-  private JoystickButton panelRocketLevel3 = new JoystickButton(operator1, RobotMap.OI_ROCKET_PANEL_LEVEL_3_ID);
-  
   private JoystickButton cargoRocketLevel1 = new JoystickButton(operator2, RobotMap.OI_ROCKET_LEVEL_1_ID);
   private JoystickButton cargoRocketLevel2 = new JoystickButton(operator2, RobotMap.OI_ROCKET_LEVEL_2_ID);
   private JoystickButton cargoRocketLevel3 = new JoystickButton(operator2, RobotMap.OI_ROCKET_LEVEL_3_ID);
@@ -87,11 +83,15 @@ public class OI {
   
   // Buttons and their associated commands
   public OI() {
-    panelRocketLevel1.whenPressed(new SetElevator(Elevator.Position.RocketLevel1Hatch));
-    panelRocketLevel2.whenPressed(new SetElevator(Elevator.Position.RocketLevel2Hatch));
-    panelRocketLevel3.whenPressed(new SetElevator(Elevator.Position.RocketLevel3Hatch));
+    new JoystickButton(operator1, RobotMap.OI_ROCKET_PANEL_LEVEL_1_ID)
+        .whenPressed(new SetElevator(Elevator.Position.RocketLevel1Hatch));
+    new JoystickButton(operator1, RobotMap.OI_ROCKET_PANEL_LEVEL_2_ID)
+        .whenPressed(new SetElevator(Elevator.Position.RocketLevel2Hatch));
+    new JoystickButton(operator1, RobotMap.OI_ROCKET_PANEL_LEVEL_3_ID)
+        .whenPressed(new SetElevator(Elevator.Position.RocketLevel3Hatch));
     
-    cargoRocketLevel1.whenPressed(new SetElevator(Elevator.Position.RocketLevel1Cargo));
+    new JoystickButton(operator2, RobotMap.OI_ROCKET_LEVEL_1_ID)
+        .whenPressed(new SetElevator(Elevator.Position.RocketLevel1Cargo));
     cargoRocketLevel2.whenPressed(new SetElevator(Elevator.Position.RocketLevel2Cargo));
     cargoRocketLevel3.whenPressed(new SetElevator(Elevator.Position.RocketLevel3Cargo));
     
