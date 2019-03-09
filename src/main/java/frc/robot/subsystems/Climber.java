@@ -59,7 +59,7 @@ public class Climber extends Subsystem implements Sendable {
    */
   private final double BOTTOM = 0;
   private final double LVL2 = 620 * 7;
-  private final double LVL3 = 620 * 20;
+  private final double LVL3 = 620 * 21;
   
   private double bottom = BOTTOM;
   private double top = LVL2;
