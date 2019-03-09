@@ -167,14 +167,14 @@ public class Climber extends Subsystem implements Sendable {
   private void updateTargets() {
     if (Robot.oi.manual.get()) {
       if (isErrorAllowed()) {
-        if (Robot.oi.operator1.getY() < -0.9) {
+        if (Robot.oi.operator1.getY() < -0.9 && frontTarget > BOTTOM) {
           frontTarget -= ALLOWED_ERROR;
-        } else if (Robot.oi.operator1.getY() > 0.9) {
+        } else if (Robot.oi.operator1.getY() > 0.9 && frontTarget < LVL3) {
           frontTarget += ALLOWED_ERROR;
         }
-        if (Robot.oi.operator1.getX() > 0.9) {
+        if (Robot.oi.operator1.getX() > 0.9 && backTarget > BOTTOM) {
           backTarget -= ALLOWED_ERROR;
-        } else if (Robot.oi.operator1.getX() < -0.9) {
+        } else if (Robot.oi.operator1.getX() < -0.9 && backTarget < LVL3) {
           backTarget += ALLOWED_ERROR;
         }
       }
