@@ -35,7 +35,7 @@ public class Elevator extends Subsystem {
    * Defines a set of constants for the height of the elevator
    */
   private TalonSRX elevator = MotorUtil.createTalon(RobotMap.ELEVATOR_ELEVATOR_ID, true);
-  private static final double kP = 0.48;
+  private static final double kP = 3.0;
   private static final double kI = 0;
   private static final double kD = 0;
   private static final double minimumOutput = .07;
@@ -55,7 +55,7 @@ public class Elevator extends Subsystem {
     // config current limit
     elevator.configForwardSoftLimitEnable(true);
     elevator.configForwardSoftLimitThreshold(19800);
-    elevator.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+    elevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
     elevator.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
     elevator.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
     elevator.configClearPositionOnLimitF(true, 0);
