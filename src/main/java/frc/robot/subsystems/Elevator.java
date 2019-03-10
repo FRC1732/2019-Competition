@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,6 +36,8 @@ public class Elevator extends Subsystem {
    * Defines a set of constants for the height of the elevator
    */
   private TalonSRX elevator = MotorUtil.createTalon(RobotMap.ELEVATOR_ELEVATOR_ID, true);
+  private DigitalInput limit = new DigitalInput(0);
+  
   private static final double kP = 2.0;
   private static final double kI = 0;
   private static final double kD = 0;
@@ -108,25 +111,29 @@ public class Elevator extends Subsystem {
   }
   
   public void increment() {
-    if (position < 19800) {
-      position += 100;
-    } else {
-      position = 19800;
-    }
+    // if (position < 19800) {
+    position += 100;
+    // } else {
+    // position = 19800;
+    // }
     Console.debug("set elevator height to: " + position);
   }
   
   public void decrement() {
-    if (position > 100) {
-      position -= 100;
-    } else {
-      position = 0;
-    }
+    // if (position > 100) {
+    position -= 100;
+    // } else {
+    // position = 0;
+    // }
     Console.debug("set elevator height to: " + position);
   }
   
   @Override
   public void periodic() {
+    // if (limit.get()) {
+    // elevator.setSelectedSensorPosition(0, 0, 0);
+    // }
+    
     if (Robot.oi.operator2.getY() > 0.9) {
       decrement();
     } else if (Robot.oi.operator2.getY() < -0.9) {
@@ -163,5 +170,6 @@ public class Elevator extends Subsystem {
   private void sendHeight(SendableBuilder builder) {
     builder.setSmartDashboardType("Elevator");
     builder.addDoubleProperty("Height", this::getHeight, null);
+    builder.addBooleanProperty("Limit", limit::get, null);
   }
 }
