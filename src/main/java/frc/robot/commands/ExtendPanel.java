@@ -7,10 +7,10 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ExtendPanel extends InstantCommand {
+public class ExtendPanel extends Command {
   public ExtendPanel() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -21,6 +21,16 @@ public class ExtendPanel extends InstantCommand {
   @Override
   protected void initialize() {
     Robot.hatchClaw.setExtended(true);
+  }
+  
+  @Override
+  protected boolean isFinished() {
+    return false;
+  }
+  
+  @Override
+  protected void interrupted() {
+    Robot.hatchClaw.setExtended(false);
   }
   
 }

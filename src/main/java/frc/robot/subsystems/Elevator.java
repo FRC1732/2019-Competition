@@ -14,11 +14,15 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.util.Console;
 import frc.robot.util.MotorUtil;
+import frc.robot.util.SimpleSendable;
 
 /**
  * Add your docs here.
@@ -32,7 +36,9 @@ public class Elevator extends Subsystem {
    * Defines a set of constants for the height of the elevator
    */
   private TalonSRX elevator = MotorUtil.createTalon(RobotMap.ELEVATOR_ELEVATOR_ID, true);
-  private static final double kP = 0.48;
+  private DigitalInput limit = new DigitalInput(0);
+  
+  private static final double kP = 2.0;
   private static final double kI = 0;
   private static final double kD = 0;
   private static final double minimumOutput = .07;
@@ -52,14 +58,21 @@ public class Elevator extends Subsystem {
     // config current limit
     elevator.configForwardSoftLimitEnable(true);
     elevator.configForwardSoftLimitThreshold(19800);
-    elevator.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+    elevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
+    elevator.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
     elevator.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+    elevator.configClearPositionOnLimitF(true, 0);
     elevator.configClearPositionOnLimitR(true, 0);
+    
+    elevator.setSelectedSensorPosition(0, 0, 0);
+    
+    SmartDashboard.putData("Elevator", new SimpleSendable(this::sendHeight));
   }
   
   public static enum Position {
-    BaseHeight(0), CargoShipCargo(0), CargoShipHatch(0), RocketLevel1Cargo(1), RocketLevel1Hatch(1), RocketLevel2Cargo(
-        2), RocketLevel2Hatch(2), RocketLevel3Cargo(3), RocketLevel3Hatch(3), HumanPlayerStation(0);
+    BaseHeight(0), CargoShipCargo(13200), CargoShipHatch(22000), RocketLevel1Cargo(5700), RocketLevel1Hatch(
+        1), RocketLevel2Cargo(
+            16100), RocketLevel2Hatch(10000), RocketLevel3Cargo(19100), RocketLevel3Hatch(19100), HumanPlayerStation(0);
     public final int position;
     
     private Position(int position) {
@@ -90,7 +103,7 @@ public class Elevator extends Subsystem {
    */
   private void setHeight(int pos) {
     position = pos;
-    Console.debug("set elevator height to: "+position);
+    Console.debug("set elevator height to: " + position);
   }
   
   private int getHeight() {
@@ -98,30 +111,40 @@ public class Elevator extends Subsystem {
   }
   
   public void increment() {
-    if (position < 19800) {
-      position += 100;
-    } else {
-      position = 19800;
-    }
-    Console.debug("set elevator height to: "+position);
+    // if (position < 19800) {
+    position += 100;
+    // } else {
+    // position = 19800;
+    // }
+    Console.debug("set elevator height to: " + position);
   }
   
   public void decrement() {
-    if (position > 100) {
-      position -= 100;
-    } else {
-      position = 0;
-    }
-    Console.debug("set elevator height to: "+position);
+    // if (position > 100) {
+    position -= 100;
+    // } else {
+    // position = 0;
+    // }
+    Console.debug("set elevator height to: " + position);
   }
   
   @Override
   public void periodic() {
+    // if (limit.get()) {
+    // elevator.setSelectedSensorPosition(0, 0, 0);
+    // }
+    
+    if (Robot.oi.operator2.getY() > 0.9) {
+      decrement();
+    } else if (Robot.oi.operator2.getY() < -0.9) {
+      increment();
+    }
     if (elevator.getSelectedSensorPosition(0) < 150 && position < 150) {
       elevator.set(ControlMode.PercentOutput, 0);
     } else {
       elevator.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, minimumOutput);
     }
+    // System.out.println(elevator.getSelectedSensorPosition());
   }
   
   @Override
@@ -147,5 +170,6 @@ public class Elevator extends Subsystem {
   private void sendHeight(SendableBuilder builder) {
     builder.setSmartDashboardType("Elevator");
     builder.addDoubleProperty("Height", this::getHeight, null);
+    builder.addBooleanProperty("Limit", limit::get, null);
   }
 }
