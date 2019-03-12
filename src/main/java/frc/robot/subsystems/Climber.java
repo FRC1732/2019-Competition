@@ -70,14 +70,15 @@ public class Climber extends Subsystem implements Sendable {
   private double drive = 0;
   
   /**
-   * Stage on: 0: disabled 1: lift jacks 2: push forward 3: lower front 4: push
-   * forward 5: lower back 6: climbed
+   * Stage on: 0: disabled 1: put down jacks 2: push forward 3: raise front 4: push
+   * forward 5: raise back 6: climbed
    */
   private int stage = 0;
   
   private double kP = 1.4;
   private double kI = 0.0;
   private double kD = 0.0;
+  private double kF = 1.0;
   
   public Climber() {
     frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
@@ -110,6 +111,10 @@ public class Climber extends Subsystem implements Sendable {
     frontLeft.config_kD(0, kD);
     frontRight.config_kD(0, kD);
     back.config_kD(0, kD);
+
+    frontLeft.config_kF(0, kF);
+    frontRight.config_kF(0, kF);
+    back.config_kF(0, kF);
     
     frontLeft.configClosedLoopPeakOutput(0, 0.7);
     frontRight.configClosedLoopPeakOutput(0, 0.7);
@@ -123,35 +128,26 @@ public class Climber extends Subsystem implements Sendable {
   public void setClimbHeight(int platform) {
     switch (platform) {
     case 1:
-      Console.warn("HAB 1 doesn't need climber");
-      break;
+      Console.warn("HAB 1 doesn't need climber");break;      
     case 2:
-      top = LVL2;
-      break;
+      top = LVL2;break;      
     case 3:
-      top = LVL3;
-      break;
+      top = LVL3;break;      
     default:
       Console.warn("HAB " + platform + " doesn't exist");
     }
   }
   
   public void stage1() {
-    if (stage == 0) {
-      stage = 1;
-    }
+    
   }
   
   public void stage2() {
-    if (stage == 2) {
-      stage = 3;
-    }
+    
   }
   
   public void stage3() {
-    if (stage == 4) {
-      stage = 5;
-    }
+    
   }
   
   @Override
@@ -165,6 +161,7 @@ public class Climber extends Subsystem implements Sendable {
    * Checks the position of the motors, and sets a new target for them
    */
   private void updateTargets() {
+    /*
     if (Robot.oi.manual.get()) {
       if (isErrorAllowed()) {
         if (Robot.oi.operator1.getY() < -0.9 && frontTarget > BOTTOM) {
@@ -190,9 +187,10 @@ public class Climber extends Subsystem implements Sendable {
       frontRight.set(ControlMode.Position, frontTarget);
       driver.set(ControlMode.PercentOutput, drive);
     } else {
+      */
       switch (stage) {
       case 1:
-        // lift jacks
+        // put down jacks
         drive(false, false);
         if (moveTo(top, top)) {
           stage = 2;
@@ -204,7 +202,7 @@ public class Climber extends Subsystem implements Sendable {
         moveTo(top, top);
         break;
       case 3:
-        // lower front
+        // raise front
         drive(false, false);
         if (moveTo(bottom, top)) {
           stage = 4;
@@ -216,7 +214,7 @@ public class Climber extends Subsystem implements Sendable {
         moveTo(bottom, top);
         break;
       case 5:
-        // lower back
+        // raise back
         drive(false, false);
         if (moveTo(bottom, bottom)) {
           stage = 6;
@@ -225,7 +223,7 @@ public class Climber extends Subsystem implements Sendable {
       }
       setMotors();
     }
-  }
+  //}
   
   private boolean moveTo(double front, double back) {
     if (isErrorAllowed()) {
