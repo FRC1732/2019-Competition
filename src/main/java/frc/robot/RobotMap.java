@@ -33,39 +33,10 @@ public class RobotMap {
   public static final int DRIVETRAIN_RIGHT1_ID = 12;
   public static final int DRIVETRAIN_RIGHT2_ID = 13;
   
-  // Start of OI Variables
   public static final int OI_LEFT_ID = 1;
   public static final int OI_RIGHT_ID = 2;
   public static final int OI_OPERATOR_1_ID = 0;
   public static final int OI_OPERATOR_2_ID = 3;
-  
-  // Operator 1 and 2
-  public static final int OI_CARGO_SHIP_ID = 5;
-  public static final int OI_CARGO_STATION_ID = 1;
-  public static final int OI_ROCKET_PANEL_LEVEL_1_ID = 5;
-  public static final int OI_ROCKET_PANEL_LEVEL_2_ID = 4;
-  public static final int OI_ROCKET_PANEL_LEVEL_3_ID = 3;
-  public static final int OI_ROCKET_LEVEL_1_ID = 4;
-  public static final int OI_ROCKET_LEVEL_2_ID = 3;
-  public static final int OI_ROCKET_LEVEL_3_ID = 2;
-  public static final int OI_CLIMB1_ID = 11;
-  public static final int OI_CLIMB2_ID = 7;
-  public static final int OI_CLIMB3_ID = 6;
-  
-  // Left Joystick
-  public static final int OI_CLAW_IN_ID = 3;
-  public static final int OI_CLAW_OUT_ID = 2;
-  public static final int OI_CLAW_GRAB_ID = 4;
-  public static final int OI_CLAW_RELEASE_ID = 3;
-  
-  // Right Joystick
-  public static final int OI_VISION_ALIGNMENT_ID = 1;
-  public static final int OI_INTAKE_CARGO_ID = 1;
-  public static final int OI_PLACE_CARGO_ID = 2;
-  public static final int OI_PLACE_PANEL_ID = 5;
-  public static final int OI_REVERSE_INTAKE_ID = 4;
-
-  // End of OI Variables
   
   public static final int CARGO_INTAKE_MOTOR_ID = 16;
   public static final int CARGO_INTAKE_SOLENOID_ID = 2;
