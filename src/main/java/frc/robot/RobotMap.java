@@ -52,18 +52,19 @@ public class RobotMap {
   public static final int OI_CLIMB2_ID = 7;
   public static final int OI_CLIMB3_ID = 6;
   
-  // Joystick 1 Buttons
+  // Left Joystick
   public static final int OI_CLAW_IN_ID = 3;
   public static final int OI_CLAW_OUT_ID = 2;
-  public static final int OI_CLAW_GRAB_ID = 2;
+  public static final int OI_CLAW_GRAB_ID = 4;
   public static final int OI_CLAW_RELEASE_ID = 3;
   
-  // Joystick 2 Buttons
+  // Right Joystick
   public static final int OI_VISION_ALIGNMENT_ID = 1;
   public static final int OI_INTAKE_CARGO_ID = 1;
   public static final int OI_PLACE_CARGO_ID = 2;
-  public static final int OI_GRAB_PANEL_ID = 1;
-  public static final int OI_PLACE_PANEL_ID = 1;
+  public static final int OI_PLACE_PANEL_ID = 5;
+  public static final int OI_REVERSE_INTAKE_ID = 4;
+
   // End of OI Variables
   
   public static final int CARGO_INTAKE_MOTOR_ID = 16;
