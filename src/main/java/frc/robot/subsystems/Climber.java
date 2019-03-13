@@ -45,12 +45,7 @@ import frc.robot.util.MotorUtil;
 public class Climber extends Subsystem implements Sendable {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  
-  private TalonSRX frontLeft = MotorUtil.createTalon(RobotMap.CLIMBER_FRONT_LEFT, false);
-  private TalonSRX frontRight = MotorUtil.createTalon(RobotMap.CLIMBER_FRONT_RIGHT, true);
-  private TalonSRX back = MotorUtil.createTalon(RobotMap.CLIMBER_BACK, false);
-  private VictorSPX driver = MotorUtil.createVictor(RobotMap.CLIMBER_DRIVER, false);
-  
+
   /**
    * Various positions for the jacks
    * 
@@ -58,6 +53,12 @@ public class Climber extends Subsystem implements Sendable {
    * 
    * Robot and Jacks on ground == 0
    */
+  
+  private TalonSRX frontLeft = MotorUtil.createTalon(RobotMap.CLIMBER_FRONT_LEFT, false);
+  private TalonSRX frontRight = MotorUtil.createTalon(RobotMap.CLIMBER_FRONT_RIGHT, true);
+  private TalonSRX back = MotorUtil.createTalon(RobotMap.CLIMBER_BACK, false);
+  private VictorSPX driver = MotorUtil.createVictor(RobotMap.CLIMBER_DRIVER, false);
+  
   private final double BOTTOM = 0;
   private final double LVL2 = 620 * 7;
   private final double LVL3 = 620 * 21;
@@ -68,11 +69,6 @@ public class Climber extends Subsystem implements Sendable {
   private double frontTarget = bottom;
   private double backTarget = bottom;
   private double drive = 0;
-  
-  /**
-   * Stage on: 0: disabled 1: put down jacks 2: push forward 3: raise front 4:
-   * push forward 5: raise back 6: climbed
-   */
   private int stage = 0;
   
   private static final double kP = 1.4;
@@ -83,6 +79,11 @@ public class Climber extends Subsystem implements Sendable {
   private static final double motionCruiseVelocity = 300;
   private static final double motionAcceleration = motionCruiseVelocity;
   
+  /**
+   * Stage on: 0: disabled 1: put down jacks 2: push forward 3: raise front 4:
+   * push forward 5: raise back 6: climbed
+   */
+
   public Climber() {
     frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
     frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
@@ -171,6 +172,7 @@ public class Climber extends Subsystem implements Sendable {
   /**
    * Checks the position of the motors, and sets a new target for them
    */
+
   private void updateTargets() {
     switch (stage) {
     case 1:
@@ -179,9 +181,8 @@ public class Climber extends Subsystem implements Sendable {
       frontTarget = top;
       backTarget = top;
       stage = 2;
-      if (isOnTarget()){
-        break;
-      }      
+      if (isOnTarget()) break;
+       
     case 2:
       // push forward
       frontTarget = top;
@@ -192,9 +193,7 @@ public class Climber extends Subsystem implements Sendable {
       drive(false, false);
       frontTarget = top;
       backTarget = top;
-      if (isOnTarget()){
-        break;
-      }     
+      if (isOnTarget()) break;
     case 4:
       // push forward
       frontTarget = top;
@@ -204,10 +203,7 @@ public class Climber extends Subsystem implements Sendable {
       // raise back
       frontTarget = top;
       backTarget = top;
-      if(isOnTarget()){
-        break;
-      }
-      
+      if(isOnTarget()) break;      
     }
     setMotors();
   }
@@ -246,7 +242,8 @@ public class Climber extends Subsystem implements Sendable {
       driver.set(ControlMode.PercentOutput, drive);
     }
   
-  private void drive(boolean back, boolean drivetrian) {
+ 
+    private void drive(boolean back, boolean drivetrian) {
     if (back || Robot.oi.manual.get()) {
       drive = 0.2;
     } else {
@@ -281,6 +278,7 @@ public class Climber extends Subsystem implements Sendable {
   /**
    * Sets the motors to their current target
    */
+  
   private void setMotors() {
     if (stage <= 0) {
       holdJacks();
