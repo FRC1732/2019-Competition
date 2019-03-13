@@ -141,7 +141,7 @@ public class Elevator extends Subsystem {
    * Resets all sensors
    */
   public void zero() {
-    
+    setHeight(getHeight());  
   }
   
   private void sendHeight(SendableBuilder builder) {
