@@ -42,6 +42,7 @@ public class Elevator extends Subsystem {
   private static final double motionCruiseVelocity = 1000;
   private static final double motionAcceleration = motionCruiseVelocity * 2;
   
+  
   public Elevator() {
     elevator.config_kP(0, kP);
     elevator.config_kI(0, kI);
@@ -58,11 +59,13 @@ public class Elevator extends Subsystem {
   }
   
   public static enum Position {
-    BaseHeight(0), CargoShipCargo(0), CargoShipHatch(0), RocketLevel1Cargo(1), RocketLevel1Hatch(1), RocketLevel2Cargo(
-        2), RocketLevel2Hatch(2), RocketLevel3Cargo(3), RocketLevel3Hatch(3), HumanPlayerStation(0);
-    public final int position;
+    BaseHeight(0), CargoShipCargo(0), CargoShipHatch(0), RocketLevel1Cargo(1), RocketLevel1Hatch(1),
+    RocketLevel2Cargo(2), RocketLevel2Hatch(2), RocketLevel3Cargo(3), RocketLevel3Hatch(3),
+    HumanPlayerStation(0);    
     
-    private Position(int position) {
+    public final int position;
+
+    private Position(int position) {      
       this.position = position;
     }
   }
