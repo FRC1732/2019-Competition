@@ -9,12 +9,16 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.CloseFinger;
 import frc.robot.commands.FingerDown;
 import frc.robot.commands.FingerUp;
 import frc.robot.commands.IntakeCargo;
+import frc.robot.commands.OpenFinger;
 import frc.robot.commands.PlaceCargo;
 import frc.robot.commands.PlaceHatch;
 import frc.robot.commands.SetElevator;
+import frc.robot.commands.SliderIn;
+import frc.robot.commands.SliderOut;
 import frc.robot.commands.SpitCargo;
 import frc.robot.commands.auto.ClimbStage1;
 import frc.robot.commands.auto.ClimbStage2;
@@ -85,6 +89,8 @@ public class OI {
   // private JoystickButton placePanel = new JoystickButton(right,
   // RobotMap.OI_PLACE_PANEL_ID);
   
+  private JoystickButton sliderInOut = new JoystickButton(operator1, 2);
+  private JoystickButton fingerOpenClose = new JoystickButton(operator1, 2);
   public JoystickButton manual = new JoystickButton(operator2, 9);
   
   // Buttons and their associated commands
@@ -102,8 +108,10 @@ public class OI {
     new JoystickButton(right, 4); // ExtendToggle
     new JoystickButton(right, 5).whenActive(new SpitCargo());
 
-    new JoystickButton(operator1, 1); // Slider In and Out
-    new JoystickButton(operator1, 2); // Finger Open and Closed
+    sliderInOut.whenActive(new SliderIn());
+    sliderInOut.whenInactive(new SliderOut());
+    fingerOpenClose.whenActive(new OpenFinger());
+    fingerOpenClose.whenInactive(new CloseFinger());
     new JoystickButton(operator1, 5).whenPressed(new SetElevator(Position.RocketLevel3Hatch));
     new JoystickButton(operator1, 6).whenPressed(new SetElevator(Position.RocketLevel2Hatch));
     new JoystickButton(operator1, 7).whenPressed(new SetElevator(Position.RocketLevel1Hatch));
