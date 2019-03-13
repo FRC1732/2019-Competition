@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
@@ -63,22 +64,24 @@ public class Climber extends Subsystem implements Sendable {
   
   private double bottom = BOTTOM;
   private double top = LVL2;
-  private final double ALLOWED_ERROR = 600;
   
   private double frontTarget = bottom;
   private double backTarget = bottom;
   private double drive = 0;
   
   /**
-   * Stage on: 0: disabled 1: put down jacks 2: push forward 3: raise front 4: push
-   * forward 5: raise back 6: climbed
+   * Stage on: 0: disabled 1: put down jacks 2: push forward 3: raise front 4:
+   * push forward 5: raise back 6: climbed
    */
   private int stage = 0;
   
-  private double kP = 1.4;
-  private double kI = 0.0;
-  private double kD = 0.0;
-  private double kF = 1.0;
+  private static final double kP = 1.4;
+  private static final double kI = 0.0;
+  private static final double kD = 0.0;
+  private static final double kF = 1.0;
+  private static final double minimumOutput = .01;
+  private static final double motionCruiseVelocity = 300;
+  private static final double motionAcceleration = motionCruiseVelocity;
   
   public Climber() {
     frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
@@ -111,10 +114,18 @@ public class Climber extends Subsystem implements Sendable {
     frontLeft.config_kD(0, kD);
     frontRight.config_kD(0, kD);
     back.config_kD(0, kD);
-
+    
     frontLeft.config_kF(0, kF);
     frontRight.config_kF(0, kF);
     back.config_kF(0, kF);
+    
+    frontLeft.configMotionCruiseVelocity((int) motionCruiseVelocity);
+    frontRight.configMotionCruiseVelocity((int) motionCruiseVelocity);
+    back.configMotionCruiseVelocity((int) motionCruiseVelocity);
+    
+    frontLeft.configMotionAcceleration((int) motionAcceleration);
+    frontRight.configMotionAcceleration((int) motionAcceleration);
+    back.configMotionAcceleration((int) motionAcceleration);
     
     frontLeft.configClosedLoopPeakOutput(0, 0.7);
     frontRight.configClosedLoopPeakOutput(0, 0.7);
@@ -128,23 +139,26 @@ public class Climber extends Subsystem implements Sendable {
   public void setClimbHeight(int platform) {
     switch (platform) {
     case 1:
-      Console.warn("HAB 1 doesn't need climber");break;      
+      Console.warn("HAB 1 doesn't need climber");
+      break;
     case 2:
-      top = LVL2;break;      
+      top = LVL2;
+      break;
     case 3:
-      top = LVL3;break;      
+      top = LVL3;
+      break;
     default:
       Console.warn("HAB " + platform + " doesn't exist");
     }
   }
   
-  public void stage1() {    
+  public void stage1() {
   }
   
-  public void stage2() {    
+  public void stage2() {
   }
   
-  public void stage3() {    
+  public void stage3() {
   }
   
   @Override
@@ -158,18 +172,65 @@ public class Climber extends Subsystem implements Sendable {
    * Checks the position of the motors, and sets a new target for them
    */
   private void updateTargets() {
-    /*
+    switch (stage) {
+    case 1:
+      // put down jacks
+      drive(false, false);
+      frontTarget = top;
+      backTarget = top;
+      stage = 2;
+      if (isOnTarget()){
+        break;
+      }      
+    case 2:
+      // push forward
+      frontTarget = top;
+      backTarget = top;
+      break;          
+    case 3:
+      // raise front
+      drive(false, false);
+      frontTarget = top;
+      backTarget = top;
+      if (isOnTarget()){
+        break;
+      }     
+    case 4:
+      // push forward
+      frontTarget = top;
+      backTarget = top;
+      break;      
+    case 5:
+      // raise back
+      frontTarget = top;
+      backTarget = top;
+      if(isOnTarget()){
+        break;
+      }
+      
+    }
+    setMotors();
+  }
+  
+  private void updateManualTargets() {
+    
     if (Robot.oi.manual.get()) {
-      if (isErrorAllowed()) {
         if (Robot.oi.operator1.getY() < -0.9 && frontTarget > BOTTOM) {
-          frontTarget -= ALLOWED_ERROR;
+          frontLeft.set(ControlMode.PercentOutput, 1);
+          frontRight.set(ControlMode.PercentOutput, 1);
         } else if (Robot.oi.operator1.getY() > 0.9 && frontTarget < LVL3) {
-          frontTarget += ALLOWED_ERROR;
+          frontLeft.set(ControlMode.PercentOutput, -1);
+          frontRight.set(ControlMode.PercentOutput, -1);
+        } else {
+          frontLeft.set(ControlMode.PercentOutput, 0);
+          frontRight.set(ControlMode.PercentOutput, 0);
         }
         if (Robot.oi.operator1.getX() > 0.9 && backTarget > BOTTOM) {
-          backTarget -= ALLOWED_ERROR;
+          back.set(ControlMode.PercentOutput, 1);
         } else if (Robot.oi.operator1.getX() < -0.9 && backTarget < LVL3) {
-          backTarget += ALLOWED_ERROR;
+          back.set(ControlMode.PercentOutput, -1);
+        } else {
+            back.set(ControlMode.PercentOutput, 0);
         }
       }
       if (Robot.oi.operator2.getX() > 0.9) {
@@ -179,66 +240,11 @@ public class Climber extends Subsystem implements Sendable {
       } else {
         drive = 0.0;
       }
-      back.set(ControlMode.Position, backTarget);
-      frontLeft.set(ControlMode.Position, frontTarget);
-      frontRight.set(ControlMode.Position, frontTarget);
+      back.set(ControlMode.PercentOutput, backTarget);
+      frontLeft.set(ControlMode.PercentOutput, frontTarget);
+      frontRight.set(ControlMode.PercentOutput, frontTarget);
       driver.set(ControlMode.PercentOutput, drive);
-    } else {
-      */
-      switch (stage) {
-      case 1:
-        // put down jacks
-        drive(false, false);
-        if (moveTo(top, top)) {
-          stage = 2;
-        }
-        break;
-      case 2:
-        // push forward
-        drive(true, false);
-        moveTo(top, top);
-        break;
-      case 3:
-        // raise front
-        drive(false, false);
-        if (moveTo(bottom, top)) {
-          stage = 4;
-        }
-        break;
-      case 4:
-        // push forward
-        drive(true, true);
-        moveTo(bottom, top);
-        break;
-      case 5:
-        // raise back
-        drive(false, false);
-        if (moveTo(bottom, bottom)) {
-          stage = 6;
-        }
-        break;
-      }
-      setMotors();
     }
-  //}
-  
-  private boolean moveTo(double front, double back) {
-    if (isErrorAllowed()) {
-      if (front > frontTarget) {
-        frontTarget += ALLOWED_ERROR;
-      } else if (front < frontTarget) {
-        frontTarget -= ALLOWED_ERROR;
-      }
-      if (back > backTarget) {
-        backTarget += ALLOWED_ERROR;
-      } else if (back < backTarget) {
-        backTarget -= ALLOWED_ERROR;
-      }
-      return Math.abs(frontTarget - front) <= 0 && Math.abs(backTarget - back) <= 0;
-    } else {
-      return false;
-    }
-  }
   
   private void drive(boolean back, boolean drivetrian) {
     if (back || Robot.oi.manual.get()) {
@@ -281,17 +287,17 @@ public class Climber extends Subsystem implements Sendable {
       frontTarget = 0;
       backTarget = 0;
     } else {
-      frontLeft.set(ControlMode.Position, frontTarget);
-      frontRight.set(ControlMode.Position, frontTarget);
-      back.set(ControlMode.Position, backTarget);
+      frontLeft.set(ControlMode.MotionMagic, frontTarget, DemandType.ArbitraryFeedForward, minimumOutput);
+      frontRight.set(ControlMode.MotionMagic, frontTarget, DemandType.ArbitraryFeedForward, minimumOutput);
+      back.set(ControlMode.MotionMagic, backTarget, DemandType.ArbitraryFeedForward, minimumOutput);
       driver.set(ControlMode.PercentOutput, drive);
     }
   }
   
-  private boolean isErrorAllowed() {
-    return Math.abs(frontLeft.getSelectedSensorPosition(0) - frontTarget) < ALLOWED_ERROR
-        && Math.abs(frontRight.getSelectedSensorPosition(0) - frontTarget) < ALLOWED_ERROR
-        && Math.abs(back.getSelectedSensorPosition(0) - backTarget) < ALLOWED_ERROR;
+  private boolean isOnTarget() {
+    return Math.abs(frontLeft.getSelectedSensorPosition(0) - frontTarget) < 10
+        && Math.abs(frontRight.getSelectedSensorPosition(0) - frontTarget) < 10
+        && Math.abs(back.getSelectedSensorPosition(0) - backTarget) < 10;
   }
   
   @Override
