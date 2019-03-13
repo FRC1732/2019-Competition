@@ -138,16 +138,13 @@ public class Climber extends Subsystem implements Sendable {
     }
   }
   
-  public void stage1() {
-    
+  public void stage1() {    
   }
   
-  public void stage2() {
-    
+  public void stage2() {    
   }
   
-  public void stage3() {
-    
+  public void stage3() {    
   }
   
   @Override
