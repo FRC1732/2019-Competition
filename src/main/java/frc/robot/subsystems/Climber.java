@@ -42,7 +42,9 @@ import frc.robot.util.MotorUtil;
  * 
  * * Raise back jack until match end/ at top
  */
+
 public class Climber extends Subsystem implements Sendable {
+
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -181,8 +183,7 @@ public class Climber extends Subsystem implements Sendable {
       frontTarget = top;
       backTarget = top;
       stage = 2;
-      if (isOnTarget()) break;
-       
+      if (isOnTarget()) break;       
     case 2:
       // push forward
       frontTarget = top;
@@ -278,7 +279,7 @@ public class Climber extends Subsystem implements Sendable {
   /**
    * Sets the motors to their current target
    */
-  
+
   private void setMotors() {
     if (stage <= 0) {
       holdJacks();
