@@ -41,6 +41,7 @@ public class OI {
   public Joystick operator2 = new Joystick(RobotMap.OI_OPERATOR_2_ID);
 
   public boolean hatchExtended = false;
+  public boolean manualMode = false;
   
   /**
    * Gets the left joystick's position, as a percent of fully pushed
@@ -129,4 +130,13 @@ public class OI {
     new JoystickButton(operator2, 7).whenActive(new ClimbStage2());
     new JoystickButton(operator2, 11).whenActive(new ClimbStage1());
   }
+
+  public boolean getManual() {
+    return manualMode;
+  }
+
+  public void setManual(boolean cond) {
+    manualMode = cond;
+  }
+  
 }
