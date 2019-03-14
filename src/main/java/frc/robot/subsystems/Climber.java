@@ -181,11 +181,12 @@ public class Climber extends Subsystem implements Sendable {
       // put down jacks
       drive(false, false);
       frontTarget = top;
-      backTarget = top;
-      stage = 2;
-      if (isOnTarget()) break;       
+      backTarget = top;      
+      if (isOnTarget()) stage = 2;
+      break;       
     case 2:
       // push forward
+      drive(true,true);
       frontTarget = top;
       backTarget = top;
       break;          
@@ -194,14 +195,17 @@ public class Climber extends Subsystem implements Sendable {
       drive(false, false);
       frontTarget = top;
       backTarget = top;
-      if (isOnTarget()) break;
+      if (isOnTarget()) stage = 4;
+      break;
     case 4:
       // push forward
+      drive(true,true);
       frontTarget = top;
       backTarget = top;
       break;      
     case 5:
       // raise back
+      drive(false,false);
       frontTarget = top;
       backTarget = top;
       if(isOnTarget()) break;      
