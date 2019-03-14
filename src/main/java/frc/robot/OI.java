@@ -108,7 +108,7 @@ public class OI {
     new JoystickButton(right, 1).whenActive(new TurnToTarget());
     new JoystickButton(right, 2).whenActive(new PlaceCargo());
     new JoystickButton(right, 3).whenPressed(new PlaceHatch());
-    new JoystickButton(right, 4); // ExtendToggle
+    new JoystickButton(right, 4).whenPressed(new ExtendToggle());
     new JoystickButton(right, 5).whenActive(new SpitCargo());
 
     sliderInOut.whenActive(new SliderIn());
@@ -125,7 +125,7 @@ public class OI {
     new JoystickButton(operator2, 4).whenPressed(new SetElevator(Position.RocketLevel1Cargo));
     new JoystickButton(operator2, 5).whenPressed(new SetElevator(Position.CargoShipCargo));
     new JoystickButton(operator2, 6).whenActive(new ClimbStage3());
-    new JoystickButton(operator2, 9).whenPressed(new ExtendToggle());
+    new JoystickButton(operator2, 9); // manual override
     new JoystickButton(operator2, 7).whenActive(new ClimbStage2());
     new JoystickButton(operator2, 11).whenActive(new ClimbStage1());
   }
