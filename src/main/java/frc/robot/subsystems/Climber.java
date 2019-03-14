@@ -227,14 +227,12 @@ public class Climber extends Subsystem implements Sendable {
       jacksThree(); break;
     case (5):
       Console.info("climb completed sucessfully"); break;
-    case (11): break;
     default:
       Console.warn("climb error: auto stage does not exist"); break;
     }    
   }
   
-  private void updateManualTargets() {
-    stage = 111;    
+  private void updateManualTargets() {    
       if (Robot.oi.operator1.getY() < -0.9 && frontTarget > BOTTOM) {
         frontLeft.set(ControlMode.PercentOutput, 1);
         frontRight.set(ControlMode.PercentOutput, 1);
