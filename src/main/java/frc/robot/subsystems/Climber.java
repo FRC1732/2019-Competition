@@ -167,6 +167,7 @@ public class Climber extends Subsystem implements Sendable {
   @Override
   public void periodic() {
     updateTargets();
+    updateManualTargets();
     Console.graph("Climber", frontLeft.getSelectedSensorPosition(0), frontRight.getSelectedSensorPosition(0),
         back.getSelectedSensorPosition(0));
   }
