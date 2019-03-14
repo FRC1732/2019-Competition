@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.CloseFinger;
+import frc.robot.commands.ExtendToggle;
 import frc.robot.commands.FingerDown;
 import frc.robot.commands.FingerUp;
 import frc.robot.commands.IntakeCargo;
@@ -38,6 +39,8 @@ public class OI {
   private Joystick right = new Joystick(RobotMap.OI_RIGHT_ID);
   public Joystick operator1 = new Joystick(RobotMap.OI_OPERATOR_1_ID);
   public Joystick operator2 = new Joystick(RobotMap.OI_OPERATOR_2_ID);
+
+  public boolean hatchExtended = false;
   
   /**
    * Gets the left joystick's position, as a percent of fully pushed
@@ -122,7 +125,7 @@ public class OI {
     new JoystickButton(operator2, 4).whenPressed(new SetElevator(Position.RocketLevel1Cargo));
     new JoystickButton(operator2, 5).whenPressed(new SetElevator(Position.CargoShipCargo));
     new JoystickButton(operator2, 6).whenActive(new ClimbStage3());
-    new JoystickButton(operator2, 9); // manual override
+    new JoystickButton(operator2, 9).whenPressed(new ExtendToggle());
     new JoystickButton(operator2, 7).whenActive(new ClimbStage2());
     new JoystickButton(operator2, 11).whenActive(new ClimbStage1());
   }
