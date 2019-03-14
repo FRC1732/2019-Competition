@@ -44,10 +44,10 @@ import frc.robot.util.MotorUtil;
  */
 
 public class Climber extends Subsystem implements Sendable {
-
+  
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-
+  
   /**
    * Various positions for the jacks
    * 
@@ -85,7 +85,7 @@ public class Climber extends Subsystem implements Sendable {
    * Stage on: 0: disabled 1: put down jacks 2: push forward 3: raise front 4:
    * push forward 5: raise back 6: climbed
    */
-
+  
   public Climber() {
     frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
     frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
@@ -159,6 +159,7 @@ public class Climber extends Subsystem implements Sendable {
   }
   
   public void stage2() {
+    
   }
   
   public void stage3() {
@@ -166,8 +167,9 @@ public class Climber extends Subsystem implements Sendable {
   
   @Override
   public void periodic() {
-    updateTargets();
     updateManualTargets();
+    climbProcess();
+    setMotors();
     Console.graph("Climber", frontLeft.getSelectedSensorPosition(0), frontRight.getSelectedSensorPosition(0),
         back.getSelectedSensorPosition(0));
   }
@@ -175,81 +177,94 @@ public class Climber extends Subsystem implements Sendable {
   /**
    * Checks the position of the motors, and sets a new target for them
    */
-
-  private void updateTargets() {
-    switch (stage) {
-    case 1:
-      // put down jacks
-      drive(false, false);
-      frontTarget = top;
-      backTarget = top;      
-      if (isOnTarget()) stage = 2;
-      break;       
-    case 2:
-      // push forward
-      drive(true,true);
-      frontTarget = top;
-      backTarget = top;
-      break;          
-    case 3:
-      // raise front
-      drive(false, false);
-      frontTarget = top;
-      backTarget = top;
-      if (isOnTarget()) stage = 4;
-      break;
-    case 4:
-      // push forward
-      drive(true,true);
-      frontTarget = top;
-      backTarget = top;
-      break;      
-    case 5:
-      // raise back
-      drive(false,false);
-      frontTarget = top;
-      backTarget = top;
-      if(isOnTarget()) break;      
+  
+  private void jacksOne() {
+    // lower jacks
+    frontTarget = top;
+    backTarget = top;
+    if (isOnTarget(frontTarget, backTarget)) {
+      stage = 2;
     }
-    setMotors();
+  }  
+  private void climberForward() {
+    // move climber/robot forward
+    // should this be true, true?
+    drive(true, true);
+    if (back.getSelectedSensorPosition(0) >= 0) {
+      stage += 1;
+    }
+  }  
+  private void jacksTwo() {
+    // raise front jack
+    frontTarget = bottom;
+    backTarget = top;
+    if (isOnTarget(frontTarget, backTarget)) {
+      stage = 4;
+    }
+  }  
+  private void jacksThree() {
+    // raise both jacks
+    frontTarget = bottom;
+    backTarget = bottom;
+    if (isOnTarget(frontTarget, backTarget)) {
+      stage = 5;
+    }
+  }  
+  private void climbProcess() {
+    switch (stage) {
+    case (0):
+      jacksOne(); break;
+    case (1):
+      climberForward(); break;
+    case (2):
+      jacksTwo(); break;
+    case (3):
+      climberForward(); break;
+    case (4):
+      jacksThree(); break;
+    case (5):
+      Console.info("climb completed sucessfully"); break;
+    case (11): break;
+    default:
+      Console.warn("climb error: auto stage does not exist"); break;
+    }    
   }
   
   private void updateManualTargets() {
-    
+    stage = 111;    
     if (Robot.oi.manual.get()) {
-        if (Robot.oi.operator1.getY() < -0.9 && frontTarget > BOTTOM) {
-          frontLeft.set(ControlMode.PercentOutput, 1);
-          frontRight.set(ControlMode.PercentOutput, 1);
-        } else if (Robot.oi.operator1.getY() > 0.9 && frontTarget < LVL3) {
-          frontLeft.set(ControlMode.PercentOutput, -1);
-          frontRight.set(ControlMode.PercentOutput, -1);
-        } else {
-          frontLeft.set(ControlMode.PercentOutput, 0);
-          frontRight.set(ControlMode.PercentOutput, 0);
-        }
-        if (Robot.oi.operator1.getX() > 0.9 && backTarget > BOTTOM) {
-          back.set(ControlMode.PercentOutput, 1);
-        } else if (Robot.oi.operator1.getX() < -0.9 && backTarget < LVL3) {
-          back.set(ControlMode.PercentOutput, -1);
-        } else {
-            back.set(ControlMode.PercentOutput, 0);
-        }
-      }
-      if (Robot.oi.operator2.getX() > 0.9) {
-        drive = 0.2;
-      } else if (Robot.oi.operator2.getX() < -0.9) {
-        drive = -0.2;
+      if (Robot.oi.operator1.getY() < -0.9 && frontTarget > BOTTOM) {
+        frontLeft.set(ControlMode.PercentOutput, 1);
+        frontRight.set(ControlMode.PercentOutput, 1);
+      } else if (Robot.oi.operator1.getY() > 0.9 && frontTarget < LVL3) {
+        frontLeft.set(ControlMode.PercentOutput, -1);
+        frontRight.set(ControlMode.PercentOutput, -1);
       } else {
-        drive = 0.0;
+        frontLeft.set(ControlMode.PercentOutput, 0);
+        frontRight.set(ControlMode.PercentOutput, 0);
       }
-      back.set(ControlMode.PercentOutput, backTarget);
-      frontLeft.set(ControlMode.PercentOutput, frontTarget);
-      frontRight.set(ControlMode.PercentOutput, frontTarget);
-      driver.set(ControlMode.PercentOutput, drive);
+      if (Robot.oi.operator1.getX() > 0.9 && backTarget > BOTTOM) {
+        back.set(ControlMode.PercentOutput, 1);
+      } else if (Robot.oi.operator1.getX() < -0.9 && backTarget < LVL3) {
+        back.set(ControlMode.PercentOutput, -1);
+      } else {
+        back.set(ControlMode.PercentOutput, 0);
+      }
     }
+    if (Robot.oi.operator2.getX() > 0.9) {
+      drive = 0.2;
+    } else if (Robot.oi.operator2.getX() < -0.9) {
+      drive = -0.2;
+    } else {
+      drive = 0.0;
+    }
+    back.set(ControlMode.PercentOutput, backTarget);
+    frontLeft.set(ControlMode.PercentOutput, frontTarget);
+    frontRight.set(ControlMode.PercentOutput, frontTarget);
+    driver.set(ControlMode.PercentOutput, drive);
+  }
   
- 
-    private void drive(boolean back, boolean drivetrian) {
+  private void drive(boolean back, boolean drivetrian) {
     if (back || Robot.oi.manual.get()) {
       drive = 0.2;
     } else {
@@ -284,7 +299,7 @@ public class Climber extends Subsystem implements Sendable {
   /**
    * Sets the motors to their current target
    */
-
+  
   private void setMotors() {
     if (stage <= 0) {
       holdJacks();
@@ -298,10 +313,10 @@ public class Climber extends Subsystem implements Sendable {
     }
   }
   
-  private boolean isOnTarget() {
-    return Math.abs(frontLeft.getSelectedSensorPosition(0) - frontTarget) < 10
-        && Math.abs(frontRight.getSelectedSensorPosition(0) - frontTarget) < 10
-        && Math.abs(back.getSelectedSensorPosition(0) - backTarget) < 10;
+  private boolean isOnTarget(double tempFrontTarget, double tempBackTarget) {
+    return Math.abs(frontLeft.getSelectedSensorPosition(0) - tempFrontTarget) < 10
+        && Math.abs(frontRight.getSelectedSensorPosition(0) - tempFrontTarget) < 10
+        && Math.abs(back.getSelectedSensorPosition(0) - tempBackTarget) < 10;
   }
   
   @Override
