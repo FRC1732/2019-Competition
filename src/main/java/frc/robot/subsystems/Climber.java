@@ -167,8 +167,11 @@ public class Climber extends Subsystem implements Sendable {
   
   @Override
   public void periodic() {
+    if (Robot.oi.manual.get()) {
     updateManualTargets();
+    } else {
     climbProcess();
+    }
     setMotors();
     Console.graph("Climber", frontLeft.getSelectedSensorPosition(0), frontRight.getSelectedSensorPosition(0),
         back.getSelectedSensorPosition(0));
@@ -232,7 +235,6 @@ public class Climber extends Subsystem implements Sendable {
   
   private void updateManualTargets() {
     stage = 111;    
-    if (Robot.oi.manual.get()) {
       if (Robot.oi.operator1.getY() < -0.9 && frontTarget > BOTTOM) {
         frontLeft.set(ControlMode.PercentOutput, 1);
         frontRight.set(ControlMode.PercentOutput, 1);
@@ -250,7 +252,6 @@ public class Climber extends Subsystem implements Sendable {
       } else {
         back.set(ControlMode.PercentOutput, 0);
       }
-    }
     if (Robot.oi.operator2.getX() > 0.9) {
       drive = 0.2;
     } else if (Robot.oi.operator2.getX() < -0.9) {
