@@ -139,6 +139,7 @@ public class Climber extends Subsystem implements Sendable {
     back.setNeutralMode(NeutralMode.Brake);
   }
   
+  //sets climb height
   public void setClimbHeight(int platform) {
     switch (platform) {
     case 1:
@@ -155,6 +156,7 @@ public class Climber extends Subsystem implements Sendable {
     }
   }
   
+//stage1-stage3 below are necessary for the climb commands, it would be a good idea to clean up commands
   public void stage1() {
   }
   
@@ -191,7 +193,6 @@ public class Climber extends Subsystem implements Sendable {
   }  
   private void climberForward() {
     // move climber/robot forward
-    // should this be true, true?
     drive(true, true);
     if (back.getSelectedSensorPosition(0) >= 0) {
       stage += 1;
@@ -212,7 +213,10 @@ public class Climber extends Subsystem implements Sendable {
     if (isOnTarget(frontTarget, backTarget)) {
       stage = 5;
     }
-  }  
+  }
+
+  //logic for climbing 
+
   private void climbProcess() {
     switch (stage) {
     case (0):
@@ -232,6 +236,8 @@ public class Climber extends Subsystem implements Sendable {
     }    
   }
   
+  //manual option for controlling climber
+
   private void updateManualTargets() {    
       if (Robot.oi.operator1.getY() < -0.9 && frontTarget > BOTTOM) {
         frontLeft.set(ControlMode.PercentOutput, 1);
@@ -263,6 +269,8 @@ public class Climber extends Subsystem implements Sendable {
     driver.set(ControlMode.PercentOutput, drive);
   }
   
+  //drive jack motors and drivetrain forward
+
   private void drive(boolean back, boolean drivetrian) {
     if (back || Robot.oi.manual.get()) {
       drive = 0.2;
@@ -275,6 +283,8 @@ public class Climber extends Subsystem implements Sendable {
       Robot.drivetrain.set(0.0, 0.0);
     }
   }
+
+  //holds jacks up
   
   private void holdJacks() {
     if (frontLeft.getSelectedSensorPosition(0) > 400) {
