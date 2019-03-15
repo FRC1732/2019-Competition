@@ -321,6 +321,8 @@ public class Climber extends Subsystem implements Sendable {
       driver.set(ControlMode.PercentOutput, drive);
     }
   }
+
+  //checks whether jacks are in correct location
   
   private boolean isOnTarget(double tempFrontTarget, double tempBackTarget) {
     return Math.abs(frontLeft.getSelectedSensorPosition(0) - tempFrontTarget) < 10
