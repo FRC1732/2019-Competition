@@ -195,8 +195,7 @@ public class Climber extends Subsystem implements Sendable {
   private void climberForward() {
     // move climber/robot forward
     if (stage == 1) drive(false, true);
-    if (stage == 3) drive (true, false);
-    
+    if (stage == 3) drive (true, true);    
     if (driver.getSelectedSensorPosition(0) >= 0) {
       stage += 1;
       drive(false, false);
