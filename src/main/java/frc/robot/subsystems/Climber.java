@@ -156,7 +156,8 @@ public class Climber extends Subsystem implements Sendable {
     }
   }
   
-//stage1-stage3 below are necessary for the climb commands, it would be a good idea to clean up commands
+//stage1-stage3 below are necessary for the climb commands, (would be a good idea to clean up commands)
+
   public void stage1() {
   }
   
@@ -193,9 +194,12 @@ public class Climber extends Subsystem implements Sendable {
   }  
   private void climberForward() {
     // move climber/robot forward
-    drive(true, true);
-    if (back.getSelectedSensorPosition(0) >= 0) {
+    if (stage == 1) drive(false, true);
+    if (stage == 3) drive (true, false);
+    
+    if (driver.getSelectedSensorPosition(0) >= 0) {
       stage += 1;
+      drive(false, false);
     }
   }  
   private void jacksTwo() {
