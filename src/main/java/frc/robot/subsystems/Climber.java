@@ -83,7 +83,38 @@ public class Climber extends Subsystem implements Sendable {
     frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
     frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
     back.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+
+    int frontLeftAbsolutePosition = frontLeft.getSensorCollection().getPulseWidthPosition();
+    int frontRightAbsolutePosition = frontRight.getSensorCollection().getPulseWidthPosition();
+    int backAbsolutePosition = back.getSensorCollection().getPulseWidthPosition();
+
+    frontLeftAbsolutePosition &= 0xFFF;
+    frontRightAbsolutePosition &= 0xFFF;
+    backAbsolutePosition &= 0xFFF;
+
+    /* Unable to find our kSensorPhase, kMotorInvert, kPIDLoopIdx, 
+    * and kTimeoutMs constants. Please help.
+    * ~ Christian Visaya
+    */
+
+    // if (Constants.kSensorPhase) {
+    //   frontLeftAbsolutePosition *= -1;
+    //   frontRightAbsolutePosition *= -1;
+    //   backAbsolutePosition *= -1;
+    // }
+
+    // if (Constants.kMotorInvert) {
+    //   frontLeftAbsolutePosition *= -1;
+    //   frontRightAbsolutePosition *= -1;
+    //   backAbsolutePosition *= -1;
+    // }
     
+
+    //frontLeft.setSelectedSensorPosition(frontLeftAbsolutePosition, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+    frontLeft.setSelectedSensorPosition(frontLeftAbsolutePosition, 0, 30);
+    frontRight.setSelectedSensorPosition(frontRightAbsolutePosition, 0, 30);
+    back.setSelectedSensorPosition(backAbsolutePosition, 0, 30);
+
     frontLeft.setSensorPhase(false);
     frontRight.setSensorPhase(false);
     back.setSensorPhase(false);
@@ -94,10 +125,6 @@ public class Climber extends Subsystem implements Sendable {
     frontRight.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     back.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     back.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
-    
-    frontLeft.setSelectedSensorPosition(0, 0, 0);
-    frontRight.setSelectedSensorPosition(0, 0, 0);
-    back.setSelectedSensorPosition(0, 0, 0);
     
     frontLeft.config_kP(0, kP);
     frontRight.config_kP(0, kP);
