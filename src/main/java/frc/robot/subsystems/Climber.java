@@ -78,8 +78,6 @@ public class Climber extends Subsystem implements Sendable {
   private static final double kD = 0.0;
   private static final double kF = 1.0;
   private static final double minimumOutput = .01;
-  private static final double motionCruiseVelocity = 300;
-  private static final double motionAcceleration = motionCruiseVelocity;
   
   /**
    * Stage on: 0: disabled 1: put down jacks 2: push forward 3: raise front 4:
@@ -117,19 +115,7 @@ public class Climber extends Subsystem implements Sendable {
     frontLeft.config_kD(0, kD);
     frontRight.config_kD(0, kD);
     back.config_kD(0, kD);
-    
-    frontLeft.config_kF(0, kF);
-    frontRight.config_kF(0, kF);
-    back.config_kF(0, kF);
-    
-    frontLeft.configMotionCruiseVelocity((int) motionCruiseVelocity);
-    frontRight.configMotionCruiseVelocity((int) motionCruiseVelocity);
-    back.configMotionCruiseVelocity((int) motionCruiseVelocity);
-    
-    frontLeft.configMotionAcceleration((int) motionAcceleration);
-    frontRight.configMotionAcceleration((int) motionAcceleration);
-    back.configMotionAcceleration((int) motionAcceleration);
-    
+        
     frontLeft.configClosedLoopPeakOutput(0, 0.7);
     frontRight.configClosedLoopPeakOutput(0, 0.7);
     back.configClosedLoopPeakOutput(0, 0.7);
