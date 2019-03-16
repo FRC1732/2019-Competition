@@ -18,6 +18,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.util.Console;
@@ -57,9 +58,10 @@ public class Climber extends Subsystem implements Sendable {
    * 
    * Robot and Jacks on ground == 0
    */
-  private final double BOTTOM = 0;
-  private final double LVL2 = 620 * 7;
-  private final double LVL3 = 620 * 21;
+  private final double OFFSET = 2384;
+  private final double BOTTOM = 0 + OFFSET;
+  private final double LVL2 = 620 * 7 + OFFSET;
+  private final double LVL3 = 620 * 21 + OFFSET;
   
   private double bottom = BOTTOM;
   private double top = LVL2;
@@ -109,6 +111,7 @@ public class Climber extends Subsystem implements Sendable {
     //   backAbsolutePosition *= -1;
     // }
     
+    // frontRightAbsolutePosition *= -1;
 
     //frontLeft.setSelectedSensorPosition(frontLeftAbsolutePosition, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
     frontLeft.setSelectedSensorPosition(frontLeftAbsolutePosition, 0, 0);
@@ -145,6 +148,8 @@ public class Climber extends Subsystem implements Sendable {
     frontLeft.setNeutralMode(NeutralMode.Brake);
     frontRight.setNeutralMode(NeutralMode.Brake);
     back.setNeutralMode(NeutralMode.Brake);
+
+    SmartDashboard.putData("Climber ", this);
   }
   
   public void setClimbHeight(int platform) {
@@ -221,8 +226,9 @@ public class Climber extends Subsystem implements Sendable {
       case 1:
         // lift jacks
         drive(false, false);
-        if (moveTo(top, top)) {
-          stage = 2;
+        if (moveTo(bottom, top)) {
+
+          // stage = 2;
         }
         break;
       case 2:
@@ -250,7 +256,8 @@ public class Climber extends Subsystem implements Sendable {
         }
         break;
       }
-      setMotors();
+      // setMotors();
+      testJack();
     }
   }
   
@@ -317,6 +324,17 @@ public class Climber extends Subsystem implements Sendable {
       frontRight.set(ControlMode.Position, frontTarget);
       back.set(ControlMode.Position, backTarget);
       driver.set(ControlMode.PercentOutput, drive);
+    }
+  }
+
+  private void testJack() {
+    if (stage <= 0) {
+      //holdJacks();
+      // frontTarget = 0;
+      // backTarget = 0;
+    } else {
+      // Switch out whichever jack you want to test here
+      back.set(ControlMode.Position, 620 * 14);
     }
   }
   
