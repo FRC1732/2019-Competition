@@ -72,6 +72,9 @@ public class Climber extends Subsystem implements Sendable {
   private double backTarget = bottom;
   private double drive = 0;
   private int stage = 0;
+  private int previousStage = stage;
+  private long startTime;
+  private double elapsedTime;
   
   private static final double kP = 1.4;
   private static final double kI = 0.0;
@@ -157,8 +160,12 @@ public class Climber extends Subsystem implements Sendable {
   @Override
   public void periodic() {
     if (Robot.oi.manual.get()) {
-    updateManualTargets();
+      updateManualTargets();
     } else {
+    if (stage != previousStage) {
+      startTime = System.currentTimeMillis();
+      previousStage = stage;
+    } 
     climbProcess();
     }
     setMotors();
@@ -179,14 +186,24 @@ public class Climber extends Subsystem implements Sendable {
     }
   }  
   private void climberForward() {
-    // move climber/robot forward
-    if (stage == 1) drive(false, true);
-    if (stage == 3) drive (true, true);    
-    if (driver.getSelectedSensorPosition(0) >= 0) {
-      stage += 1;
-      drive(false, false);
+    // move climber/robot forward with back motor
+    drive(false, true);
+    elapsedTime = System.currentTimeMillis() - startTime;
+    if (elapsedTime >= 25){
+    drive(false, false);
+    stage = 3; 
+    }   
+  }
+  private void drivetrainForward() {
+    // move climber/robot forward with drivetrain motor
+    drive(true, true);
+    elapsedTime = System.currentTimeMillis() - startTime;
+    if (elapsedTime >= 25){
+    drive(false, false);
+    stage = 4;
     }
-  }  
+  }
+
   private void jacksTwo() {
     // raise front jack
     frontTarget = bottom;
@@ -215,7 +232,7 @@ public class Climber extends Subsystem implements Sendable {
     case (2):
       jacksTwo(); break;
     case (3):
-      climberForward(); break;
+      drivetrainForward(); break;
     case (4):
       jacksThree(); break;
     case (5):
