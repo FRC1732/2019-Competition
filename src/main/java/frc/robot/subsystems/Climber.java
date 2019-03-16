@@ -111,9 +111,9 @@ public class Climber extends Subsystem implements Sendable {
     
 
     //frontLeft.setSelectedSensorPosition(frontLeftAbsolutePosition, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-    frontLeft.setSelectedSensorPosition(frontLeftAbsolutePosition, 0, 30);
-    frontRight.setSelectedSensorPosition(frontRightAbsolutePosition, 0, 30);
-    back.setSelectedSensorPosition(backAbsolutePosition, 0, 30);
+    frontLeft.setSelectedSensorPosition(frontLeftAbsolutePosition, 0, 0);
+    frontRight.setSelectedSensorPosition(frontRightAbsolutePosition, 0, 0);
+    back.setSelectedSensorPosition(backAbsolutePosition, 0, 0);
 
     frontLeft.setSensorPhase(false);
     frontRight.setSensorPhase(false);

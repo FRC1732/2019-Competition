@@ -49,6 +49,16 @@ public class Elevator extends Subsystem {
   private static final double motionAcceleration = motionCruiseVelocity * 2;
   
   public Elevator() {
+
+    
+    elevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+
+    int absolutePosition = elevator.getSensorCollection().getPulseWidthPosition();
+
+    absolutePosition &= 0xFFF;
+
+    elevator.setSelectedSensorPosition(absolutePosition, 0, 0);
+    
     elevator.config_kP(0, kP);
     elevator.config_kI(0, kI);
     elevator.config_kD(0, kD);
@@ -63,9 +73,7 @@ public class Elevator extends Subsystem {
     elevator.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
     elevator.configClearPositionOnLimitF(true, 0);
     elevator.configClearPositionOnLimitR(true, 0);
-    
-    elevator.setSelectedSensorPosition(0, 0, 0);
-    
+        
     SmartDashboard.putData("Elevator", new SimpleSendable(this::sendHeight));
   }
   
