@@ -26,6 +26,11 @@ public class CargoIntake extends Subsystem {
   // here. Call these from Commands.
   private VictorSPX cargoIntakeMotor = MotorUtil.createVictor(RobotMap.CARGO_INTAKE_MOTOR_ID, false);
   private Solenoid cargoIntakeSolenoid = new Solenoid(1, RobotMap.CARGO_INTAKE_SOLENOID_ID);
+
+  public CargoIntake() {
+    cargoIntakeMotor.configOpenloopRamp(1);
+  }
+  
   
   /**
    * Sets whether the intake should be actively intaking cargo, unless the robot
@@ -36,6 +41,7 @@ public class CargoIntake extends Subsystem {
    */
   public void setEngaged(boolean intaking) {
     if (intaking) {
+      
       cargoIntakeMotor.set(ControlMode.PercentOutput, 0.5);
       cargoIntakeSolenoid.set(true);
     } else {
