@@ -57,7 +57,7 @@ public class Elevator extends Subsystem {
 
     absolutePosition &= 0xFFF;
 
-    elevator.setSelectedSensorPosition(0, 0, 0);
+    elevator.setSelectedSensorPosition(absolutePosition, 0, 0);
     
     elevator.config_kP(0, kP);
     elevator.config_kI(0, kI);

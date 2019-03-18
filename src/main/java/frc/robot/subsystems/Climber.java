@@ -256,8 +256,8 @@ public class Climber extends Subsystem implements Sendable {
         }
         break;
       }
-      // setMotors();
-      testJack();
+      setMotors();
+      //testJack();
     }
   }
   
@@ -316,7 +316,7 @@ public class Climber extends Subsystem implements Sendable {
    */
   private void setMotors() {
     if (stage <= 0) {
-      holdJacks();
+      // holdJacks();
       frontTarget = 0;
       backTarget = 0;
     } else {
