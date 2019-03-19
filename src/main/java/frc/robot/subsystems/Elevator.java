@@ -37,6 +37,8 @@ public class Elevator extends Subsystem {
    */
   private TalonSRX elevator = MotorUtil.createTalon(RobotMap.ELEVATOR_ELEVATOR_ID, true);
   private DigitalInput limit = new DigitalInput(0);
+
+  private final int OFFSET = 2300;
   
   private static final double kP = 2.0;
   private static final double kI = 0;
@@ -57,7 +59,7 @@ public class Elevator extends Subsystem {
 
     absolutePosition &= 0xFFF;
 
-    elevator.setSelectedSensorPosition(absolutePosition, 0, 0);
+    elevator.setSelectedSensorPosition((absolutePosition - OFFSET), 0, 0);
     
     elevator.config_kP(0, kP);
     elevator.config_kI(0, kI);
@@ -89,7 +91,6 @@ public class Elevator extends Subsystem {
   }
   
   private int position = Position.BaseHeight.position;
-  
   /**
    * Sets the position of the elevator, using constants declared in
    * {@link Position}. e.g. {@code Position.BaseHeight}

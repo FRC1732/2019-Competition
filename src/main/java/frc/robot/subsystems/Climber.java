@@ -46,9 +46,9 @@ public class Climber extends Subsystem implements Sendable {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   
-  private TalonSRX frontLeft = MotorUtil.createTalon(RobotMap.CLIMBER_FRONT_LEFT, false);
-  private TalonSRX frontRight = MotorUtil.createTalon(RobotMap.CLIMBER_FRONT_RIGHT, true);
-  private TalonSRX back = MotorUtil.createTalon(RobotMap.CLIMBER_BACK, false);
+  private TalonSRX frontLeft = new TalonSRX(RobotMap.CLIMBER_FRONT_LEFT);
+  private TalonSRX frontRight = new TalonSRX(RobotMap.CLIMBER_FRONT_RIGHT);
+  private TalonSRX back = new TalonSRX(RobotMap.CLIMBER_BACK);
   private VictorSPX driver = MotorUtil.createVictor(RobotMap.CLIMBER_DRIVER, false);
   
   /**
@@ -58,10 +58,13 @@ public class Climber extends Subsystem implements Sendable {
    * 
    * Robot and Jacks on ground == 0
    */
-  private final double OFFSET = 2384;
-  private final double BOTTOM = 0 + OFFSET;
-  private final double LVL2 = 620 * 7 + OFFSET;
-  private final double LVL3 = 620 * 21 + OFFSET;
+  private final double BACK_OFFSET = 4009;
+  private final double FRIGHT_OFFSET = 2673;
+  private final double FLEFT_OFFSET = 4024;
+
+  private final double BOTTOM = 0;
+  private final double LVL2 = 620 * 7;
+  private final double LVL3 = 620 * 21;
   
   private double bottom = BOTTOM;
   private double top = LVL2;
@@ -82,9 +85,37 @@ public class Climber extends Subsystem implements Sendable {
   private double kD = 0.0;
   
   public Climber() {
-    frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-    frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-    back.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+    frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    back.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+
+    frontLeft.setSensorPhase(false);
+    frontRight.setSensorPhase(false);
+    back.setSensorPhase(false);
+
+    frontLeft.setInverted(true);
+    frontRight.setInverted(false);
+    back.setInverted(true);
+
+    frontLeft.configNominalOutputForward(0, 30);
+    frontRight.configNominalOutputForward(0, 30);
+    back.configNominalOutputForward(0, 30);
+
+    frontLeft.configNominalOutputReverse(0, 30);
+    frontRight.configNominalOutputReverse(0, 30);
+    back.configNominalOutputReverse(0, 30);
+    
+    frontLeft.configPeakOutputForward(1, 30);
+    frontRight.configPeakOutputForward(1, 30);
+    back.configPeakOutputForward(1, 30);
+
+    frontLeft.configPeakOutputReverse(-1, 30);
+    frontRight.configPeakOutputReverse(-1, 30);
+    back.configPeakOutputReverse(-1, 30);
+
+    frontLeft.configAllowableClosedloopError(0, 0, 30);
+    frontRight.configAllowableClosedloopError(0, 0, 30);
+    back.configAllowableClosedloopError(0, 0, 30);
 
     int frontLeftAbsolutePosition = frontLeft.getSensorCollection().getPulseWidthPosition();
     int frontRightAbsolutePosition = frontRight.getSensorCollection().getPulseWidthPosition();
@@ -94,33 +125,12 @@ public class Climber extends Subsystem implements Sendable {
     frontRightAbsolutePosition &= 0xFFF;
     backAbsolutePosition &= 0xFFF;
 
-    /* Unable to find our kSensorPhase, kMotorInvert, kPIDLoopIdx, 
-    * and kTimeoutMs constants. Please help.
-    * ~ Christian Visaya
-    */
+    frontLeftAbsolutePosition *= -1;
+    backAbsolutePosition *= -1;
 
-    // if (Constants.kSensorPhase) {
-    //   frontLeftAbsolutePosition *= -1;
-    //   frontRightAbsolutePosition *= -1;
-    //   backAbsolutePosition *= -1;
-    // }
-
-    // if (Constants.kMotorInvert) {
-    //   frontLeftAbsolutePosition *= -1;
-    //   frontRightAbsolutePosition *= -1;
-    //   backAbsolutePosition *= -1;
-    // }
-    
-    // frontRightAbsolutePosition *= -1;
-
-    //frontLeft.setSelectedSensorPosition(frontLeftAbsolutePosition, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-    frontLeft.setSelectedSensorPosition(frontLeftAbsolutePosition, 0, 0);
-    frontRight.setSelectedSensorPosition(frontRightAbsolutePosition, 0, 0);
-    back.setSelectedSensorPosition(backAbsolutePosition, 0, 0);
-
-    frontLeft.setSensorPhase(false);
-    frontRight.setSensorPhase(false);
-    back.setSensorPhase(false);
+    frontLeft.setSelectedSensorPosition(frontLeftAbsolutePosition, 0, 30);
+    frontRight.setSelectedSensorPosition(frontRightAbsolutePosition, 0, 30);
+    back.setSelectedSensorPosition(backAbsolutePosition, 0, 30);
     
     frontLeft.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     frontLeft.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
@@ -189,8 +199,8 @@ public class Climber extends Subsystem implements Sendable {
   @Override
   public void periodic() {
     updateTargets();
-    Console.graph("Climber", frontLeft.getSelectedSensorPosition(0), frontRight.getSelectedSensorPosition(0),
-        back.getSelectedSensorPosition(0));
+    Console.graph("Climber", frontLeft.getSensorCollection().getQuadraturePosition(), frontRight.getSensorCollection().getQuadraturePosition(),
+        back.getSensorCollection().getQuadraturePosition());
   }
   
   /**
@@ -226,9 +236,9 @@ public class Climber extends Subsystem implements Sendable {
       case 1:
         // lift jacks
         drive(false, false);
-        if (moveTo(bottom, top)) {
+        if (moveTo(top, top)) {
 
-          // stage = 2;
+          // stage = 0;
         }
         break;
       case 2:
@@ -262,21 +272,10 @@ public class Climber extends Subsystem implements Sendable {
   }
   
   private boolean moveTo(double front, double back) {
-    if (isErrorAllowed()) {
-      if (front > frontTarget) {
-        frontTarget += ALLOWED_ERROR;
-      } else if (front < frontTarget) {
-        frontTarget -= ALLOWED_ERROR;
-      }
-      if (back > backTarget) {
-        backTarget += ALLOWED_ERROR;
-      } else if (back < backTarget) {
-        backTarget -= ALLOWED_ERROR;
-      }
-      return Math.abs(frontTarget - front) <= 0 && Math.abs(backTarget - back) <= 0;
-    } else {
-      return false;
-    }
+    frontTarget = front;
+    backTarget = back;
+    return Math.abs(frontTarget - this.frontLeft.getSensorCollection().getQuadraturePosition() - FLEFT_OFFSET) <= 100 && 
+    (frontTarget - this.frontRight.getSensorCollection().getQuadraturePosition() - FRIGHT_OFFSET) <= 100 && Math.abs(backTarget - this.back.getSensorCollection().getQuadraturePosition() - BACK_OFFSET) <= 100;
   }
   
   private void drive(boolean back, boolean drivetrian) {
@@ -293,7 +292,7 @@ public class Climber extends Subsystem implements Sendable {
   }
   
   private void holdJacks() {
-    if (frontLeft.getSelectedSensorPosition(0) > 400) {
+    if (frontLeft.getSensorCollection().getQuadraturePosition() > 400) {
       frontLeft.set(ControlMode.PercentOutput, -.1);
     } else {
       frontLeft.set(ControlMode.PercentOutput, 0);
@@ -317,12 +316,12 @@ public class Climber extends Subsystem implements Sendable {
   private void setMotors() {
     if (stage <= 0) {
       // holdJacks();
-      frontTarget = 0;
-      backTarget = 0;
+      frontTarget = BOTTOM;
+      backTarget = BOTTOM;
     } else {
-      frontLeft.set(ControlMode.Position, frontTarget);
-      frontRight.set(ControlMode.Position, frontTarget);
-      back.set(ControlMode.Position, backTarget);
+      frontLeft.set(ControlMode.Position, frontTarget + FLEFT_OFFSET);
+      frontRight.set(ControlMode.Position, frontTarget + FRIGHT_OFFSET);
+      back.set(ControlMode.Position, backTarget + BACK_OFFSET);
       driver.set(ControlMode.PercentOutput, drive);
     }
   }
@@ -362,9 +361,9 @@ public class Climber extends Subsystem implements Sendable {
     builder.addDoubleProperty("frontTarget", this::getFrontTarget, null);
     builder.addDoubleProperty("backTarget", this::getBackTarget, null);
     builder.addDoubleProperty("drive", this::getDrive, null);
-    builder.addDoubleProperty("back", back::getSelectedSensorPosition, null);
-    builder.addDoubleProperty("frontLeft", frontLeft::getSelectedSensorPosition, null);
-    builder.addDoubleProperty("frontRight", frontRight::getSelectedSensorPosition, null);
+    builder.addDoubleProperty("back", back.getSensorCollection()::getQuadraturePosition, null);
+    builder.addDoubleProperty("frontLeft", frontLeft.getSensorCollection()::getQuadraturePosition, null);
+    builder.addDoubleProperty("frontRight", frontRight.getSensorCollection()::getQuadraturePosition, null);
   }
   
   private double getStage() {
