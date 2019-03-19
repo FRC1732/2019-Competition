@@ -27,6 +27,9 @@ import frc.robot.commands.auto.ClimbStage3;
 import frc.robot.commands.auto.GrabPanel;
 import frc.robot.commands.auto.StickPanel;
 import frc.robot.commands.auto.TurnToTarget;
+import frc.robot.commands.auto.Climb.AutoClimb;
+import frc.robot.commands.auto.Climb.JackDrive;
+import frc.robot.commands.auto.Climb.LowerJacks;
 import frc.robot.subsystems.Elevator.Position;
 
 /**
@@ -93,10 +96,10 @@ public class OI {
     new JoystickButton(operator2, 3).whenPressed(new SetElevator(Position.RocketLevel2Cargo));
     new JoystickButton(operator2, 4).whenPressed(new SetElevator(Position.RocketLevel1Cargo));
     new JoystickButton(operator2, 5).whenPressed(new SetElevator(Position.CargoShipCargo));
-    new JoystickButton(operator2, 6).whenActive(new ClimbStage3());
+    new JoystickButton(operator2, 6).whenActive(new JackDrive());
     new JoystickButton(operator2, 9); // manual override
-    new JoystickButton(operator2, 7).whenActive(new ClimbStage2());
-    new JoystickButton(operator2, 11).whenActive(new ClimbStage1());
+    new JoystickButton(operator2, 7).whenActive(new LowerJacks());
+    new JoystickButton(operator2, 11).whenActive(new AutoClimb());
   }
 
   public boolean getManual() {
