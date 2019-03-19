@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.Backjack;
 import frc.robot.subsystems.CargoIntake;
 import frc.robot.subsystems.CargoScorer;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.FrontJacks;

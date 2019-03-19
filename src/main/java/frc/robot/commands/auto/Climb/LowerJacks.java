@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.auto.Climb;
+package frc.robot.commands.auto.climb;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;

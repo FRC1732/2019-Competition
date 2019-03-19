@@ -21,15 +21,12 @@ import frc.robot.commands.SetElevator;
 import frc.robot.commands.SliderIn;
 import frc.robot.commands.SliderOut;
 import frc.robot.commands.SpitCargo;
-import frc.robot.commands.auto.ClimbStage1;
-import frc.robot.commands.auto.ClimbStage2;
-import frc.robot.commands.auto.ClimbStage3;
 import frc.robot.commands.auto.GrabPanel;
 import frc.robot.commands.auto.StickPanel;
 import frc.robot.commands.auto.TurnToTarget;
-import frc.robot.commands.auto.Climb.AutoClimb;
-import frc.robot.commands.auto.Climb.JackDrive;
-import frc.robot.commands.auto.Climb.LowerJacks;
+import frc.robot.commands.auto.climb.AutoClimb;
+import frc.robot.commands.auto.climb.JackDrive;
+import frc.robot.commands.auto.climb.LowerJacks;
 import frc.robot.subsystems.Elevator.Position;
 
 /**
