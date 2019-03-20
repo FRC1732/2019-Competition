@@ -74,7 +74,7 @@ public class MotorUtil {
     motor.config_kD(0, 0);
     int absolutePosition = motor.getSensorCollection().getPulseWidthPosition();
     absolutePosition &= 0xFFF;
-    if (phase ^ inverted) absolutePosition *= -1;
+    //if (phase ^ inverted) absolutePosition *= -1;
     motor.setSelectedSensorPosition(absolutePosition, 0, kTimeoutMs);
     motor.setNeutralMode(NeutralMode.Brake);
     return motor;

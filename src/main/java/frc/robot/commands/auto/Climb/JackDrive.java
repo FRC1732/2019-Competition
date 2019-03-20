@@ -13,7 +13,7 @@ import frc.robot.Robot;
 public class JackDrive extends Command {
 
   private long startTime;
-  private static final long DRIVE_MILLISECONDS = 2000;
+  private static final long DRIVE_MILLISECONDS = 2250;
 
   public JackDrive() {
     requires(Robot.backjack);

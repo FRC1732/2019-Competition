@@ -15,9 +15,9 @@ public class AutoClimb extends CommandGroup {
    */
   public AutoClimb() {
     addSequential(new LowerJacks(), 4);
-    addSequential(new JackDrive(), 2);
+    addSequential(new JackDrive(), 3);
     addSequential(new RaiseFrontJacks(), 3);
-    addSequential(new DoubleDrive(), 1);
+    addSequential(new DoubleDrive(), 2);
     addSequential(new RaiseBackjack(), 3);
   }
 }

@@ -11,33 +11,38 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.util.MotorUtil;
+import frc.robot.util.SimpleSendable;
 
 /**
  * Add your docs here.
  */
 public class Backjack extends Subsystem {
 
-  TalonSRX jackMotor = MotorUtil.initAbsoluteTalon(RobotMap.CLIMBER_BACK, false, false);
-  TalonSRX driveMotor = MotorUtil.createTalon(RobotMap.CLIMBER_DRIVER, false);
+  TalonSRX jackMotor = MotorUtil.initAbsoluteTalon(RobotMap.CLIMBER_BACK, true, true);
+  VictorSPX driveMotor = MotorUtil.createVictor(RobotMap.CLIMBER_DRIVER, false);
 
   private String status = "";
 
-  private static final int OFFSET = 3000;
+  private static final int OFFSET = 3200;
   private static final int INCH = 620;
   private static final int LOW = 6 * INCH;
-  private static final int HIGH = 19 * INCH;
-  private static final int DEADZONE = (int)(0.5 * INCH);
+  private static final int HIGH = (int)(22 * INCH);
+  private static final int DEADZONE = (int)(((double)INCH) / 2.0);
 
   public Backjack(){
     jackMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     jackMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
-    jackMotor.config_kP(0, 1.4);
-    jackMotor.configClosedLoopPeakOutput(0, 0.7);
+    jackMotor.config_kP(0, .8);
+    jackMotor.configClosedLoopPeakOutput(0, 0.52);
+
+    SmartDashboard.putData("backJack", new SimpleSendable(this::initSendable));
   }
 
   public void RaiseJack(){
@@ -62,7 +67,7 @@ public class Backjack extends Subsystem {
 
   public void Drive(){
     status = "Drive";
-    driveMotor.set(ControlMode.PercentOutput, 0.2);
+    driveMotor.set(ControlMode.PercentOutput, 0.4);
   }
 
   public void Stop(){
@@ -70,8 +75,16 @@ public class Backjack extends Subsystem {
     driveMotor.set(ControlMode.PercentOutput, 0.0);
   }
 
-  public boolean AtTarget(){
-    return jackMotor.getClosedLoopError() < DEADZONE;
+  public boolean AtHighTarget(){
+    return Math.abs((HIGH + OFFSET) - jackMotor.getSelectedSensorPosition()) < DEADZONE;
+  }
+
+  public boolean AtLowTarget(){
+    return Math.abs((LOW + OFFSET) - jackMotor.getSelectedSensorPosition()) < DEADZONE;
+  }
+
+  public boolean AtHomeTarget(){
+    return Math.abs(OFFSET - jackMotor.getSelectedSensorPosition()) < DEADZONE;
   }
 
   public String getStatus(){
@@ -85,8 +98,9 @@ public class Backjack extends Subsystem {
 
   @Override
   public void initSendable(SendableBuilder builder) {
-    builder.setSmartDashboardType("Climber");
+    builder.setSmartDashboardType("backJack");
     builder.addStringProperty("backStatus", this::getStatus, null);
     builder.addDoubleProperty("back", jackMotor::getSelectedSensorPosition, null);
+    builder.addBooleanProperty("atHigh", this::AtHighTarget, null);
   }
 }

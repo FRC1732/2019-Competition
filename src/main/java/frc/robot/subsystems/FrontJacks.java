@@ -14,25 +14,27 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.util.MotorUtil;
+import frc.robot.util.SimpleSendable;
 
 /**
  * Add your docs here.
  */
 public class FrontJacks extends Subsystem {
   
-  TalonSRX LeftMotor = MotorUtil.initAbsoluteTalon(RobotMap.CLIMBER_FRONT_LEFT, false, false);
-  TalonSRX RightMotor = MotorUtil.initAbsoluteTalon(RobotMap.CLIMBER_FRONT_RIGHT, false, true);
+  TalonSRX LeftMotor = MotorUtil.initAbsoluteTalon(RobotMap.CLIMBER_FRONT_LEFT, true, true);
+  TalonSRX RightMotor = MotorUtil.initAbsoluteTalon(RobotMap.CLIMBER_FRONT_RIGHT, true, false);
 
   private String status = "";
 
-  private static final int LEFT_OFFSET = 3000;
-  private static final int RIGHT_OFFSET = 3000;
+  private static final int LEFT_OFFSET = 3750;
+  private static final int RIGHT_OFFSET = 3600;
   private static final int INCH = 620;
   private static final int LOW = 6 * INCH;
-  private static final int HIGH = 19 * INCH;
-  private static final int DEADZONE = (int)(0.5 * INCH);
+  private static final int HIGH = (int)(22 * INCH);
+  private static final int DEADZONE = (int)(((double)INCH) / 2.0);
 
   public FrontJacks(){
     LeftMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
@@ -43,7 +45,9 @@ public class FrontJacks extends Subsystem {
     RightMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     RightMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     RightMotor.config_kP(0, 1.4);
-    RightMotor.configClosedLoopPeakOutput(0, 0.7);
+    RightMotor.configClosedLoopPeakOutput(0, 0.67);
+
+    SmartDashboard.putData("frontJacks", new SimpleSendable(this::initSendable));
   }
 
   public void RaiseJacks(){
@@ -70,8 +74,19 @@ public class FrontJacks extends Subsystem {
     RightMotor.set(ControlMode.PercentOutput, 0);
   }
 
-  public boolean AtTarget(){
-    return LeftMotor.getClosedLoopError() < DEADZONE && RightMotor.getClosedLoopError() < DEADZONE;
+  public boolean AtHighTarget(){
+    return (Math.abs((HIGH + LEFT_OFFSET) - LeftMotor.getSelectedSensorPosition()) < DEADZONE)
+      && (Math.abs((HIGH + RIGHT_OFFSET) - RightMotor.getSelectedSensorPosition()) < DEADZONE);
+  }
+
+  public boolean AtLowTarget(){
+    return Math.abs((LOW + LEFT_OFFSET) - LeftMotor.getSelectedSensorPosition()) < DEADZONE
+      && Math.abs((LOW + RIGHT_OFFSET) - RightMotor.getSelectedSensorPosition()) < DEADZONE;
+  }
+
+  public boolean AtHomeTarget(){
+    return Math.abs(LEFT_OFFSET - LeftMotor.getSelectedSensorPosition()) < DEADZONE
+      && Math.abs(RIGHT_OFFSET - RightMotor.getSelectedSensorPosition()) < DEADZONE;
   }
 
   public String getStatus(){
@@ -85,9 +100,10 @@ public class FrontJacks extends Subsystem {
 
   @Override
   public void initSendable(SendableBuilder builder) {
-    builder.setSmartDashboardType("Climber");
+    builder.setSmartDashboardType("frontJacks");
     builder.addStringProperty("FrontStatus", this::getStatus, null);
     builder.addDoubleProperty("left", LeftMotor::getSelectedSensorPosition, null);
     builder.addDoubleProperty("right", RightMotor::getSelectedSensorPosition, null);
+    builder.addBooleanProperty("atHigh", this::AtHighTarget, null);
   }
 }

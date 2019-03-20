@@ -16,6 +16,7 @@ public class DoubleDrive extends Command {
 
   public DoubleDrive() {
     requires(Robot.backjack);
+    requires(Robot.drivetrain);
   }
 
   // Called just before this Command runs the first time
@@ -28,6 +29,7 @@ public class DoubleDrive extends Command {
   @Override
   protected void execute() {
     Robot.backjack.Drive();
+    Robot.drivetrain.set(0.15, 0.15);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -40,6 +42,7 @@ public class DoubleDrive extends Command {
   @Override
   protected void end() {
     Robot.backjack.Stop();
+    Robot.drivetrain.set(0, 0);
   }
 
   // Called when another command which requires one or more of the same
