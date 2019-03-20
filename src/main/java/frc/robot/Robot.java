@@ -9,11 +9,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.subsystems.Backjack;
 import frc.robot.subsystems.CargoIntake;
 import frc.robot.subsystems.CargoScorer;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.FrontJacks;
 import frc.robot.subsystems.HatchClaw;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.NavX;
@@ -28,13 +29,14 @@ import frc.robot.subsystems.Sensors;
  */
 public class Robot extends TimedRobot {
   public static Robot robot;
+  public static Backjack backjack = new Backjack();
+  public static FrontJacks frontJacks = new FrontJacks();
   public static CargoIntake cargoIntake = new CargoIntake();
   public static CargoScorer cargoScorer = new CargoScorer();
   public static Drivetrain drivetrain = new Drivetrain();
   public static Elevator elevator = new Elevator();
   public static HatchClaw hatchClaw = new HatchClaw();
   public static Limelight limelight = new Limelight();
-  public static Climber climber = new Climber();
   public static NavX navX = new NavX();
   public static Sensors sensors = new Sensors();
   public static OI oi;

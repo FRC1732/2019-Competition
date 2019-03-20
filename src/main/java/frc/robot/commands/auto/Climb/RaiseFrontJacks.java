@@ -5,53 +5,43 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.auto;
+package frc.robot.commands.auto.climb;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ClimbStage3 extends Command {
-  public static ClimbStage3 command;
-  
-  public ClimbStage3() {
-    if (command == null) {
-      command = this;
-    } else {
-      throw new IllegalStateException("Only 1 of each Climber Stage can Exist");
-    }
+public class RaiseFrontJacks extends Command {
+  public RaiseFrontJacks() {
+    requires(Robot.frontJacks);
   }
-  
+
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    if (Robot.robot.isEnabled() && ClimbStage1.command.isRunning() && ClimbStage2.command.isRunning()) {
-      Robot.climber.stage3();
-    } else {
-      cancel();
-    }
+    Robot.frontJacks.RaiseJacks();
   }
-  
+
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
   }
-  
+
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Robot.frontJacks.AtHomeTarget();
   }
-  
+
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.climber.stop();
+    Robot.frontJacks.RestJacks();
   }
-  
+
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.climber.stop();
+    Robot.frontJacks.RestJacks();
   }
 }
