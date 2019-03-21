@@ -38,12 +38,12 @@ public class Elevator extends Subsystem {
   private TalonSRX elevator = MotorUtil.initAbsoluteTalon(RobotMap.ELEVATOR_ELEVATOR_ID, false, true);
   private DigitalInput limit = new DigitalInput(0);
   
-  private final int OFFSET = 3154;
+  private static final int OFFSET = 3154;
   
   private static final double kP = 2.0;
   private static final double kI = 0;
   private static final double kD = 0;
-  private static final double minimumOutput = .07;
+  private static final double minimumOutput = .065;
   private static final double speed = 588;
   private static final double percent = 0.319648093841642;
   private static final double kF = (percent * 1023) / speed - minimumOutput;
@@ -64,7 +64,7 @@ public class Elevator extends Subsystem {
   }
   
   public static enum Position {// 8329
-    BaseHeight(0), CargoShipCargo(13200), CargoShipHatch(22000), RocketLevel1Cargo(5700), RocketLevel1Hatch(
+    BaseHeight(OFFSET), CargoShipCargo(13200), CargoShipHatch(22000), RocketLevel1Cargo(5700), RocketLevel1Hatch(
         0), RocketLevel2Cargo(
             16100), RocketLevel2Hatch(8329/*10000*/), RocketLevel3Cargo(19100), RocketLevel3Hatch(19100), HumanPlayerStation(0);
     public final int position;
@@ -101,7 +101,7 @@ public class Elevator extends Subsystem {
   }
   
   private int getHeight() {
-    return elevator.getSelectedSensorPosition() - OFFSET;
+    return elevator.getSelectedSensorPosition();
   }
   
   public void increment() {
@@ -133,11 +133,11 @@ public class Elevator extends Subsystem {
     // } else if (Robot.oi.operator2.getY() < -0.9) {
     // increment();
     // }
-    if (elevator.getSelectedSensorPosition(0) - OFFSET < 150 && position < 150) {
+    if (elevator.getSelectedSensorPosition(0) - OFFSET < 150 && position < OFFSET + 150) {
       elevator.set(ControlMode.PercentOutput, 0);
     } else {
-      Console.debug("elevator: "+elevator.getSelectedSensorPosition() + ", set to " + (position + OFFSET));
-      elevator.set(ControlMode.MotionMagic, position + OFFSET, DemandType.ArbitraryFeedForward, 0);// minimumOutput);
+      Console.debug("elevator: "+elevator.getSelectedSensorPosition() + ", set to " + (position));
+      elevator.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, minimumOutput);
     }
     // elevator.set(ControlMode.PercentOutput, 0);
     // System.out.println(elevator.getSelectedSensorPosition());
