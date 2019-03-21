@@ -69,17 +69,17 @@ public class OI {
   // Buttons and their associated commands
   @SuppressWarnings("resource")
   public OI() {
-    new JoystickButton(left, 1).whenActive(new IntakeCargo());
+    new JoystickButton(left, 1).whileActive(new IntakeCargo());
     new JoystickButton(left, 2).whenPressed(new StickPanel());
     new JoystickButton(left, 3).whenPressed(new GrabPanel());
     new JoystickButton(left, 4).whenPressed(new FingerDown());
     new JoystickButton(left, 5).whenPressed(new FingerUp());
 
-    new JoystickButton(right, 1).whenActive(new TurnToTarget());
-    new JoystickButton(right, 2).whenActive(new PlaceCargo());
+    new JoystickButton(right, 1).whileActive(new TurnToTarget());
+    new JoystickButton(right, 2).whileActive(new PlaceCargo());
     new JoystickButton(right, 3).whenPressed(new ScorePanel());
     new JoystickButton(right, 4).whenPressed(new ExtendToggle());
-    new JoystickButton(right, 5).whenActive(new SpitCargo());
+    new JoystickButton(right, 5).whileActive(new SpitCargo());
 
     sliderInOut.whenActive(new SliderIn());
     sliderInOut.whenInactive(new SliderOut());
