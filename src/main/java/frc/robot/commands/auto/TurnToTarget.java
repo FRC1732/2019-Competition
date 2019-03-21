@@ -8,6 +8,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -17,6 +18,7 @@ import frc.robot.Robot;
  */
 public class TurnToTarget extends Command {
   private PIDController anglePID;
+  private Timer timer = new Timer();
   // private PIDController forwardPID;
   
   /**
@@ -46,22 +48,26 @@ public class TurnToTarget extends Command {
   protected void initialize() {
     anglePID.reset();
     anglePID.enable();
+    timer.reset();
   }
   
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double speed = (Robot.oi.getLeftJoystick() + Robot.oi.getRightJoystick()) * 0.5;
+    double speed = 0.3;//(Robot.oi.getLeftJoystick() + Robot.oi.getRightJoystick()) * 0.5;
     double turn = anglePID.get();
-    // System.out.printf("%1.3f /\\, > %1.3f\n", speed, turn);
-    // System.out.println(Robot.limelight.getHorizontalAngle());
+
     Robot.drivetrain.set(speed - turn, speed + turn);
+
+    if(Robot.limelight.getVerticalAngle() < -10) {
+      timer.start();
+    }
   }
   
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return timer.get() > 0.5;
   }
   
   // Called once after isFinished returns true
