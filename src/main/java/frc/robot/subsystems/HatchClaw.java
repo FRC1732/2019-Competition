@@ -43,6 +43,13 @@ public class HatchClaw extends Subsystem {
     // Console.warn("Cannot grab: already has cargo");
     // }
   }
+
+  /**
+   * Gets the finger state
+   */
+  public boolean getEngaged() {
+    return !grabber.get();
+  }
   
   /**
    * Sets the claw to extended or retracted, when extending is true, the claw is
