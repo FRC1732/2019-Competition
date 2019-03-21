@@ -40,6 +40,19 @@ public class Limelight extends Subsystem implements Sendable {
       this.height = height;
     }
   }
+
+  /**
+   * Pipline configurations for the limelight
+   *
+   */
+  public static enum Pipeline {
+    Largest(1), Closest(2);
+    public final int index;
+
+    private Pipeline(int i) {
+      index = i;
+    }
+  }
   
   private static final double cameraHeight = 37.0 + (3.0 / 16.0);
   private static final double angle = 1.9;
@@ -63,6 +76,10 @@ public class Limelight extends Subsystem implements Sendable {
     
     SmartDashboard.putData("Limelight", this);
   }
+
+  public void setPipeline(Pipeline p) {
+    pipeline = p.index;
+  }
   
   @Override
   public void periodic() {
@@ -72,9 +89,6 @@ public class Limelight extends Subsystem implements Sendable {
     if (pipeNet.getDouble(-1) != pipeline) {
       pipeNet.setDouble(pipeline);
     }
-    // if (vert > 1) {
-    // horiz = 0;
-    // }
   }
   
   // Put methods for controlling this subsystem
@@ -149,7 +163,7 @@ public class Limelight extends Subsystem implements Sendable {
   }
   
   public boolean hasTarget() {
-    return num > 0;
+    return num > 0 && vert > -40;
   }
   
   /**
