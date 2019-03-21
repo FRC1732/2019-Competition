@@ -22,6 +22,7 @@ import frc.robot.commands.SliderIn;
 import frc.robot.commands.SliderOut;
 import frc.robot.commands.SpitCargo;
 import frc.robot.commands.auto.GrabPanel;
+import frc.robot.commands.auto.ScorePanel;
 import frc.robot.commands.auto.StickPanel;
 import frc.robot.commands.auto.TurnToTarget;
 import frc.robot.commands.auto.climb.AutoClimb;
@@ -76,7 +77,7 @@ public class OI {
 
     new JoystickButton(right, 1).whenActive(new TurnToTarget());
     new JoystickButton(right, 2).whenActive(new PlaceCargo());
-    new JoystickButton(right, 3).whenPressed(new PlaceHatch());
+    new JoystickButton(right, 3).whenPressed(new ScorePanel());
     new JoystickButton(right, 4).whenPressed(new ExtendToggle());
     new JoystickButton(right, 5).whenActive(new SpitCargo());
 
