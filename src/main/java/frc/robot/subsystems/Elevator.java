@@ -93,35 +93,16 @@ public class Elevator extends Subsystem {
     return elevator.getSelectedSensorPosition() - OFFSET;
   }
   
-  public void increment() {
-    // if (position < 19800) {
-    position += 100;
-    // } else {
-    // position = 19800;
-    // }
-    Console.debug("set elevator height to: " + position);
+  public void manualUp() {
+    
   }
   
-  public void decrement() {
-    // if (position > 100) {
-    position -= 100;
-    // } else {
-    // position = 0;
-    // }
-    Console.debug("set elevator height to: " + position);
+  public void manualDown() {
+
   }
   
   @Override
   public void periodic() {
-    // if (limit.get()) {
-    // elevator.setSelectedSensorPosition(0, 0, 0);
-    // }
-    
-    // if (Robot.oi.operator2.getY() > 0.9) {
-    // decrement();
-    // } else if (Robot.oi.operator2.getY() < -0.9) {
-    // increment();
-    // }
     if (elevator.getSelectedSensorPosition(0) - OFFSET < 150 && position < 150) {
       elevator.set(ControlMode.PercentOutput, 0);
     } else {
