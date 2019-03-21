@@ -85,18 +85,7 @@ public class Elevator extends Subsystem {
    */
   public void setHeight(Position pos) {
     // passes the constant int for the height requested
-    setHeight(pos.position);
-  }
-  
-  /**
-   * Sets the position of the elevator, using raw encoder ticks for the positions.
-   * Commands should use {@code setHeight(Position)} except for debugging
-   * 
-   * @param pos
-   *              the position to move the elevator to
-   */
-  private void setHeight(int pos) {
-    position = pos;
+    position = pos.position;
     Console.debug("set elevator height to: " + position);
   }
   
