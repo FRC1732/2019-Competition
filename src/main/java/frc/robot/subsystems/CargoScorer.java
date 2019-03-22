@@ -33,8 +33,8 @@ public class CargoScorer extends Subsystem {
   }
   
   public void rollOut() {
-    left.set(ControlMode.PercentOutput, -1);
-    right.set(ControlMode.PercentOutput, -1);
+    left.set(ControlMode.PercentOutput, -0.9);
+    right.set(ControlMode.PercentOutput, -0.9);
     
   }
   
