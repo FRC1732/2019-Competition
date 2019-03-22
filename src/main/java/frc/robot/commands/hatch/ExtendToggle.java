@@ -5,12 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.hatch;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
-public class SliderOut extends Command {
-  public SliderOut() {
+public class ExtendToggle extends Command {
+  public ExtendToggle() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -18,6 +19,14 @@ public class SliderOut extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    if (Robot.oi.hatchExtended == false) {
+      Robot.oi.hatchExtended = true;
+      // Extend claw
+    }
+    else {
+      Robot.oi.hatchExtended = false;
+      // Retract claw
+    }
   }
 
   // Called repeatedly when this Command is scheduled to run

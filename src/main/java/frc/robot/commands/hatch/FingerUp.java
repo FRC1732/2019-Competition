@@ -5,12 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.hatch;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class FingerDown extends Command {
-  public FingerDown() {
+public class FingerUp extends Command {
+  public FingerUp() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
