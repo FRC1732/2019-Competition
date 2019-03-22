@@ -5,13 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.auto.climb;
+package frc.robot.commands.climb;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class RaiseBackjack extends Command {
-  public RaiseBackjack() {
+public class DoubleDrive extends Command {
+  private long startTime;
+  private static final long DRIVE_MILLISECONDS = 900;
+
+  public DoubleDrive() {
     requires(Robot.backjack);
     requires(Robot.drivetrain);
   }
@@ -19,25 +22,26 @@ public class RaiseBackjack extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.backjack.RaiseJack();
+    startTime = System.currentTimeMillis();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.drivetrain.set(0.025, 0.025);
+    Robot.backjack.Drive();
+    Robot.drivetrain.set(0.12, 0.12);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.backjack.AtHomeTarget();
+    return System.currentTimeMillis() - startTime > DRIVE_MILLISECONDS;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.backjack.RestJack();
+    Robot.backjack.Stop();
     Robot.drivetrain.set(0, 0);
   }
 
@@ -45,7 +49,7 @@ public class RaiseBackjack extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.backjack.RestJack();
+    Robot.backjack.Stop();
     Robot.drivetrain.set(0, 0);
   }
 }
