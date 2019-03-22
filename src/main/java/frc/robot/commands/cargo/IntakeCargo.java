@@ -5,30 +5,30 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.cargo;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
 /**
- * A command to score Cargo when aligned at a port for cargo
+ * A command to intake a Cargo. Stops when a cargo has been collected
  */
-public class PlaceCargo extends Command {
+public class IntakeCargo extends Command {
   /**
    * A command to intake a Cargo. Stops when a cargo has been collected
    */
-  public PlaceCargo() {
+  public IntakeCargo() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.cargoIntake);
     requires(Robot.cargoScorer);
-    System.out.println();
   }
   
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.cargoScorer.rollOut();
+    Robot.cargoIntake.setEngaged(true);
+    Robot.cargoScorer.rollIn();
   }
   
   @Override
@@ -38,7 +38,7 @@ public class PlaceCargo extends Command {
   
   @Override
   protected void interrupted() {
-    Robot.cargoScorer.stop();
+    Robot.cargoIntake.stop();
+    // Robot.cargoScorer.stop();
   }
-  
 }
