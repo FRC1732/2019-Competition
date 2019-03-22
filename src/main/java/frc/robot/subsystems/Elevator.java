@@ -64,9 +64,9 @@ public class Elevator extends Subsystem {
   }
   
   public static enum Position {// 8329
-    BaseHeight(OFFSET), CargoShipCargo(13200 + OFFSET), CargoShipHatch(22000), RocketLevel1Cargo(5700), RocketLevel1Hatch(
+    BaseHeight(OFFSET), CargoShipCargo(13200), CargoShipHatch(22000), RocketLevel1Cargo(5700), RocketLevel1Hatch(
         0), RocketLevel2Cargo(
-            16100), RocketLevel2Hatch(8329/*10000*/), RocketLevel3Cargo(19100), RocketLevel3Hatch(19100), HumanPlayerStation(0);
+            16100), RocketLevel2Hatch(13200+OFFSET/*10000*/), RocketLevel3Cargo(19100), RocketLevel3Hatch(19100), HumanPlayerStation(0);
     public final int position;
     
     private Position(int position) {
@@ -129,9 +129,11 @@ public class Elevator extends Subsystem {
     // }
     
     // if (Robot.oi.operator2.getY() > 0.9) {
-    // decrement();
+    //   elevator.set(ControlMode.PercentOutput, -0.2);
     // } else if (Robot.oi.operator2.getY() < -0.9) {
-    // increment();
+    //   elevator.set(ControlMode.PercentOutput, 0.2);
+    // }else {
+    //   elevator.set(ControlMode.PercentOutput, 0);
     // }
     if (elevator.getSelectedSensorPosition(0) - OFFSET < 150 && position < OFFSET + 150) {
       elevator.set(ControlMode.PercentOutput, 0);

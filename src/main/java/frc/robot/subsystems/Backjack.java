@@ -25,12 +25,12 @@ import frc.robot.util.SimpleSendable;
  */
 public class Backjack extends Subsystem {
 
-  TalonSRX jackMotor = MotorUtil.initAbsoluteTalon(RobotMap.CLIMBER_BACK, true, true);
+  TalonSRX jackMotor = MotorUtil.initAbsoluteTalon(RobotMap.CLIMBER_BACK, false, false);
   VictorSPX driveMotor = MotorUtil.createVictor(RobotMap.CLIMBER_DRIVER, false);
 
   private String status = "";
 
-  private static final int OFFSET = 3200;
+  private static final int OFFSET = 250;
   private static final int INCH = 620;
   private static final int LOW = 6 * INCH;
   private static final int HIGH = (int)(22 * INCH);
@@ -39,8 +39,8 @@ public class Backjack extends Subsystem {
   public Backjack(){
     jackMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     jackMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
-    jackMotor.config_kP(0, .8);
-    jackMotor.configClosedLoopPeakOutput(0, 0.52);
+    jackMotor.config_kP(0, .5);
+    jackMotor.configClosedLoopPeakOutput(0, 0.4);
 
     SmartDashboard.putData("backJack", new SimpleSendable(this::initSendable));
   }
@@ -67,7 +67,7 @@ public class Backjack extends Subsystem {
 
   public void Drive(){
     status = "Drive";
-    driveMotor.set(ControlMode.PercentOutput, 0.4);
+    driveMotor.set(ControlMode.PercentOutput, 0.3);
   }
 
   public void Stop(){

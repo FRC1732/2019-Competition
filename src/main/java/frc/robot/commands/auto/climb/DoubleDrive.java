@@ -12,7 +12,7 @@ import frc.robot.Robot;
 
 public class DoubleDrive extends Command {
   private long startTime;
-  private static final long DRIVE_MILLISECONDS = 1000;
+  private static final long DRIVE_MILLISECONDS = 900;
 
   public DoubleDrive() {
     requires(Robot.backjack);
@@ -29,7 +29,7 @@ public class DoubleDrive extends Command {
   @Override
   protected void execute() {
     Robot.backjack.Drive();
-    Robot.drivetrain.set(0.15, 0.15);
+    Robot.drivetrain.set(0.12, 0.12);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -50,5 +50,6 @@ public class DoubleDrive extends Command {
   @Override
   protected void interrupted() {
     Robot.backjack.Stop();
+    Robot.drivetrain.set(0, 0);
   }
 }
