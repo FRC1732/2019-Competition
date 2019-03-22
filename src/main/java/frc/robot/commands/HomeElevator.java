@@ -5,51 +5,50 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.auto.climb;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.Elevator.Position;
 
-public class DoubleDrive extends Command {
-  private long startTime;
-  private static final long DRIVE_MILLISECONDS = 900;
-
-  public DoubleDrive() {
-    requires(Robot.backjack);
-    requires(Robot.drivetrain);
+public class HomeElevator extends Command {
+  public HomeElevator() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    requires(Robot.elevator);
   }
+
+  private long start;
+  private static final long length = 10000;
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    startTime = System.currentTimeMillis();
+    Robot.elevator.setHeight(Position.BaseHeight);
+    start = System.currentTimeMillis();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.backjack.Drive();
-    Robot.drivetrain.set(0.12, 0.12);
+    
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return System.currentTimeMillis() - startTime > DRIVE_MILLISECONDS;
+    return start + length < System.currentTimeMillis() || Robot.elevator.getHeight() <= Position.BaseHeight.position + 150;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.backjack.Stop();
-    Robot.drivetrain.set(0, 0);
+    Robot.elevator.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.backjack.Stop();
-    Robot.drivetrain.set(0, 0);
   }
 }

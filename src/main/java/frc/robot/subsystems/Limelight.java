@@ -64,7 +64,7 @@ public class Limelight extends Subsystem implements Sendable {
   private double num = 0;
   private NetworkTableEntry numNet;
   
-  private int pipeline = 1;
+  private int pipeline = 0;
   private NetworkTableEntry pipeNet;
   
   public Limelight() {

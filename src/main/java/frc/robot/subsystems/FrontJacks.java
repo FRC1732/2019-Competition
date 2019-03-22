@@ -24,28 +24,28 @@ import frc.robot.util.SimpleSendable;
  */
 public class FrontJacks extends Subsystem {
   
-  TalonSRX LeftMotor = MotorUtil.initAbsoluteTalon(RobotMap.CLIMBER_FRONT_LEFT, true, true);
-  TalonSRX RightMotor = MotorUtil.initAbsoluteTalon(RobotMap.CLIMBER_FRONT_RIGHT, true, false);
+  TalonSRX LeftMotor = MotorUtil.initAbsoluteTalon(RobotMap.CLIMBER_FRONT_LEFT, false, false);
+  TalonSRX RightMotor = MotorUtil.initAbsoluteTalon(RobotMap.CLIMBER_FRONT_RIGHT, false, true);
 
   private String status = "";
 
-  private static final int LEFT_OFFSET = 3750;
-  private static final int RIGHT_OFFSET = 3600;
+  private static final int LEFT_OFFSET = 450;
+  private static final int RIGHT_OFFSET = 575;
   private static final int INCH = 620;
   private static final int LOW = 6 * INCH;
-  private static final int HIGH = (int)(22 * INCH);
+  private static final int HIGH = (int)(22.25 * INCH);
   private static final int DEADZONE = (int)(((double)INCH) / 2.0);
 
   public FrontJacks(){
     LeftMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     LeftMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     LeftMotor.config_kP(0, 1.4);
-    LeftMotor.configClosedLoopPeakOutput(0, 0.7);
+    LeftMotor.configClosedLoopPeakOutput(0, 0.55);
 
     RightMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     RightMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     RightMotor.config_kP(0, 1.4);
-    RightMotor.configClosedLoopPeakOutput(0, 0.67);
+    RightMotor.configClosedLoopPeakOutput(0, 0.625);
 
     SmartDashboard.putData("frontJacks", new SimpleSendable(this::initSendable));
   }

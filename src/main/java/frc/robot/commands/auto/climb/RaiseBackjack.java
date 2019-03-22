@@ -13,6 +13,7 @@ import frc.robot.Robot;
 public class RaiseBackjack extends Command {
   public RaiseBackjack() {
     requires(Robot.backjack);
+    requires(Robot.drivetrain);
   }
 
   // Called just before this Command runs the first time
@@ -24,6 +25,7 @@ public class RaiseBackjack extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.drivetrain.set(0.025, 0.025);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -36,6 +38,7 @@ public class RaiseBackjack extends Command {
   @Override
   protected void end() {
     Robot.backjack.RestJack();
+    Robot.drivetrain.set(0, 0);
   }
 
   // Called when another command which requires one or more of the same
@@ -43,5 +46,6 @@ public class RaiseBackjack extends Command {
   @Override
   protected void interrupted() {
     Robot.backjack.RestJack();
+    Robot.drivetrain.set(0, 0);
   }
 }

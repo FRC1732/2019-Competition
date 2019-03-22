@@ -5,51 +5,51 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.auto.climb;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class DoubleDrive extends Command {
-  private long startTime;
-  private static final long DRIVE_MILLISECONDS = 900;
-
-  public DoubleDrive() {
-    requires(Robot.backjack);
-    requires(Robot.drivetrain);
+public class ManualElevator extends Command {
+  private boolean up;
+  public ManualElevator(boolean up) {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    this.up = up;
+    requires(Robot.elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    startTime = System.currentTimeMillis();
+    if(up) {
+      Robot.elevator.manualUp();
+    }else {
+      Robot.elevator.manualDown();
+    }
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.backjack.Drive();
-    Robot.drivetrain.set(0.12, 0.12);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return System.currentTimeMillis() - startTime > DRIVE_MILLISECONDS;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.backjack.Stop();
-    Robot.drivetrain.set(0, 0);
+    Robot.elevator.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.backjack.Stop();
-    Robot.drivetrain.set(0, 0);
+    Robot.elevator.stop();
   }
 }
