@@ -9,12 +9,12 @@ package frc.robot.commands.climb;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AutoClimb extends CommandGroup {
+public class AutoClimbLow extends CommandGroup {
   /**
    * Performs a climb
    */
-  public AutoClimb() {
-    addSequential(new LowerJacks(), 4);
+  public AutoClimbLow() {
+    addSequential(new LowerJacksLow(), 4);
     addSequential(new JackDrive(), 3);
     addSequential(new RaiseFrontJacks(), 3);
     addSequential(new DoubleDrive(), 2);
