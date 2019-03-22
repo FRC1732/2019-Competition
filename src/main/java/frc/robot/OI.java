@@ -67,7 +67,7 @@ public class OI {
     return -1 * right.getY() * right.getY() * Math.signum(right.getY());
   }
   
-  private JoystickButton sliderInOut = new JoystickButton(operator1, 2);
+  private JoystickButton sliderInOut = new JoystickButton(operator1, 1);
   private JoystickButton fingerOpenClose = new JoystickButton(operator1, 2);
   public JoystickButton manual = new JoystickButton(operator2, 9);
   
@@ -89,8 +89,8 @@ public class OI {
 
     sliderInOut.whenActive(new SliderIn());
     sliderInOut.whenInactive(new SliderOut());
-    fingerOpenClose.whenActive(new OpenFinger());
-    fingerOpenClose.whenInactive(new CloseFinger());
+    fingerOpenClose.whenActive(new CloseFinger());
+    fingerOpenClose.whenInactive(new OpenFinger());
     new JoystickButton(operator1, 5).whenPressed(new SetElevator(Position.RocketLevel3Hatch));
     new JoystickButton(operator1, 6).whenPressed(new SetElevator(Position.RocketLevel2Hatch));
     new JoystickButton(operator1, 7).whenPressed(new HomeElevator());
