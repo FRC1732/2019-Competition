@@ -10,9 +10,9 @@ package frc.robot.commands.climb;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class LowerJacks extends Command {
+public class LowerJacksHigh extends Command {
 
-  public LowerJacks() {
+  public LowerJacksHigh() {
     requires(Robot.frontJacks);
     requires(Robot.backjack);
   }
