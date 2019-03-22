@@ -29,6 +29,7 @@ import frc.robot.commands.auto.ScorePanel;
 import frc.robot.commands.auto.StickPanel;
 import frc.robot.commands.auto.TurnToTarget;
 import frc.robot.commands.auto.climb.AutoClimbHigh;
+import frc.robot.commands.auto.climb.AutoClimbLow;
 import frc.robot.commands.auto.climb.JackDrive;
 import frc.robot.commands.auto.climb.LowerJacksHigh;
 import frc.robot.subsystems.Elevator.Position;
@@ -99,7 +100,7 @@ public class OI {
     new JoystickButton(operator2, 5).whenPressed(new SetElevator(Position.CargoShipCargo));
     new JoystickButton(operator2, 6).whenActive(new JackDrive());
     new JoystickButton(operator2, 9); // manual override
-    new JoystickButton(operator2, 7).whenActive(new LowerJacksHigh());
+    new JoystickButton(operator2, 7).whenActive(new AutoClimbLow());
     new JoystickButton(operator2, 11).whenActive(new AutoClimbHigh());
 
     new Notifier(this::run).startPeriodic(0.2);
