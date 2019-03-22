@@ -8,7 +8,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Solenoid;
@@ -27,6 +26,10 @@ public class CargoIntake extends Subsystem {
   private VictorSPX cargoIntakeMotor = MotorUtil.createVictor(RobotMap.CARGO_INTAKE_MOTOR_ID, false);
   private Solenoid cargoIntakeSolenoid = new Solenoid(1, RobotMap.CARGO_INTAKE_SOLENOID_ID);
   
+  public CargoIntake() {
+    cargoIntakeMotor.configOpenloopRamp(0.5, 30);
+  }
+
   /**
    * Sets whether the intake should be actively intaking cargo, unless the robot
    * already has a hatch panel

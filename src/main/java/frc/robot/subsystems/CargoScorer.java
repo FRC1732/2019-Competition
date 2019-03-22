@@ -23,8 +23,11 @@ import frc.robot.util.MotorUtil;
 public class CargoScorer extends Subsystem {
   private final VictorSPX left = MotorUtil.createVictor(RobotMap.SCORER_MOTOR_LEFT, false);
   private final VictorSPX right = MotorUtil.createVictor(RobotMap.SCORER_MOTOR_RIGHT, true);
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+  
+  public CargoScorer() {
+    left.configOpenloopRamp(0.5, 30);
+    right.configOpenloopRamp(0.5, 30);
+  }
   
   public void rollIn() {
     left.set(ControlMode.PercentOutput, 1);
