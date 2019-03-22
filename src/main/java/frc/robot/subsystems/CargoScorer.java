@@ -24,14 +24,11 @@ public class CargoScorer extends Subsystem {
   private final VictorSPX left = MotorUtil.createVictor(RobotMap.SCORER_MOTOR_LEFT, false);
   private final VictorSPX right = MotorUtil.createVictor(RobotMap.SCORER_MOTOR_RIGHT, true);
   
-  public CargoScorer() {
-    left.configOpenloopRamp(0.5, 30);
-    right.configOpenloopRamp(0.5, 30);
-  }
-  
   public void rollIn() {
     left.set(ControlMode.PercentOutput, 1);
     right.set(ControlMode.PercentOutput, 1);
+    left.configOpenloopRamp(0, 30);
+    right.configOpenloopRamp(0, 30);
     
   }
   

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.commands.CloseFinger;
+import frc.robot.commands.ExtendIntakeTime;
 import frc.robot.commands.ExtendToggle;
 import frc.robot.commands.FingerDown;
 import frc.robot.commands.FingerUp;
@@ -73,6 +74,7 @@ public class OI {
   @SuppressWarnings("resource")
   public OI() {
     new JoystickButton(left, 1).whileActive(new IntakeCargo());
+    new JoystickButton(left, 1).whenReleased(new ExtendIntakeTime());
     new JoystickButton(left, 2).whenPressed(new StickPanel());
     new JoystickButton(left, 3).whenPressed(new GrabPanel());
     new JoystickButton(left, 4).whenPressed(new FingerDown());
