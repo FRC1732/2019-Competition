@@ -5,15 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.auto.climb;
+package frc.robot.commands.climb;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AutoClimb extends CommandGroup {
+public class AutoClimbHigh extends CommandGroup {
   /**
    * Performs a climb
    */
-  public AutoClimb() {
+  public AutoClimbHigh() {
     addSequential(new LowerJacks(), 4);
     addSequential(new JackDrive(), 3);
     addSequential(new RaiseFrontJacks(), 3);

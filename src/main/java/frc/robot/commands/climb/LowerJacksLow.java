@@ -5,50 +5,46 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.climb;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.Elevator.Position;
 
-public class HomeElevator extends Command {
-  public HomeElevator() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.elevator);
+public class LowerJacksLow extends Command {
+
+  public LowerJacksLow() {
+    requires(Robot.frontJacks);
+    requires(Robot.backjack);
   }
-
-  private long start;
-  private static final long length = 10000;
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.elevator.setHeight(Position.BaseHeight);
-    start = System.currentTimeMillis();
+    Robot.frontJacks.LowerJacksALittle();
+    Robot.backjack.LowerJackALittle();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return start + length < System.currentTimeMillis() || Robot.elevator.getHeight() <= Position.BaseHeight.position + 150;
+    return Robot.backjack.AtLowTarget() && Robot.frontJacks.AtLowTarget();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.elevator.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.backjack.RestJack();
+    Robot.frontJacks.RestJacks();
   }
 }

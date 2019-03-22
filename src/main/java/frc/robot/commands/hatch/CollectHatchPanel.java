@@ -5,19 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.hatch;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
 /**
- * Command to score a hatch panel when lined up at a hatch
+ * A command to collect a hatch panel when aligned at the human player station
  */
-public class PlaceHatch extends InstantCommand {
+public class CollectHatchPanel extends InstantCommand {
   /**
-   * Command to score a hatch panel when lined up at a hatch
+   * A command to collect a hatch panel when aligned at the human player station
    */
-  public PlaceHatch() {
+  public CollectHatchPanel() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.hatchClaw);
@@ -26,6 +26,6 @@ public class PlaceHatch extends InstantCommand {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.hatchClaw.setEngaged(false);
+    Robot.hatchClaw.setEngaged(true);
   }
 }

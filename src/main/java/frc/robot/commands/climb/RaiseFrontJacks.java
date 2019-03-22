@@ -5,29 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.climb;
 
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-/**
- * Add your docs here.
- */
-public class ExtendIntakeTime extends TimedCommand {
-  /**
-   * Add your docs here.
-   */
-  public ExtendIntakeTime() {
-    super(0.5);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.cargoScorer);
+public class RaiseFrontJacks extends Command {
+  public RaiseFrontJacks() {
+    requires(Robot.frontJacks);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.cargoScorer.rollIn();
+    Robot.frontJacks.RaiseJacks();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -35,16 +26,22 @@ public class ExtendIntakeTime extends TimedCommand {
   protected void execute() {
   }
 
-  // Called once after timeout
+  // Make this return true when this Command no longer needs to run execute()
+  @Override
+  protected boolean isFinished() {
+    return Robot.frontJacks.AtHomeTarget();
+  }
+
+  // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.cargoScorer.stop();
+    Robot.frontJacks.RestJacks();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.cargoScorer.stop();
+    Robot.frontJacks.RestJacks();
   }
 }

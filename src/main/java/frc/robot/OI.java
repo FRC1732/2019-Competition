@@ -11,28 +11,25 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.commands.CloseFinger;
-import frc.robot.commands.ExtendIntakeTime;
-import frc.robot.commands.ExtendToggle;
-import frc.robot.commands.FingerDown;
-import frc.robot.commands.FingerUp;
-import frc.robot.commands.HomeElevator;
-import frc.robot.commands.IntakeCargo;
 import frc.robot.commands.IntakeCargoHigh;
-import frc.robot.commands.ManualElevator;
-import frc.robot.commands.OpenFinger;
-import frc.robot.commands.PlaceCargo;
-import frc.robot.commands.SetElevator;
-import frc.robot.commands.SliderIn;
-import frc.robot.commands.SliderOut;
-import frc.robot.commands.SpitCargo;
 import frc.robot.commands.auto.GrabPanel;
 import frc.robot.commands.auto.ScorePanel;
 import frc.robot.commands.auto.StickPanel;
 import frc.robot.commands.auto.TurnToTarget;
-import frc.robot.commands.auto.climb.AutoClimb;
-import frc.robot.commands.auto.climb.JackDrive;
-import frc.robot.commands.auto.climb.LowerJacks;
+import frc.robot.commands.cargo.ExtendIntakeTime;
+import frc.robot.commands.cargo.IntakeCargo;
+import frc.robot.commands.cargo.PlaceCargo;
+import frc.robot.commands.cargo.SpitCargo;
+import frc.robot.commands.climb.AutoClimbHigh;
+import frc.robot.commands.climb.AutoClimbLow;
+import frc.robot.commands.climb.LowerJacks;
+import frc.robot.commands.elevator.HomeElevator;
+import frc.robot.commands.elevator.ManualElevator;
+import frc.robot.commands.elevator.SetElevator;
+import frc.robot.commands.hatch.CloseFinger;
+import frc.robot.commands.hatch.OpenFinger;
+import frc.robot.commands.hatch.SliderIn;
+import frc.robot.commands.hatch.SliderOut;
 import frc.robot.subsystems.Elevator.Position;
 
 /**
@@ -100,10 +97,10 @@ public class OI {
     new JoystickButton(operator2, 3).whenPressed(new SetElevator(Position.RocketLevel2Cargo));
     new JoystickButton(operator2, 4).whenPressed(new SetElevator(Position.RocketLevel1Cargo));
     new JoystickButton(operator2, 5).whenPressed(new SetElevator(Position.CargoShipCargo));
-    new JoystickButton(operator2, 6).whenActive(new JackDrive());
+    new JoystickButton(operator2, 6).whenActive(new LowerJacks());
     new JoystickButton(operator2, 9); // manual override
-    new JoystickButton(operator2, 7).whenActive(new LowerJacks());
-    new JoystickButton(operator2, 11).whenActive(new AutoClimb());
+    new JoystickButton(operator2, 7).whenActive(new AutoClimbLow());
+    new JoystickButton(operator2, 11).whenActive(new AutoClimbHigh());
 
     new Notifier(this::run).startPeriodic(0.2);
   }

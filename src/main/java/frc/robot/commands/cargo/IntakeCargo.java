@@ -5,21 +5,40 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.cargo;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class SliderOut extends InstantCommand {
-  public SliderOut() {
+/**
+ * A command to intake a Cargo. Stops when a cargo has been collected
+ */
+public class IntakeCargo extends Command {
+  /**
+   * A command to intake a Cargo. Stops when a cargo has been collected
+   */
+  public IntakeCargo() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.hatchClaw);
+    requires(Robot.cargoIntake);
+    requires(Robot.cargoScorer);
   }
-
+  
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.hatchClaw.setExtended(true);
+    Robot.cargoIntake.setEngaged(true);
+    Robot.cargoScorer.rollIn();
+  }
+  
+  @Override
+  protected boolean isFinished() {
+    return false;
+  }
+  
+  @Override
+  protected void interrupted() {
+    Robot.cargoIntake.stop();
+    // Robot.cargoScorer.stop();
   }
 }

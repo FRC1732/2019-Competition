@@ -8,8 +8,8 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.PlaceCargo;
-import frc.robot.commands.SetElevator;
+import frc.robot.commands.cargo.PlaceCargo;
+import frc.robot.commands.elevator.SetElevator;
 import frc.robot.subsystems.Elevator.Position;
 
 /**

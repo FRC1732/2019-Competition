@@ -5,43 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.hatch;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.Robot;
 
-/**
- * A command to intake a Cargo. Stops when a cargo has been collected
- */
-public class SpitCargo extends Command {
-  /**
-   * A command to intake a Cargo. Stops when a cargo has been collected
-   */
-  public SpitCargo() {
+public class RetractPanel extends InstantCommand {
+  public RetractPanel() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.cargoIntake);
-    requires(Robot.cargoScorer);
+    requires(Robot.hatchClaw);
   }
   
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.cargoIntake.setEngaged(false);
-    Robot.cargoScorer.rollOut();
-  }
-  
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
-  
-  @Override
-  protected void interrupted() {
-    Robot.cargoIntake.stop();
-    Robot.cargoScorer.stop();
+    Robot.hatchClaw.setExtended(false);
   }
   
 }

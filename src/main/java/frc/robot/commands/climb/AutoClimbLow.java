@@ -5,21 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.climb;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class CloseFinger extends InstantCommand {
-  public CloseFinger() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.hatchClaw);
-  }
-
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-    Robot.hatchClaw.setEngaged(true);
+public class AutoClimbLow extends CommandGroup {
+  /**
+   * Performs a climb
+   */
+  public AutoClimbLow() {
+    addSequential(new LowerJacksLow(), 4);
+    addSequential(new JackDrive(), 3);
+    addSequential(new RaiseFrontJacks(), 3);
+    addSequential(new DoubleDrive(), 2);
+    addSequential(new RaiseBackjack(), 3);
   }
 }

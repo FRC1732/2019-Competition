@@ -5,27 +5,46 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.cargo;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.Robot;
 
 /**
- * A command to collect a hatch panel when aligned at the human player station
+ * Add your docs here.
  */
-public class CollectHatchPanel extends InstantCommand {
+public class ExtendIntakeTime extends TimedCommand {
   /**
-   * A command to collect a hatch panel when aligned at the human player station
+   * Add your docs here.
    */
-  public CollectHatchPanel() {
+  public ExtendIntakeTime() {
+    super(0.5);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.hatchClaw);
+    requires(Robot.cargoScorer);
   }
-  
+
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.hatchClaw.setEngaged(true);
+    Robot.cargoScorer.rollIn();
+  }
+
+  // Called repeatedly when this Command is scheduled to run
+  @Override
+  protected void execute() {
+  }
+
+  // Called once after timeout
+  @Override
+  protected void end() {
+    Robot.cargoScorer.stop();
+  }
+
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
+  @Override
+  protected void interrupted() {
+    Robot.cargoScorer.stop();
   }
 }

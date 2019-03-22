@@ -5,34 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.hatch;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
-import frc.robot.subsystems.Elevator.Position;
 
-/**
- * A command to set the elevator position
- */
-public class SetElevator extends InstantCommand {
-  private Position pos;
-  
-  /**
-   * A command to set the elevator position
-   *
-   * @param pos
-   *              The position to set
-   */
-  public SetElevator(Position pos) {
-    this.pos = pos;
+public class SliderOut extends InstantCommand {
+  public SliderOut() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.elevator);
+    requires(Robot.hatchClaw);
   }
-  
+
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.elevator.setHeight(pos);
+    Robot.hatchClaw.setExtended(true);
   }
 }

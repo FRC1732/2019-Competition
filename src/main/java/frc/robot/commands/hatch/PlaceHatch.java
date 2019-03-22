@@ -5,18 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.hatch;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
-public class OpenFinger extends InstantCommand {
-  public OpenFinger() {
+/**
+ * Command to score a hatch panel when lined up at a hatch
+ */
+public class PlaceHatch extends InstantCommand {
+  /**
+   * Command to score a hatch panel when lined up at a hatch
+   */
+  public PlaceHatch() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.hatchClaw);
   }
-
+  
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {

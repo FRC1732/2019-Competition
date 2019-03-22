@@ -5,32 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.hatch;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
-public class ExtendPanel extends Command {
-  public ExtendPanel() {
+public class SliderIn extends InstantCommand {
+  public SliderIn() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.hatchClaw);
   }
-  
+
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.hatchClaw.setExtended(true);
-  }
-  
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
-  
-  @Override
-  protected void interrupted() {
     Robot.hatchClaw.setExtended(false);
   }
-  
 }

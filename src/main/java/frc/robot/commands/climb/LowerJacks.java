@@ -5,40 +5,46 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.climb;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-/**
- * A command to intake a Cargo. Stops when a cargo has been collected
- */
-public class IntakeCargo extends Command {
-  /**
-   * A command to intake a Cargo. Stops when a cargo has been collected
-   */
-  public IntakeCargo() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.cargoIntake);
-    requires(Robot.cargoScorer);
+public class LowerJacks extends Command {
+
+  public LowerJacks() {
+    requires(Robot.frontJacks);
+    requires(Robot.backjack);
   }
-  
+
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.cargoIntake.setEngaged(true);
-    Robot.cargoScorer.rollIn();
+    Robot.frontJacks.LowerJacks();
+    Robot.backjack.LowerJack();
   }
-  
+
+  // Called repeatedly when this Command is scheduled to run
+  @Override
+  protected void execute() {
+  }
+
+  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Robot.backjack.AtHighTarget() && Robot.frontJacks.AtHighTarget();
   }
-  
+
+  // Called once after isFinished returns true
+  @Override
+  protected void end() {
+  }
+
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.cargoIntake.stop();
-    // Robot.cargoScorer.stop();
+    Robot.backjack.RestJack();
+    Robot.frontJacks.RestJacks();
   }
 }
