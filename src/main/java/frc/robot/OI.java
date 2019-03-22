@@ -98,7 +98,7 @@ public class OI {
     new JoystickButton(operator2, 3).whenPressed(new SetElevator(Position.RocketLevel2Cargo));
     new JoystickButton(operator2, 4).whenPressed(new SetElevator(Position.RocketLevel1Cargo));
     new JoystickButton(operator2, 5).whenPressed(new SetElevator(Position.CargoShipCargo));
-    new JoystickButton(operator2, 6).whenActive(new JackDrive());
+    new JoystickButton(operator2, 6).whenActive(new LowerJacksHigh());
     new JoystickButton(operator2, 9); // manual override
     new JoystickButton(operator2, 7).whenActive(new AutoClimbLow());
     new JoystickButton(operator2, 11).whenActive(new AutoClimbHigh());
