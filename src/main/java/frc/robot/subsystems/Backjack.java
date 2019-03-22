@@ -32,7 +32,7 @@ public class Backjack extends Subsystem {
 
   private static final int OFFSET = 250;
   private static final int INCH = 620;
-  private static final int LOW = (int)(6 * INCH);
+  private static final int LOW = (int)(9 * INCH);
   private static final int HIGH = (int)(22 * INCH);
   private static final int DEADZONE = (int)(((double)INCH) / 2.0);
 
