@@ -18,6 +18,7 @@ import frc.robot.commands.FingerDown;
 import frc.robot.commands.FingerUp;
 import frc.robot.commands.HomeElevator;
 import frc.robot.commands.IntakeCargo;
+import frc.robot.commands.IntakeCargoHigh;
 import frc.robot.commands.ManualElevator;
 import frc.robot.commands.OpenFinger;
 import frc.robot.commands.PlaceCargo;
@@ -77,13 +78,13 @@ public class OI {
     new JoystickButton(left, 1).whenReleased(new ExtendIntakeTime());
     new JoystickButton(left, 2).whenPressed(new StickPanel());
     new JoystickButton(left, 3).whenPressed(new GrabPanel());
-    new JoystickButton(left, 4).whenPressed(new FingerDown());
-    new JoystickButton(left, 5).whenPressed(new FingerUp());
+    new JoystickButton(left, 4).whenPressed(new IntakeCargoHigh());
+    new JoystickButton(left, 5);
 
     new JoystickButton(right, 1).whileActive(new TurnToTarget());
     new JoystickButton(right, 2).whileActive(new PlaceCargo());
     new JoystickButton(right, 3).whenPressed(new ScorePanel());
-    new JoystickButton(right, 4).whenPressed(new ExtendToggle());
+    new JoystickButton(right, 4);
     new JoystickButton(right, 5).whileActive(new SpitCargo());
 
     sliderInOut.whenActive(new SliderIn());
