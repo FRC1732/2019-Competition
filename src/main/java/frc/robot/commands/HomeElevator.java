@@ -19,7 +19,7 @@ public class HomeElevator extends Command {
   }
 
   private long start;
-  private static final long length = 1000;
+  private static final long length = 10000;
 
   // Called just before this Command runs the first time
   @Override
