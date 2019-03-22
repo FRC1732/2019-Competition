@@ -10,9 +10,9 @@ package frc.robot.commands.auto.climb;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class LowerJacks extends Command {
+public class LowerJacksLow extends Command {
 
-  public LowerJacks() {
+  public LowerJacksLow() {
     requires(Robot.frontJacks);
     requires(Robot.backjack);
   }
@@ -20,8 +20,8 @@ public class LowerJacks extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.frontJacks.LowerJacks();
-    Robot.backjack.LowerJack();
+    Robot.frontJacks.LowerJacksALittle();
+    Robot.backjack.LowerJackALittle();
   }
 
   // Called repeatedly when this Command is scheduled to run
