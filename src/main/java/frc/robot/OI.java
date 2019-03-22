@@ -16,12 +16,9 @@ import frc.robot.commands.ExtendIntakeTime;
 import frc.robot.commands.ExtendToggle;
 import frc.robot.commands.FingerDown;
 import frc.robot.commands.FingerUp;
-import frc.robot.commands.HomeElevator;
 import frc.robot.commands.IntakeCargo;
-import frc.robot.commands.ManualElevator;
 import frc.robot.commands.OpenFinger;
 import frc.robot.commands.PlaceCargo;
-import frc.robot.commands.SetElevator;
 import frc.robot.commands.SliderIn;
 import frc.robot.commands.SliderOut;
 import frc.robot.commands.SpitCargo;
@@ -32,6 +29,9 @@ import frc.robot.commands.auto.TurnToTarget;
 import frc.robot.commands.auto.climb.AutoClimb;
 import frc.robot.commands.auto.climb.JackDrive;
 import frc.robot.commands.auto.climb.LowerJacks;
+import frc.robot.commands.elevator.HomeElevator;
+import frc.robot.commands.elevator.ManualElevator;
+import frc.robot.commands.elevator.SetElevator;
 import frc.robot.subsystems.Elevator.Position;
 
 /**
