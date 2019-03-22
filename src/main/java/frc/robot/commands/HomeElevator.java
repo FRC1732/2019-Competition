@@ -19,11 +19,13 @@ public class HomeElevator extends Command {
   }
 
   private long start;
+  private static final long length = 1000;
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     Robot.elevator.setHeight(Position.BaseHeight);
+    start = System.currentTimeMillis();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -35,12 +37,13 @@ public class HomeElevator extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return start + length < System.currentTimeMillis() || Robot.elevator.getHeight() <= Position.BaseHeight.position + 150;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.elevator.stop();
   }
 
   // Called when another command which requires one or more of the same

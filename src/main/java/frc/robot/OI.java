@@ -13,6 +13,7 @@ import frc.robot.commands.CloseFinger;
 import frc.robot.commands.ExtendToggle;
 import frc.robot.commands.FingerDown;
 import frc.robot.commands.FingerUp;
+import frc.robot.commands.HomeElevator;
 import frc.robot.commands.IntakeCargo;
 import frc.robot.commands.OpenFinger;
 import frc.robot.commands.PlaceCargo;
@@ -87,9 +88,9 @@ public class OI {
     fingerOpenClose.whenInactive(new CloseFinger());
     new JoystickButton(operator1, 5).whenPressed(new SetElevator(Position.RocketLevel3Hatch));
     new JoystickButton(operator1, 6).whenPressed(new SetElevator(Position.RocketLevel2Hatch));
-    new JoystickButton(operator1, 7).whenPressed(new SetElevator(Position.RocketLevel1Hatch));
+    new JoystickButton(operator1, 7).whenPressed(new HomeElevator());
 
-    new JoystickButton(operator2, 1).whenPressed(new SetElevator(Position.HumanPlayerStation));
+    new JoystickButton(operator2, 1).whenPressed(new HomeElevator());
     new JoystickButton(operator2, 2).whenPressed(new SetElevator(Position.RocketLevel3Cargo));
     new JoystickButton(operator2, 3).whenPressed(new SetElevator(Position.RocketLevel2Cargo));
     new JoystickButton(operator2, 4).whenPressed(new SetElevator(Position.RocketLevel1Cargo));
