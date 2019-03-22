@@ -8,16 +8,18 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.commands.CloseFinger;
 import frc.robot.commands.ExtendToggle;
 import frc.robot.commands.FingerDown;
 import frc.robot.commands.FingerUp;
 import frc.robot.commands.HomeElevator;
 import frc.robot.commands.IntakeCargo;
+import frc.robot.commands.ManualElevator;
 import frc.robot.commands.OpenFinger;
 import frc.robot.commands.PlaceCargo;
-import frc.robot.commands.PlaceHatch;
 import frc.robot.commands.SetElevator;
 import frc.robot.commands.SliderIn;
 import frc.robot.commands.SliderOut;
@@ -99,6 +101,22 @@ public class OI {
     new JoystickButton(operator2, 9); // manual override
     new JoystickButton(operator2, 7).whenActive(new LowerJacks());
     new JoystickButton(operator2, 11).whenActive(new AutoClimb());
+
+    new Notifier(this::run).startPeriodic(0.2);
+  }
+  private Command minusY = new ManualElevator(true);
+  private Command plusY = new ManualElevator(false);
+  private void run() {
+    if(operator2.getY() > 0.9) {
+      plusY.start();
+      minusY.cancel();
+    }else if(operator2.getY() < -0.9) {
+      minusY.start();
+      plusY.cancel();
+    }else {
+      plusY.cancel();
+      minusY.cancel();
+    }
   }
 
   public boolean getManual() {
