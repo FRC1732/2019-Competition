@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -18,7 +17,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.util.Console;
 import frc.robot.util.MotorUtil;
@@ -40,9 +38,6 @@ public class Elevator extends Subsystem {
   
   private final static int OFFSET = 1600;//1483;
   
-  private static final double kP = 2.0;
-  private static final double kI = 0;
-  private static final double kD = 0;
   private static final double minimumOutput = .065;
   private static final double speed = 588;
   private static final double percent = 0.319648093841642;
