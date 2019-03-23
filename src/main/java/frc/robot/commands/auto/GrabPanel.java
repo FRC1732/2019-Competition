@@ -12,13 +12,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class GrabPanel extends Command {
-  private Notifier extend = new Notifier(() -> {
-    Robot.hatchClaw.setExtended(true);
-    done = true;
-  });
-  private Notifier grab = new Notifier(() -> {
-    Robot.hatchClaw.setEngaged(true);
-  });
   private Notifier retract = new Notifier(() -> {
     Robot.hatchClaw.setExtended(false);
     done = true;

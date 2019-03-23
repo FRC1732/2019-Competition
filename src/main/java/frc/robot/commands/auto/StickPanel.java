@@ -16,13 +16,6 @@ public class StickPanel extends Command {
     Robot.hatchClaw.setExtended(true);
     done = true;
   });
-  private Notifier grab = new Notifier(() -> {
-    Robot.hatchClaw.setEngaged(true);
-  });
-  private Notifier retract = new Notifier(() -> {
-    Robot.hatchClaw.setExtended(false);
-    done = true;
-  });
   
   private boolean done = false;
   
