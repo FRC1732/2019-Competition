@@ -19,9 +19,6 @@ public class TogglePanel extends Command {
     Robot.hatchClaw.setExtended(false);
     done = true;
   });
-  private Notifier lift = new Notifier(() -> {
-    Robot.hatchClaw.setEngaged(true);
-  });
   
   private boolean done = false;
   

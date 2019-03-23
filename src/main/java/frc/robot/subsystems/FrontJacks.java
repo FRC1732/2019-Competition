@@ -30,7 +30,7 @@ public class FrontJacks extends Subsystem {
   private String status = "";
 
   private static final int LEFT_OFFSET = 450;
-  private static final int RIGHT_OFFSET = 575;
+  private static final int RIGHT_OFFSET = 625;
   private static final int INCH = 620;
   private static final int LOW = (int)(9 * INCH);
   private static final int HIGH = (int)(22.5 * INCH);
@@ -40,12 +40,12 @@ public class FrontJacks extends Subsystem {
     LeftMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     LeftMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     LeftMotor.config_kP(0, 1.4);
-    LeftMotor.configClosedLoopPeakOutput(0, 0.575);
+    LeftMotor.configClosedLoopPeakOutput(0, 0.5625);
 
     RightMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     RightMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     RightMotor.config_kP(0, 1.4);
-    RightMotor.configClosedLoopPeakOutput(0, 0.675);
+    RightMotor.configClosedLoopPeakOutput(0, 0.6625);
 
     SmartDashboard.putData("frontJacks", new SimpleSendable(this::initSendable));
   }
