@@ -38,13 +38,13 @@ public class ExtendIntakeTime extends TimedCommand {
   // Called once after timeout
   @Override
   protected void end() {
-    Robot.cargoScorer.stop();
+    Robot.cargoScorer.hold();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.cargoScorer.stop();
+    Robot.cargoScorer.hold();
   }
 }
