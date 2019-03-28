@@ -9,9 +9,14 @@ package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.commands.hatch.CloseFinger;
+import frc.robot.commands.hatch.RetractPanel;
 import frc.robot.subsystems.Elevator.Position;
 
 public class HomeElevator extends Command {
+  private Command also1 = new RetractPanel();
+  private Command also2 = new CloseFinger();
+
   public HomeElevator() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -26,6 +31,8 @@ public class HomeElevator extends Command {
   protected void initialize() {
     Robot.elevator.setHeight(Position.BaseHeight);
     start = System.currentTimeMillis();
+    also1.start();
+    also2.start();
   }
 
   // Called repeatedly when this Command is scheduled to run

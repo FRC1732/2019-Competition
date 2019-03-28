@@ -7,14 +7,19 @@
 
 package frc.robot.commands.elevator;
 
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
+import frc.robot.commands.hatch.CloseFinger;
+import frc.robot.commands.hatch.RetractPanel;
 import frc.robot.subsystems.Elevator.Position;
 
 /**
  * A command to set the elevator position
  */
 public class SetElevator extends InstantCommand {
+  private Command also1 = new RetractPanel();
+  private Command also2 = new CloseFinger();
   private Position pos;
   
   /**
@@ -28,11 +33,14 @@ public class SetElevator extends InstantCommand {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.elevator);
+    requires(Robot.hatchClaw);
   }
   
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     Robot.elevator.setHeight(pos);
+    also1.start();
+    also2.start();
   }
 }
