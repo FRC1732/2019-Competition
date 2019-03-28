@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.cargo;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -37,7 +37,7 @@ public class IntakeCargoHigh extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.cargoScorer.stop();
+    Robot.cargoScorer.hold();
     Robot.cargoIntake.stop();
   }
 
@@ -45,7 +45,7 @@ public class IntakeCargoHigh extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.cargoScorer.stop();
+    Robot.cargoScorer.hold();
     Robot.cargoIntake.stop();
   }
 }
