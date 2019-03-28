@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.commands.IntakeCargoHigh;
 import frc.robot.commands.auto.GrabPanel;
 import frc.robot.commands.auto.ScorePanel;
 import frc.robot.commands.auto.StickPanel;
 import frc.robot.commands.auto.TurnToTarget;
 import frc.robot.commands.cargo.ExtendIntakeTime;
 import frc.robot.commands.cargo.IntakeCargo;
+import frc.robot.commands.cargo.IntakeCargoHigh;
 import frc.robot.commands.cargo.PlaceCargo;
 import frc.robot.commands.cargo.SpitCargo;
 import frc.robot.commands.climb.AutoClimbHigh;
@@ -75,7 +75,7 @@ public class OI {
     new JoystickButton(left, 1).whenReleased(new ExtendIntakeTime());
     new JoystickButton(left, 2).whenPressed(new StickPanel());
     new JoystickButton(left, 3).whenPressed(new GrabPanel());
-    new JoystickButton(left, 4).whenPressed(new IntakeCargoHigh());
+    new JoystickButton(left, 4).whileActive(new IntakeCargoHigh());
     new JoystickButton(left, 5);
 
     new JoystickButton(right, 1).whileActive(new TurnToTarget());
@@ -92,7 +92,7 @@ public class OI {
     new JoystickButton(operator1, 6).whenPressed(new SetElevator(Position.RocketLevel2Hatch));
     new JoystickButton(operator1, 7).whenPressed(new HomeElevator());
 
-    new JoystickButton(operator2, 1).whenPressed(new HomeElevator());
+    new JoystickButton(operator2, 1).whenPressed(new SetElevator(Position.HumanPlayerStation));
     new JoystickButton(operator2, 2).whenPressed(new SetElevator(Position.RocketLevel3Cargo));
     new JoystickButton(operator2, 3).whenPressed(new SetElevator(Position.RocketLevel2Cargo));
     new JoystickButton(operator2, 4).whenPressed(new SetElevator(Position.RocketLevel1Cargo));
