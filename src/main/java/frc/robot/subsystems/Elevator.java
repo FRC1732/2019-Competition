@@ -42,11 +42,12 @@ public class Elevator extends Subsystem {
   private static final double speed = 588;
   private static final double percent = 0.319648093841642;
   private static final double kF = (percent * 1023) / speed - minimumOutput;
-  private static final double motionCruiseVelocity = 1000;
-  private static final double motionAcceleration = motionCruiseVelocity * 2;
+  private static final double motionCruiseVelocity = 2000;
+  private static final double motionAcceleration = motionCruiseVelocity * 1;
   
   public Elevator() {
     elevator.config_kF(0, kF);
+    elevator.config_kP(0, 7);
     elevator.configMotionCruiseVelocity((int) motionCruiseVelocity);
     elevator.configMotionAcceleration((int) motionAcceleration);
     // config current limit
@@ -82,7 +83,7 @@ public class Elevator extends Subsystem {
   public void setHeight(Position pos) {
     // passes the constant int for the height requested
     elevator.set(ControlMode.MotionMagic, pos.position, DemandType.ArbitraryFeedForward, minimumOutput);
-    Console.debug("set elevator height to: " + position);
+    Console.debug(String.format("set elevator height to: %5.5f", position));
   }
   
   public int getHeight() {
@@ -105,6 +106,7 @@ public class Elevator extends Subsystem {
     //   Console.debug("elevator: " + elevator.getSelectedSensorPosition() + ", set to " + (position + OFFSET));
     //   elevator.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, 0);// minimumOutput);
     // }
+    Console.debug("Out: " + elevator.getMotorOutputPercent());
   }
   
   @Override
