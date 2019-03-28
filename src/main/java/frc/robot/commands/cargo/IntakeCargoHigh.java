@@ -7,27 +7,20 @@
 
 package frc.robot.commands.cargo;
 
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-/**
- * Add your docs here.
- */
-public class ExtendIntakeTime extends TimedCommand {
-  /**
-   * Add your docs here.
-   */
-  public ExtendIntakeTime() {
-    super(0.5);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+public class IntakeCargoHigh extends Command {
+  public IntakeCargoHigh() {
     requires(Robot.cargoScorer);
+    requires(Robot.cargoIntake);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     Robot.cargoScorer.rollIn();
+    Robot.cargoIntake.stop();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -35,10 +28,17 @@ public class ExtendIntakeTime extends TimedCommand {
   protected void execute() {
   }
 
-  // Called once after timeout
+  // Make this return true when this Command no longer needs to run execute()
+  @Override
+  protected boolean isFinished() {
+    return false;
+  }
+
+  // Called once after isFinished returns true
   @Override
   protected void end() {
     Robot.cargoScorer.hold();
+    Robot.cargoIntake.stop();
   }
 
   // Called when another command which requires one or more of the same
@@ -46,5 +46,6 @@ public class ExtendIntakeTime extends TimedCommand {
   @Override
   protected void interrupted() {
     Robot.cargoScorer.hold();
+    Robot.cargoIntake.stop();
   }
 }

@@ -26,10 +26,14 @@ public class CargoScorer extends Subsystem {
   public void rollIn() {
     left.set(ControlMode.PercentOutput, 1);
     right.set(ControlMode.PercentOutput, 1);
-    left.configOpenloopRamp(0, 30);
-    right.configOpenloopRamp(0, 30);
-    
   }
+
+  public void hold() {
+    left.set(ControlMode.PercentOutput, 0.2);
+    right.set(ControlMode.PercentOutput, 0.2);
+    System.out.println("Hold");
+  }
+
   
   public void rollOut() {
     left.set(ControlMode.PercentOutput, -0.9);
@@ -40,6 +44,7 @@ public class CargoScorer extends Subsystem {
   public void stop() {
     left.set(ControlMode.PercentOutput, 0);
     right.set(ControlMode.PercentOutput, 0);
+    System.out.println("Stop");
   }
   
   /**

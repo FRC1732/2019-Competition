@@ -17,6 +17,7 @@ import frc.robot.commands.auto.StickPanel;
 import frc.robot.commands.auto.TurnToTarget;
 import frc.robot.commands.cargo.ExtendIntakeTime;
 import frc.robot.commands.cargo.IntakeCargo;
+import frc.robot.commands.cargo.IntakeCargoHigh;
 import frc.robot.commands.cargo.PlaceCargo;
 import frc.robot.commands.cargo.SpitCargo;
 import frc.robot.commands.climb.AutoClimbHigh;
@@ -26,9 +27,6 @@ import frc.robot.commands.elevator.HomeElevator;
 import frc.robot.commands.elevator.ManualElevator;
 import frc.robot.commands.elevator.SetElevator;
 import frc.robot.commands.hatch.CloseFinger;
-import frc.robot.commands.hatch.ExtendToggle;
-import frc.robot.commands.hatch.FingerDown;
-import frc.robot.commands.hatch.FingerUp;
 import frc.robot.commands.hatch.OpenFinger;
 import frc.robot.commands.hatch.SliderIn;
 import frc.robot.commands.hatch.SliderOut;
@@ -77,13 +75,13 @@ public class OI {
     new JoystickButton(left, 1).whenReleased(new ExtendIntakeTime());
     new JoystickButton(left, 2).whenPressed(new StickPanel());
     new JoystickButton(left, 3).whenPressed(new GrabPanel());
-    new JoystickButton(left, 4).whenPressed(new FingerDown());
-    new JoystickButton(left, 5).whenPressed(new FingerUp());
+    new JoystickButton(left, 4).whileActive(new IntakeCargoHigh());
+    new JoystickButton(left, 5);
 
     new JoystickButton(right, 1).whileActive(new TurnToTarget());
     new JoystickButton(right, 2).whileActive(new PlaceCargo());
     new JoystickButton(right, 3).whenPressed(new ScorePanel());
-    new JoystickButton(right, 4).whenPressed(new ExtendToggle());
+    new JoystickButton(right, 4);
     new JoystickButton(right, 5).whileActive(new SpitCargo());
 
     sliderInOut.whenActive(new SliderIn());
@@ -94,7 +92,7 @@ public class OI {
     new JoystickButton(operator1, 6).whenPressed(new SetElevator(Position.RocketLevel2Hatch));
     new JoystickButton(operator1, 7).whenPressed(new HomeElevator());
 
-    new JoystickButton(operator2, 1).whenPressed(new HomeElevator());
+    new JoystickButton(operator2, 1).whenPressed(new SetElevator(Position.HumanPlayerStation));
     new JoystickButton(operator2, 2).whenPressed(new SetElevator(Position.RocketLevel3Cargo));
     new JoystickButton(operator2, 3).whenPressed(new SetElevator(Position.RocketLevel2Cargo));
     new JoystickButton(operator2, 4).whenPressed(new SetElevator(Position.RocketLevel1Cargo));
