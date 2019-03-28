@@ -36,7 +36,7 @@ public class Elevator extends Subsystem {
   private TalonSRX elevator = MotorUtil.initAbsoluteTalon(RobotMap.ELEVATOR_ELEVATOR_ID, false, true);
   private DigitalInput limit = new DigitalInput(0);
   
-  private final static int OFFSET = 1600;//1483;
+  private final static int OFFSET = 2524;
   
   private static final double minimumOutput = .065;
   private static final double speed = 588;
@@ -62,7 +62,7 @@ public class Elevator extends Subsystem {
     BaseHeight(OFFSET), CargoShipCargo(10100 + OFFSET), CargoShipHatch(22000 + OFFSET), RocketLevel1Cargo(
         5800 + OFFSET), RocketLevel1Hatch(0 + OFFSET), RocketLevel2Cargo(16150 + OFFSET), RocketLevel2Hatch(
             10000 + OFFSET), RocketLevel3Cargo(
-                19100 + OFFSET), RocketLevel3Hatch(19100 + OFFSET), HumanPlayerStation(0 + OFFSET);
+                19100 + OFFSET), RocketLevel3Hatch(19100 + OFFSET), HumanPlayerStation(4600 + OFFSET);
     public final int position;
     
     private Position(int position) {
