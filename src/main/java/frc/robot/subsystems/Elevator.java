@@ -36,7 +36,7 @@ public class Elevator extends Subsystem {
   private TalonSRX elevator = MotorUtil.initAbsoluteTalon(RobotMap.ELEVATOR_ELEVATOR_ID, false, true);
   private DigitalInput limit = new DigitalInput(0);
   
-  private final static int OFFSET = 2524;
+  private final static int OFFSET = 2224;
   
   private static final double minimumOutput = .065;
   private static final double speed = 588;
@@ -83,7 +83,7 @@ public class Elevator extends Subsystem {
   public void setHeight(Position pos) {
     // passes the constant int for the height requested
     elevator.set(ControlMode.MotionMagic, pos.position, DemandType.ArbitraryFeedForward, minimumOutput);
-    Console.debug(String.format("set elevator height to: %5.5f", position));
+    // Console.debug(String.format("set elevator height to: %5.5f", position));
   }
   
   public int getHeight() {
@@ -106,7 +106,7 @@ public class Elevator extends Subsystem {
     //   Console.debug("elevator: " + elevator.getSelectedSensorPosition() + ", set to " + (position + OFFSET));
     //   elevator.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, 0);// minimumOutput);
     // }
-    Console.debug("Out: " + elevator.getMotorOutputPercent());
+    // Console.debug("Out: " + elevator.getMotorOutputPercent());
   }
   
   @Override
