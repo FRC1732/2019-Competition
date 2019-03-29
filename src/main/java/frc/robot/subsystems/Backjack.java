@@ -39,8 +39,8 @@ public class Backjack extends Subsystem {
   public Backjack(){
     jackMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     jackMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
-    jackMotor.config_kP(0, .5);
-    jackMotor.configClosedLoopPeakOutput(0, 0.4);
+    jackMotor.config_kP(0, .7);
+    jackMotor.configClosedLoopPeakOutput(0, 0.4125);
 
     SmartDashboard.putData("backJack", new SimpleSendable(this::initSendable));
   }
