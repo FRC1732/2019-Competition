@@ -35,7 +35,7 @@ public class Elevator extends Subsystem {
   private TalonSRX elevator = MotorUtil.initAbsoluteTalon(RobotMap.ELEVATOR_ELEVATOR_ID, false, true);
   private DigitalInput limit = new DigitalInput(0);
   
-  private final static int OFFSET = 648;
+  private final static int OFFSET = 618;
   
   private static final double minimumOutput = .065;
   private static final double speed = 588;
