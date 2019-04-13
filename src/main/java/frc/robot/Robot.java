@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.Backjack;
@@ -49,6 +51,21 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     robot = this;
     oi = new OI();
+    startCapture();
+  }
+  
+  public static void startCapture() {
+    // creates a thread which runs concurrently with the program
+    new Thread(() -> {
+      
+      // Instantiate the USB cameras and begin capturing their video streams
+      UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
+      
+      // set the cameras' reolutions and FPS
+      camera.setResolution(160, 120);
+      camera.setFPS(30);
+      
+    }).start();
   }
   
   /**
