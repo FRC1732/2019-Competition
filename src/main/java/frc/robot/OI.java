@@ -45,6 +45,7 @@ public class OI {
 
   public boolean hatchExtended = false;
   public boolean manualMode = false;
+  private final double maxSpeed = 0.50;
   
   /**
    * Gets the left joystick's position, as a percent of fully pushed
@@ -52,7 +53,7 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getLeftJoystick() {
-    return -1 * left.getY() * left.getY() * Math.signum(left.getY());
+    return -1 * left.getY() * left.getY() * Math.signum(left.getY()) * maxSpeed;
   }
   
   /**
@@ -61,7 +62,7 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getRightJoystick() {
-    return -1 * right.getY() * right.getY() * Math.signum(right.getY());
+    return -1 * right.getY() * right.getY() * Math.signum(right.getY()) * maxSpeed;
   }
   
   private JoystickButton sliderInOut = new JoystickButton(operator1, 1);
