@@ -43,7 +43,7 @@ public class Elevator extends Subsystem {
   private static final double percent = 0.319648093841642;
   private static final double kF = (percent * 1023) / speed - minimumOutput;
   private static final double motionCruiseVelocity = 2000;
-  private static final double motionAcceleration = motionCruiseVelocity * 1;
+  private static final double motionAcceleration = motionCruiseVelocity * 2;
   
   public Elevator() {
     elevator.config_kF(0, kF);
@@ -97,16 +97,14 @@ public class Elevator extends Subsystem {
   public void manualDown() {
     elevator.set(ControlMode.PercentOutput, -0.2);
   }
-  
+  private double max = 0;
   @Override
   public void periodic() {
-    // if (elevator.getSelectedSensorPosition(0) < OFFSET + 150 && position < OFFSET + 150) {
-    //   elevator.set(ControlMode.PercentOutput, 0);
-    // } else {
-    //   Console.debug("elevator: " + elevator.getSelectedSensorPosition() + ", set to " + (position + OFFSET));
-    //   elevator.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, 0);// minimumOutput);
-    // }
-    Console.debug("Out: " + elevator.getMotorOutputPercent());
+    Console.debug("Elevator Percent", elevator.getMotorOutputPercent());
+    if(Math.abs(elevator.getMotorOutputPercent()) > max) {
+      max = Math.abs(elevator.getMotorOutputPercent());
+    }
+    Console.debug("Elevator Max Percent", max);
   }
   
   @Override
