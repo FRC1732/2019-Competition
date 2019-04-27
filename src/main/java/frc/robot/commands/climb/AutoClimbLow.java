@@ -14,6 +14,8 @@ public class AutoClimbLow extends CommandGroup {
    * Performs a climb
    */
   public AutoClimbLow() {
+    addSequential(new RaiseFrontJacks(), 3);
+    addSequential(new RaiseBackjack(), 3);
     addSequential(new LowerJacksLow(), 4);
     addSequential(new JackDrive(), 3);
     addSequential(new RaiseFrontJacks(), 3);
