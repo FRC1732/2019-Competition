@@ -34,6 +34,7 @@ public class Backjack extends Subsystem {
   private static final int INCH = 620;
   private static final int LOW = (int)(9 * INCH);
   private static final int HIGH = (int)(21.75 * INCH);
+  private static final int LOWTOHIGH = (int)(12.75 * INCH);
   private static final int DEADZONE = (int)(((double)INCH) / 2.0);
 
   public Backjack(){
@@ -53,6 +54,11 @@ public class Backjack extends Subsystem {
   public void LowerJack(){
     status = "Lower";
     jackMotor.set(ControlMode.Position, HIGH + OFFSET);
+  }
+
+  public void LowerJacksMedium(){
+    status = "LowerJackMedium";
+    jackMotor.set(ControlMode.Position, LOWTOHIGH + OFFSET);
   }
 
   public void LowerJackALittle(){
@@ -81,6 +87,10 @@ public class Backjack extends Subsystem {
 
   public boolean AtLowTarget(){
     return Math.abs((LOW + OFFSET) - jackMotor.getSelectedSensorPosition()) < DEADZONE;
+  }
+
+  public boolean AtLowToHighTarget(){
+    return Math.abs((LOWTOHIGH) - jackMotor.getSelectedSensorPosition()) < DEADZONE;
   }
 
   public boolean AtHomeTarget(){

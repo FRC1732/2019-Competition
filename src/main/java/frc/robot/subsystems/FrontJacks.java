@@ -34,6 +34,7 @@ public class FrontJacks extends Subsystem {
   private static final int INCH = 620;
   private static final int LOW = (int)(9 * INCH);
   private static final int HIGH = (int)(22.5 * INCH);
+  private static final int LOWTOHIGH = (int)(13.5 * INCH);
   private static final int DEADZONE = (int)(((double)INCH) / 2.0);
 
   public FrontJacks(){
@@ -62,6 +63,12 @@ public class FrontJacks extends Subsystem {
     RightMotor.set(ControlMode.Position, HIGH + RIGHT_OFFSET);
   }
 
+  public void LowerJacksMedium(){
+    status = "LowerJacksMedium";
+    LeftMotor.set(ControlMode.Position, LOWTOHIGH + LEFT_OFFSET);
+    RightMotor.set(ControlMode.Position, LOWTOHIGH + RIGHT_OFFSET);
+  }
+
   public void LowerJacksALittle(){
     status = "LowerJacksALittle";
     LeftMotor.set(ControlMode.Position, LOW + LEFT_OFFSET);
@@ -82,6 +89,11 @@ public class FrontJacks extends Subsystem {
   public boolean AtLowTarget(){
     return Math.abs((LOW + LEFT_OFFSET) - LeftMotor.getSelectedSensorPosition()) < DEADZONE
       && Math.abs((LOW + RIGHT_OFFSET) - RightMotor.getSelectedSensorPosition()) < DEADZONE;
+  }
+
+  public boolean AtLowToHighTarget(){
+    return Math.abs((LOWTOHIGH + LEFT_OFFSET) - LeftMotor.getSelectedSensorPosition()) < DEADZONE
+      && Math.abs((LOWTOHIGH + RIGHT_OFFSET) - RightMotor.getSelectedSensorPosition()) < DEADZONE;
   }
 
   public boolean AtHomeTarget(){
