@@ -71,7 +71,7 @@ public class Elevator extends Subsystem {
     }
   }
   
-  private int position = Position.BaseHeight.position;
+private int position = Position.BaseHeight.position;
   
   /**
    * Sets the position of the elevator, using constants declared in

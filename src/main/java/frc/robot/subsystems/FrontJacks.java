@@ -34,7 +34,7 @@ public class FrontJacks extends Subsystem {
   private static final int INCH = 620;
   private static final int LOW = (int)(9 * INCH);
   private static final int HIGH = (int)(22.5 * INCH);
-  private static final int LOWTOHIGH = (int)(13.5 * INCH);
+  private static final int LOWTOHIGH = (int)(14.5 * INCH);
   private static final int DEADZONE = (int)(((double)INCH) / 2.0);
 
   public FrontJacks(){
