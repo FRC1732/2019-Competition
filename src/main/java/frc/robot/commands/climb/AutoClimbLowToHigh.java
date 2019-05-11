@@ -17,9 +17,9 @@ public class AutoClimbLowToHigh extends CommandGroup {
     addSequential(new RaiseFrontJacks(), 3);
     addSequential(new RaiseBackjack(), 3);
     addSequential(new LowerJacksLowToHigh(), 4);
-    addSequential(new JackDrive(), 3);
+    addSequential(new JackDrive(), 2);
     addSequential(new RaiseFrontJacks(), 3);
-    addSequential(new DoubleDrive(), 2);
+    addSequential(new DoubleDrive(), 3);
     addSequential(new RaiseBackjack(), 3);
   }
 }
