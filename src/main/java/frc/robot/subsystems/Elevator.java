@@ -100,11 +100,11 @@ public class Elevator extends Subsystem {
   private double max = 0;
   @Override
   public void periodic() {
-    Console.debug("Elevator Percent", elevator.getMotorOutputPercent());
+    //Console.debug("Elevator Percent", elevator.getMotorOutputPercent());
     if(Math.abs(elevator.getMotorOutputPercent()) > max) {
       max = Math.abs(elevator.getMotorOutputPercent());
     }
-    Console.debug("Elevator Max Percent", max);
+    //Console.debug("Elevator Max Percent", max);
   }
   
   @Override
