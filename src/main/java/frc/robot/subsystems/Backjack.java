@@ -63,7 +63,7 @@ public class Backjack extends Subsystem {
   }
 
   public void LowerJackMedium() {
-    status = "Lower";
+    status = "LowerMedium";
     jackMotor.set(ControlMode.MotionMagic, LOWTOHIGH + OFFSET);
   }
   

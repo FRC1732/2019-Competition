@@ -101,7 +101,7 @@ public class FrontJacks extends Subsystem {
 
   public boolean AtLowToHighTarget() {
       return (Math.abs((LOWTOHIGH + LEFT_OFFSET)- leftMotor.getSelectedSensorPosition()) < DEADZONE)
-          && (Math.abs((LOWTOHIGH + RIGHT_OFFSET)- leftMotor.getSelectedSensorPosition()) < DEADZONE);
+          && (Math.abs((LOWTOHIGH + RIGHT_OFFSET)- rightMotor.getSelectedSensorPosition()) < DEADZONE);
   }
   
   public boolean AtLowTarget() {
