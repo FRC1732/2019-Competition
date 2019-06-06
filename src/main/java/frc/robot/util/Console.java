@@ -7,6 +7,8 @@
 
 package frc.robot.util;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * A class for writing better print statements
  */
@@ -82,6 +84,25 @@ public class Console {
     public static void debug(Object printString) {
         if (Level.Debug.level <= currentLevel.level) {
             System.out.println(printString);
+        }
+    }
+    
+    /**
+     * A debug print should never be needed on the FRC field, but should be used to
+     * print debug information that needs to be tracked while tracking down issues
+     * in the code
+     * 
+     * @param printString
+     */
+    public static void debug(String key, Object obj) {
+        if (Level.Debug.level <= currentLevel.level) {
+            if (obj instanceof Number) {
+                SmartDashboard.putNumber(key, ((Number) obj).doubleValue());
+            } else if (obj instanceof Boolean) {
+                SmartDashboard.putBoolean(key, ((Boolean) obj).booleanValue());
+            } else if (obj instanceof String) {
+                SmartDashboard.putString(key, obj.toString());
+            }
         }
     }
     
