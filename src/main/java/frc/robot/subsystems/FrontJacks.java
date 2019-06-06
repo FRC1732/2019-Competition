@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.util.Console;
 import frc.robot.util.MotorUtil;
 import frc.robot.util.SimpleSendable;
 
@@ -24,86 +25,116 @@ import frc.robot.util.SimpleSendable;
  */
 public class FrontJacks extends Subsystem {
   
-  TalonSRX LeftMotor = MotorUtil.initAbsoluteTalon(RobotMap.CLIMBER_FRONT_LEFT, false, false);
-  TalonSRX RightMotor = MotorUtil.initAbsoluteTalon(RobotMap.CLIMBER_FRONT_RIGHT, false, true);
-
+  TalonSRX leftMotor = MotorUtil.initAbsoluteTalon(RobotMap.CLIMBER_FRONT_LEFT, false, false);
+  TalonSRX rightMotor = MotorUtil.initAbsoluteTalon(RobotMap.CLIMBER_FRONT_RIGHT, false, true);
+  
   private String status = "";
-
-  private static final int LEFT_OFFSET = 450;
-  private static final int RIGHT_OFFSET = 625;
+  
+  private static final int LEFT_OFFSET = 3857;
+  private static final int RIGHT_OFFSET = 1876;
   private static final int INCH = 620;
-  private static final int LOW = (int)(9 * INCH);
-  private static final int HIGH = (int)(22.5 * INCH);
-  private static final int DEADZONE = (int)(((double)INCH) / 2.0);
-
-  public FrontJacks(){
-    LeftMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
-    LeftMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
-    LeftMotor.config_kP(0, 1.4);
-    LeftMotor.configClosedLoopPeakOutput(0, 0.5625);
-
-    RightMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
-    RightMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
-    RightMotor.config_kP(0, 1.4);
-    RightMotor.configClosedLoopPeakOutput(0, 0.6625);
-
+  private static final int LOW = (int) (9 * INCH);
+  private static final int LOWTOHIGH = (int) (14.5 * INCH);
+  private static final int HIGH = (int) (22.5 * INCH);
+  private static final int DEADZONE = (int) (((double) INCH) / 2.0);
+  public static final int cruiseVelocity = 1200;
+  public static final int acceleration = (int) (cruiseVelocity / 0.5);
+  
+  public FrontJacks() {
+    leftMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
+    leftMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
+    leftMotor.config_kP(0, 1.4);
+    leftMotor.config_kI(0, 0);
+    leftMotor.config_kD(0, 0);
+    leftMotor.config_kF(0, 0.000667544342359);
+    leftMotor.configMotionCruiseVelocity(cruiseVelocity);
+    leftMotor.configMotionAcceleration(acceleration);
+    leftMotor.configClosedLoopPeakOutput(0, 0.9);
+    
+    rightMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
+    rightMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
+    rightMotor.config_kP(0, 1.4);
+    rightMotor.config_kI(0, 0);
+    rightMotor.config_kD(0, 0);
+    rightMotor.config_kF(0, 0.000667519968892);
+    rightMotor.configMotionCruiseVelocity(cruiseVelocity);
+    rightMotor.configMotionAcceleration(acceleration);
+    rightMotor.configClosedLoopPeakOutput(0, 0.9);
+    
     SmartDashboard.putData("frontJacks", new SimpleSendable(this::initSendable));
   }
-
-  public void RaiseJacks(){
+  
+  public void RaiseJacks() {
     status = "RaiseJacks";
-    LeftMotor.set(ControlMode.Position, LEFT_OFFSET);
-    RightMotor.set(ControlMode.Position, RIGHT_OFFSET);
+    leftMotor.set(ControlMode.Position, LEFT_OFFSET);
+    rightMotor.set(ControlMode.Position, RIGHT_OFFSET);
   }
-
-  public void LowerJacks(){
+  
+  public void LowerJacks() {
     status = "LowerJacks";
-    LeftMotor.set(ControlMode.Position, HIGH + LEFT_OFFSET);
-    RightMotor.set(ControlMode.Position, HIGH + RIGHT_OFFSET);
+    leftMotor.set(ControlMode.MotionMagic, HIGH + LEFT_OFFSET);
+    rightMotor.set(ControlMode.MotionMagic, HIGH + RIGHT_OFFSET);
   }
 
-  public void LowerJacksALittle(){
+  public void LowerJacksMedium() {
+    status  = "LowerJacksMedium";
+    leftMotor.set(ControlMode.MotionMagic, LOWTOHIGH + LEFT_OFFSET);
+    rightMotor.set(ControlMode.MotionMagic, LOWTOHIGH + RIGHT_OFFSET);
+  }
+  
+  public void LowerJacksALittle() {
     status = "LowerJacksALittle";
-    LeftMotor.set(ControlMode.Position, LOW + LEFT_OFFSET);
-    RightMotor.set(ControlMode.Position, LOW + RIGHT_OFFSET);
+    leftMotor.set(ControlMode.MotionMagic, LOW + LEFT_OFFSET);
+    rightMotor.set(ControlMode.MotionMagic, LOW + RIGHT_OFFSET);
   }
-
-  public void RestJacks(){
+  
+  public void RestJacks() {
     status = "RestJacks";
-    LeftMotor.set(ControlMode.PercentOutput, 0);
-    RightMotor.set(ControlMode.PercentOutput, 0);
+    leftMotor.set(ControlMode.PercentOutput, 0);
+    rightMotor.set(ControlMode.PercentOutput, 0);
+  }
+  
+  public boolean AtHighTarget() {
+    return (Math.abs((HIGH + LEFT_OFFSET) - leftMotor.getSelectedSensorPosition()) < DEADZONE)
+        && (Math.abs((HIGH + RIGHT_OFFSET) - rightMotor.getSelectedSensorPosition()) < DEADZONE);
   }
 
-  public boolean AtHighTarget(){
-    return (Math.abs((HIGH + LEFT_OFFSET) - LeftMotor.getSelectedSensorPosition()) < DEADZONE)
-      && (Math.abs((HIGH + RIGHT_OFFSET) - RightMotor.getSelectedSensorPosition()) < DEADZONE);
+  public boolean AtLowToHighTarget() {
+      return (Math.abs((LOWTOHIGH + LEFT_OFFSET)- leftMotor.getSelectedSensorPosition()) < DEADZONE)
+          && (Math.abs((LOWTOHIGH + RIGHT_OFFSET)- rightMotor.getSelectedSensorPosition()) < DEADZONE);
   }
-
-  public boolean AtLowTarget(){
-    return Math.abs((LOW + LEFT_OFFSET) - LeftMotor.getSelectedSensorPosition()) < DEADZONE
-      && Math.abs((LOW + RIGHT_OFFSET) - RightMotor.getSelectedSensorPosition()) < DEADZONE;
+  
+  public boolean AtLowTarget() {
+    return Math.abs((LOW + LEFT_OFFSET) - leftMotor.getSelectedSensorPosition()) < DEADZONE
+        && Math.abs((LOW + RIGHT_OFFSET) - rightMotor.getSelectedSensorPosition()) < DEADZONE;
   }
-
-  public boolean AtHomeTarget(){
-    return Math.abs(LEFT_OFFSET - LeftMotor.getSelectedSensorPosition()) < DEADZONE
-      && Math.abs(RIGHT_OFFSET - RightMotor.getSelectedSensorPosition()) < DEADZONE;
+  
+  public boolean AtHomeTarget() {
+    return Math.abs(LEFT_OFFSET - leftMotor.getSelectedSensorPosition()) < DEADZONE
+        && Math.abs(RIGHT_OFFSET - rightMotor.getSelectedSensorPosition()) < DEADZONE;
   }
-
-  public String getStatus(){
+  
+  public String getStatus() {
     return status;
   }
-
+  
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(null);
   }
-
+  
   @Override
   public void initSendable(SendableBuilder builder) {
     builder.setSmartDashboardType("frontJacks");
     builder.addStringProperty("FrontStatus", this::getStatus, null);
-    builder.addDoubleProperty("left", LeftMotor::getSelectedSensorPosition, null);
-    builder.addDoubleProperty("right", RightMotor::getSelectedSensorPosition, null);
+    builder.addDoubleProperty("left", leftMotor::getSelectedSensorPosition, null);
+    builder.addDoubleProperty("right", rightMotor::getSelectedSensorPosition, null);
     builder.addBooleanProperty("atHigh", this::AtHighTarget, null);
+  }
+  
+  @Override
+  public void periodic() {
+    Console.debug("Left %", leftMotor.getMotorOutputPercent());
+    Console.debug("Right %", rightMotor.getMotorOutputPercent());
   }
 }
