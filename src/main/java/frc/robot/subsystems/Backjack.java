@@ -31,7 +31,7 @@ public class Backjack extends Subsystem {
   
   private String status = "";
   
-  private static final int OFFSET = 250; //3293
+  private static final int OFFSET = 1729; //3293; //250
   private static final int INCH = 620;
   private static final int LOW = (int) (9 * INCH);
   private static final int LOWTOHIGH = (int) (13.75 * INCH);

@@ -25,6 +25,7 @@ import frc.robot.commands.climb.AutoClimbLow;
 import frc.robot.commands.climb.AutoClimbLowToHigh;
 import frc.robot.commands.climb.LowerJacksHigh;
 import frc.robot.commands.climb.LowerJacksLow;
+import frc.robot.commands.climb.RestJacks;
 import frc.robot.commands.elevator.HomeElevator;
 import frc.robot.commands.elevator.ManualElevator;
 import frc.robot.commands.elevator.SetElevator;
@@ -94,6 +95,8 @@ public class OI {
     new JoystickButton(operator1, 6).whenPressed(new SetElevator(Position.RocketLevel2Hatch));
     new JoystickButton(operator1, 7).whenPressed(new HomeElevator());
 
+    new JoystickButton(operator1, 3).whenPressed(new LowerJacksLow());
+    new JoystickButton(operator1, 3).whenReleased(new RestJacks());
     new JoystickButton(operator2, 1).whenPressed(new SetElevator(Position.HumanPlayerStation));
     new JoystickButton(operator2, 2).whenPressed(new SetElevator(Position.RocketLevel3Cargo));
     new JoystickButton(operator2, 3).whenPressed(new SetElevator(Position.RocketLevel2Cargo));
