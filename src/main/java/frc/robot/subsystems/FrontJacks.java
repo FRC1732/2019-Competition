@@ -30,14 +30,14 @@ public class FrontJacks extends Subsystem {
   
   private String status = "";
   
-  private static final int LEFT_OFFSET = 1301; //3857;
+  private static final int LEFT_OFFSET = 1259; //3857;
   private static final int RIGHT_OFFSET = 3949; //3300; //1876;
   private static final int INCH = 620;
   private static final int LOW = (int) (9 * INCH);
   private static final int LOWTOHIGH = (int) (14.5 * INCH);
   private static final int HIGH = (int) (22.5 * INCH);
   private static final int DEADZONE = (int) (((double) INCH) / 2.0);
-  public static final int cruiseVelocity = 1200;
+  public static final int cruiseVelocity = (int) (1200 * 0.75);
   public static final int acceleration = (int) (cruiseVelocity / 0.5);
   
   public FrontJacks() {

@@ -31,7 +31,7 @@ public class Backjack extends Subsystem {
   
   private String status = "";
   
-  private static final int OFFSET = 1729; //3293; //250
+  private static final int OFFSET = 1329; //3293; //250
   private static final int INCH = 620;
   private static final int LOW = (int) (9 * INCH);
   private static final int LOWTOHIGH = (int) (13.75 * INCH);
@@ -45,7 +45,7 @@ public class Backjack extends Subsystem {
     jackMotor.config_kI(0, 0);
     jackMotor.config_kD(0, 0);
     jackMotor.config_kF(0, 0.000667544342359);
-    jackMotor.configMotionCruiseVelocity((int) (FrontJacks.cruiseVelocity * (5.0/7)));
+    jackMotor.configMotionCruiseVelocity(FrontJacks.cruiseVelocity);
     jackMotor.configMotionAcceleration(FrontJacks.acceleration);
     jackMotor.configClosedLoopPeakOutput(0, 0.9);
     
