@@ -45,7 +45,7 @@ public class Backjack extends Subsystem {
     jackMotor.config_kI(0, 0);
     jackMotor.config_kD(0, 0);
     jackMotor.config_kF(0, 0.000667544342359);
-    jackMotor.configMotionCruiseVelocity(FrontJacks.cruiseVelocity);
+    jackMotor.configMotionCruiseVelocity((int) (FrontJacks.cruiseVelocity * (5.0/7)));
     jackMotor.configMotionAcceleration(FrontJacks.acceleration);
     jackMotor.configClosedLoopPeakOutput(0, 0.9);
     
