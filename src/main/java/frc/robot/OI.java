@@ -95,7 +95,7 @@ public class OI {
     new JoystickButton(operator1, 6).whenPressed(new SetElevator(Position.RocketLevel2Hatch));
     new JoystickButton(operator1, 7).whenPressed(new HomeElevator());
 
-    new JoystickButton(operator1, 3).whenPressed(new LowerJacksHigh());
+    new JoystickButton(operator1, 3).whenPressed(new LowerJacksLow());
     new JoystickButton(operator1, 3).whenReleased(new RestJacks());
     new JoystickButton(operator2, 1).whenPressed(new SetElevator(Position.HumanPlayerStation));
     new JoystickButton(operator2, 2).whenPressed(new SetElevator(Position.RocketLevel3Cargo));
@@ -107,8 +107,8 @@ public class OI {
     new JoystickButton(operator2, 7).whenActive(new AutoClimbLowToHigh());// Climb 2
     new JoystickButton(operator2, 11).whenActive(new AutoClimbHigh());// Climb 1
 
-    new JoystickButton(right, 11).whenActive(plusY);
-    new JoystickButton(right, 10).whenActive(minusY);
+    new JoystickButton(right, 10).whenActive(plusY);
+    new JoystickButton(right, 11).whenActive(minusY);
 
     new Notifier(this::run).startPeriodic(0.2);
   }

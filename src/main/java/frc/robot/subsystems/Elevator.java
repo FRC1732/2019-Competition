@@ -22,6 +22,10 @@ import frc.robot.util.Console;
 import frc.robot.util.MotorUtil;
 import frc.robot.util.SimpleSendable;
 
+//BLRE
+//B: 3200, 3200, 2200, 500
+//A: 1000, 1000, 300, 3000
+
 /**
  * Add your docs here.
  * 
@@ -36,7 +40,7 @@ public class Elevator extends Subsystem {
   private TalonSRX elevator = MotorUtil.initAbsoluteTalon(RobotMap.ELEVATOR_ELEVATOR_ID, false, true);
   private DigitalInput limit = new DigitalInput(0);
   
-  private final static int OFFSET = 2950; //900
+  private final static int OFFSET = 300; //900
   
   private static final double minimumOutput = .065;
   private static final double speed = 588;
