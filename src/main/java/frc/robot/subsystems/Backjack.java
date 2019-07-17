@@ -31,14 +31,15 @@ public class Backjack extends Subsystem {
   
   private String status = "";
   
-  private static final int OFFSET = 1200; //3293; //250
+  private static int OFFSET = 1200; //3293; //250
   private static final int INCH = 620;
-  private static final int LOW = (int) (9 * INCH);
-  private static final int LOWTOHIGH = (int) (13.75 * INCH);
-  private static final int HIGH = (int) (21.75 * INCH);
+  private static final int LOW = (int) (10 * INCH);
+  private static final int LOWTOHIGH = (int) (14.75 * INCH);
+  private static final int HIGH = (int) (22.75 * INCH);
   private static final int DEADZONE = (int) (((double) INCH) / 2.0);
   
   public Backjack() {
+    OFFSET = jackMotor.getSelectedSensorPosition();
     jackMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     jackMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     jackMotor.config_kP(0, 1.4);

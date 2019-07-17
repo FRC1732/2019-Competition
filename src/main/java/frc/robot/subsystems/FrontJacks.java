@@ -30,17 +30,20 @@ public class FrontJacks extends Subsystem {
   
   private String status = "";
   
-  private static final int LEFT_OFFSET = 1200; //3857;
-  private static final int RIGHT_OFFSET = 3000; //3300; //1876;
+  private static int LEFT_OFFSET = 1200; //3857;
+  private static int RIGHT_OFFSET = 3800; //3300; //1876;
   private static final int INCH = 620;
-  private static final int LOW = (int) (9 * INCH);
-  private static final int LOWTOHIGH = (int) (14.5 * INCH);
-  private static final int HIGH = (int) (22.5 * INCH);
+  private static final int LOW = (int) (9.5 * INCH);
+  private static final int LOWTOHIGH = (int) (15.5 * INCH);
+  private static final int HIGH = (int) (23 * INCH);
   private static final int DEADZONE = (int) (((double) INCH) / 2.0);
   public static final int cruiseVelocity = (int) (1200 * 0.75);
   public static final int acceleration = (int) (cruiseVelocity / 0.5);
   
   public FrontJacks() {
+    LEFT_OFFSET = leftMotor.getSelectedSensorPosition();
+    RIGHT_OFFSET = rightMotor.getSelectedSensorPosition();
+
     leftMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     leftMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen);
     leftMotor.config_kP(0, 1.4);

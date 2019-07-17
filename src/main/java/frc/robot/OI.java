@@ -15,6 +15,7 @@ import frc.robot.commands.auto.GrabPanel;
 import frc.robot.commands.auto.ScorePanel;
 import frc.robot.commands.auto.StickPanel;
 import frc.robot.commands.auto.TurnToTarget;
+import frc.robot.commands.auto.LockTurning;
 import frc.robot.commands.cargo.ExtendIntakeTime;
 import frc.robot.commands.cargo.IntakeCargo;
 import frc.robot.commands.cargo.IntakeCargoHigh;
@@ -84,7 +85,7 @@ public class OI {
     new JoystickButton(right, 1).whileActive(new TurnToTarget());
     new JoystickButton(right, 2).whileActive(new PlaceCargo());
     new JoystickButton(right, 3).whenPressed(new ScorePanel());
-    new JoystickButton(right, 4);
+    new JoystickButton(right, 4).whileActive(new LockTurning());
     new JoystickButton(right, 5).whileActive(new SpitCargo());
 
     sliderInOut.whenActive(new SliderIn());
@@ -95,7 +96,7 @@ public class OI {
     new JoystickButton(operator1, 6).whenPressed(new SetElevator(Position.RocketLevel2Hatch));
     new JoystickButton(operator1, 7).whenPressed(new HomeElevator());
 
-    new JoystickButton(operator1, 3).whenPressed(new LowerJacksLow());
+    new JoystickButton(operator1, 3).whenPressed(new LowerJacksHigh());
     new JoystickButton(operator1, 3).whenReleased(new RestJacks());
     new JoystickButton(operator2, 1).whenPressed(new SetElevator(Position.HumanPlayerStation));
     new JoystickButton(operator2, 2).whenPressed(new SetElevator(Position.RocketLevel3Cargo));
