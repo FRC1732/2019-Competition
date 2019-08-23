@@ -7,16 +7,16 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.DriveWithJoysticks;
-import frc.robot.util.MotorUtil;
 import frc.robot.util.SimpleSendable;
 
 /**
@@ -27,14 +27,14 @@ import frc.robot.util.SimpleSendable;
 public class Drivetrain extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+
+  private CANSparkMax leftMaster = new CANSparkMax(RobotMap.DRIVETRAIN_LEFTMASTER_ID, MotorType.kBrushless);
+  private CANSparkMax left1 = new CANSparkMax(RobotMap.DRIVETRAIN_LEFT1_ID, MotorType.kBrushless);
+  private CANSparkMax left2 = new CANSparkMax(RobotMap.DRIVETRAIN_LEFT2_ID, MotorType.kBrushless);
   
-  private TalonSRX leftMaster = MotorUtil.createTalon(RobotMap.DRIVETRAIN_LEFTMASTER_ID, true);
-  private VictorSPX left1 = MotorUtil.createVictor(RobotMap.DRIVETRAIN_LEFT1_ID, true);
-  private VictorSPX left2 = MotorUtil.createVictor(RobotMap.DRIVETRAIN_LEFT2_ID, true);
-  
-  private TalonSRX rightMaster = MotorUtil.createTalon(RobotMap.DRIVETRAIN_RIGHTMASTER_ID, false);
-  private VictorSPX right1 = MotorUtil.createVictor(RobotMap.DRIVETRAIN_RIGHT1_ID, false);
-  private VictorSPX right2 = MotorUtil.createVictor(RobotMap.DRIVETRAIN_RIGHT2_ID, false);
+  private CANSparkMax rightMaster = new CANSparkMax(RobotMap.DRIVETRAIN_RIGHTMASTER_ID, MotorType.kBrushless);
+  private CANSparkMax right1 = new CANSparkMax(RobotMap.DRIVETRAIN_RIGHT1_ID, MotorType.kBrushless);
+  private CANSparkMax right2 = new CANSparkMax(RobotMap.DRIVETRAIN_RIGHT2_ID, MotorType.kBrushless);
   
   private static final double INCHES_PER_TICK = 1;
   
@@ -58,8 +58,8 @@ public class Drivetrain extends Subsystem {
    *                the right speed, in the range of [-1, 1]
    */
   public void set(double left, double right) {
-    leftMaster.set(ControlMode.PercentOutput, left);
-    rightMaster.set(ControlMode.PercentOutput, right);
+    leftMaster.set(left);
+    rightMaster.set(right);
   }
   
   /**
@@ -67,8 +67,9 @@ public class Drivetrain extends Subsystem {
    * 
    * @return
    */
-  public double getLeftPos() {
-    return leftMaster.getSelectedSensorPosition(0) * INCHES_PER_TICK;
+  public void getLeftPos() {
+ //   return leftMaster.getSelectedSensorPosition(0) * INCHES_PER_TICK;
+    return;
   }
   
   /**
@@ -76,8 +77,9 @@ public class Drivetrain extends Subsystem {
    * 
    * @return
    */
-  public double getRightPos() {
-    return rightMaster.getSelectedSensorPosition(0) * INCHES_PER_TICK;
+  public void getRightPos() {
+ //   return rightMaster.getSelectedSensorPosition(0) * INCHES_PER_TICK;
+    return;
   }
   
   /**
@@ -85,18 +87,18 @@ public class Drivetrain extends Subsystem {
    * 
    * @return
    */
-  public double getLeftRate() {
-    return leftMaster.getSelectedSensorVelocity(0);
-  }
+//  public double getLeftRate() {
+//    return leftMaster.getSelectedSensorVelocity(0);
+//  }
   
   /**
    * Gets the total rotation of the right side of the drivetrain
    * 
    * @return
    */
-  public double getRightRate() {
-    return rightMaster.getSelectedSensorVelocity(0);
-  }
+//  public double getRightRate() {
+//    return rightMaster.getSelectedSensorVelocity(0);
+//  }
   
   @Override
   public void initDefaultCommand() {
@@ -112,29 +114,29 @@ public class Drivetrain extends Subsystem {
    * Resets this subsystem to a known state
    */
   public void stop() {
-    leftMaster.set(ControlMode.PercentOutput, 0);
-    rightMaster.set(ControlMode.PercentOutput, 0);
+    leftMaster.set(0);
+    rightMaster.set(0);
   }
   
   /**
    * Resets all sensors
    */
   public void zero() {
-    leftMaster.setSelectedSensorPosition(0);
-    rightMaster.setSelectedSensorPosition(0);
+    leftMaster.getEncoder().getPosition();
+    rightMaster.getEncoder().getPosition();
   }
   
   private void leftSendable(SendableBuilder builder) {
     builder.setSmartDashboardType("Encoder");
-    builder.addDoubleProperty("Speed", this::getLeftRate, null);
-    builder.addDoubleProperty("Distance", this::getLeftPos, null);
+//    builder.addDoubleProperty("Speed", this::getLeftRate, null);
+//    builder.addDoubleProperty("Distance", this::getLeftPos, null);
     builder.addDoubleProperty("Distance per Tick", this::getDistancePerPulse, null);
   }
   
   private void rightSendable(SendableBuilder builder) {
     builder.setSmartDashboardType("Encoder");
-    builder.addDoubleProperty("Speed", this::getLeftRate, null);
-    builder.addDoubleProperty("Distance", this::getLeftPos, null);
+//    builder.addDoubleProperty("Speed", this::getLeftRate, null);
+//    builder.addDoubleProperty("Distance", this::getLeftPos, null);
     builder.addDoubleProperty("Distance per Tick", this::getDistancePerPulse, null);
   }
   
