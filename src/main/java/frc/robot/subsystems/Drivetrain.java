@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 
 
+import com.revrobotics.CANAnalog;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -67,9 +68,8 @@ public class Drivetrain extends Subsystem {
    * 
    * @return
    */
-  public void getLeftPos() {
- //   return leftMaster.getSelectedSensorPosition(0) * INCHES_PER_TICK;
-    return;
+  public Double getLeftPos() {
+    return leftMaster.getEncoder().getPosition();
   }
   
   /**
@@ -77,9 +77,8 @@ public class Drivetrain extends Subsystem {
    * 
    * @return
    */
-  public void getRightPos() {
- //   return rightMaster.getSelectedSensorPosition(0) * INCHES_PER_TICK;
-    return;
+  public Double getRightPos() {
+    return rightMaster.getEncoder().getPosition();
   }
   
   /**
@@ -87,18 +86,18 @@ public class Drivetrain extends Subsystem {
    * 
    * @return
    */
-//  public double getLeftRate() {
-//    return leftMaster.getSelectedSensorVelocity(0);
-//  }
+  public double getLeftRate() {
+    return leftMaster.getEncoder().getVelocity();
+  }
   
   /**
    * Gets the total rotation of the right side of the drivetrain
    * 
    * @return
    */
-//  public double getRightRate() {
-//    return rightMaster.getSelectedSensorVelocity(0);
-//  }
+  public double getRightRate() {
+    return rightMaster.getEncoder().getVelocity();
+  }
   
   @Override
   public void initDefaultCommand() {
@@ -128,19 +127,14 @@ public class Drivetrain extends Subsystem {
   
   private void leftSendable(SendableBuilder builder) {
     builder.setSmartDashboardType("Encoder");
-//    builder.addDoubleProperty("Speed", this::getLeftRate, null);
-//    builder.addDoubleProperty("Distance", this::getLeftPos, null);
-    builder.addDoubleProperty("Distance per Tick", this::getDistancePerPulse, null);
+    builder.addDoubleProperty("Speed", this::getLeftRate, null);
+    builder.addDoubleProperty("Distance", this::getLeftPos, null);
   }
   
   private void rightSendable(SendableBuilder builder) {
     builder.setSmartDashboardType("Encoder");
-//    builder.addDoubleProperty("Speed", this::getLeftRate, null);
-//    builder.addDoubleProperty("Distance", this::getLeftPos, null);
-    builder.addDoubleProperty("Distance per Tick", this::getDistancePerPulse, null);
+    builder.addDoubleProperty("Speed", this::getLeftRate, null);
+     builder.addDoubleProperty("Distance", this::getLeftPos, null);
   }
   
-  private double getDistancePerPulse() {
-    return INCHES_PER_TICK;
-  }
 }
