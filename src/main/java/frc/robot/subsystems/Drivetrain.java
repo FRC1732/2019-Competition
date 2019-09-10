@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 
 
-import com.revrobotics.CANAnalog;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -29,21 +28,22 @@ public class Drivetrain extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
+  
   private CANSparkMax leftMaster = new CANSparkMax(RobotMap.DRIVETRAIN_LEFTMASTER_ID, MotorType.kBrushless);
   private CANSparkMax left1 = new CANSparkMax(RobotMap.DRIVETRAIN_LEFT1_ID, MotorType.kBrushless);
-  private CANSparkMax left2 = new CANSparkMax(RobotMap.DRIVETRAIN_LEFT2_ID, MotorType.kBrushless);
+ // private CANSparkMax left2 = new CANSparkMax(RobotMap.DRIVETRAIN_LEFT2_ID, MotorType.kBrushless);
   
   private CANSparkMax rightMaster = new CANSparkMax(RobotMap.DRIVETRAIN_RIGHTMASTER_ID, MotorType.kBrushless);
   private CANSparkMax right1 = new CANSparkMax(RobotMap.DRIVETRAIN_RIGHT1_ID, MotorType.kBrushless);
-  private CANSparkMax right2 = new CANSparkMax(RobotMap.DRIVETRAIN_RIGHT2_ID, MotorType.kBrushless);
+ // private CANSparkMax right2 = new CANSparkMax(RobotMap.DRIVETRAIN_RIGHT2_ID, MotorType.kBrushless);
   
   private static final double INCHES_PER_TICK = 1;
   
   public Drivetrain() {
     left1.follow(leftMaster);
-    left2.follow(leftMaster);
+   // left2.follow(leftMaster);
     right1.follow(rightMaster);
-    right2.follow(rightMaster);
+  //  right2.follow(rightMaster);
     
     SmartDashboard.putData("Left Encoder", new SimpleSendable(this::leftSendable));
     SmartDashboard.putData("Right Encoder", new SimpleSendable(this::rightSendable));
