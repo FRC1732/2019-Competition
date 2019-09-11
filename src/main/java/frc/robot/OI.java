@@ -104,7 +104,7 @@ public class OI {
     new JoystickButton(operator2, 7).whenActive(new AutoClimbLowToHigh());// Climb 2
     new JoystickButton(operator2, 11).whenActive(new AutoClimbHigh());// Climb 1
 
-    new Notifier(this::run).startPeriodic(0.2);
+    //new Notifier(this::run).startPeriodic(0.2);
   }
   private Command minusY = new ManualElevator(true);
   private Command plusY = new ManualElevator(false);
