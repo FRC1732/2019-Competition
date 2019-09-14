@@ -65,7 +65,7 @@ public class Drivetrain extends Subsystem {
     rightMaster.set(right);
     //right1.set(-right);
   }
-  
+ ; 
   /**
    * Gets the total rotation of the left side of the drivetrain
    * 

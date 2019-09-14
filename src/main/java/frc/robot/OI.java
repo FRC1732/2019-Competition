@@ -54,7 +54,7 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getLeftJoystick() {
-    return -1 * left.getY() * left.getY() * Math.signum(left.getY());
+    return  left.getY() * left.getY() * Math.signum(left.getY());
   }
   
   /**
@@ -63,7 +63,7 @@ public class OI {
    * @return the position, in the range of [-1, 1]
    */
   public double getRightJoystick() {
-    return -1 * right.getY() * right.getY() * Math.signum(right.getY());
+    return  right.getY() * right.getY() * Math.signum(right.getY());
   }
   
   private JoystickButton sliderInOut = new JoystickButton(operator1, 1);
