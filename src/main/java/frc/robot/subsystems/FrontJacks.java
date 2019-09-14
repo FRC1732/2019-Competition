@@ -31,7 +31,7 @@ public class FrontJacks extends Subsystem {
   private String status = "";
   
   private static int LEFT_OFFSET = 1200; //3857;
-  private static int RIGHT_OFFSET = 3800; //3300; //1876;
+  private static int RIGHT_OFFSET = 1988; //3300; //1876;
   private static final int INCH = 620;
   private static final int LOW = (int) (9.5 * INCH);
   private static final int LOWTOHIGH = (int) (15.5 * INCH);
@@ -75,6 +75,8 @@ public class FrontJacks extends Subsystem {
   
   public void LowerJacks() {
     status = "LowerJacks";
+    LEFT_OFFSET = leftMotor.getSelectedSensorPosition();
+    RIGHT_OFFSET = rightMotor.getSelectedSensorPosition();
     leftMotor.set(ControlMode.MotionMagic, HIGH + LEFT_OFFSET);
     rightMotor.set(ControlMode.MotionMagic, HIGH + RIGHT_OFFSET);
   }
