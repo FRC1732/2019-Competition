@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -45,8 +46,8 @@ public class Drivetrain extends Subsystem {
     right1.follow(rightMaster);
   //  right2.follow(rightMaster);
     
-    SmartDashboard.putData("Left Encoder", new SimpleSendable(this::leftSendable));
-    SmartDashboard.putData("Right Encoder", new SimpleSendable(this::rightSendable));
+  //  SmartDashboard.putData("Left Encoder", new SimpleSendable(this::leftSendable));
+  //  SmartDashboard.putData("Right Encoder", new SimpleSendable(this::rightSendable));
   }
   
   /**
@@ -59,8 +60,10 @@ public class Drivetrain extends Subsystem {
    *                the right speed, in the range of [-1, 1]
    */
   public void set(double left, double right) {
-    leftMaster.set(left);
+    leftMaster.set(-left);
+    //left1.set(-left);
     rightMaster.set(right);
+    //right1.set(-right);
   }
   
   /**
@@ -68,36 +71,36 @@ public class Drivetrain extends Subsystem {
    * 
    * @return
    */
-  public Double getLeftPos() {
-    return leftMaster.getEncoder().getPosition();
-  }
+  //public Double getLeftPos() {
+  //  return leftMaster.getEncoder().getPosition();
+  //}
   
   /**
    * Gets the total rotation of the right side of the drivetrain
    * 
    * @return
    */
-  public Double getRightPos() {
-    return rightMaster.getEncoder().getPosition();
-  }
+  //public Double getRightPos() {
+   // return rightMaster.getEncoder().getPosition();
+  //}
   
   /**
    * Gets the total rotation of the left side of the drivetrain
    * 
    * @return
    */
-  public double getLeftRate() {
-    return leftMaster.getEncoder().getVelocity();
-  }
+  //public double getLeftRate() {
+  // return leftMaster.getEncoder().getVelocity();
+  //}
   
   /**
    * Gets the total rotation of the right side of the drivetrain
    * 
    * @return
    */
-  public double getRightRate() {
-    return rightMaster.getEncoder().getVelocity();
-  }
+  //public double getRightRate() {
+  //  return rightMaster.getEncoder().getVelocity();
+  //}
   
   @Override
   public void initDefaultCommand() {
@@ -115,6 +118,7 @@ public class Drivetrain extends Subsystem {
   public void stop() {
     leftMaster.set(0);
     rightMaster.set(0);
+
   }
   
   /**
@@ -125,7 +129,7 @@ public class Drivetrain extends Subsystem {
     rightMaster.getEncoder().getPosition();
   }
   
-  private void leftSendable(SendableBuilder builder) {
+ /* private void leftSendable(SendableBuilder builder) {
     builder.setSmartDashboardType("Encoder");
     builder.addDoubleProperty("Speed", this::getLeftRate, null);
     builder.addDoubleProperty("Distance", this::getLeftPos, null);
@@ -136,5 +140,5 @@ public class Drivetrain extends Subsystem {
     builder.addDoubleProperty("Speed", this::getLeftRate, null);
      builder.addDoubleProperty("Distance", this::getLeftPos, null);
   }
-  
+ */ 
 }
