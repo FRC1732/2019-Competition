@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
-import frc.robot.util.Console;
 import frc.robot.util.MotorUtil;
 import frc.robot.util.SimpleSendable;
 
@@ -36,7 +35,7 @@ public class Elevator extends Subsystem {
   private TalonSRX elevator = MotorUtil.initAbsoluteTalon(RobotMap.ELEVATOR_ELEVATOR_ID, false, true);
   private DigitalInput limit = new DigitalInput(0);
   
-  private final static int OFFSET = 3000; //900
+  private final static int OFFSET = 2700; //900
   
   private static final double minimumOutput = .065;
   private static final double speed = 588;
@@ -70,8 +69,6 @@ public class Elevator extends Subsystem {
       this.position = position;
     }
   }
-  
-  private int position = Position.BaseHeight.position;
   
   /**
    * Sets the position of the elevator, using constants declared in
